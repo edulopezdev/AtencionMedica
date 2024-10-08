@@ -1,7 +1,17 @@
 {
+  "name": "atencion-medica",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
   "dependencies": {
     "express": "^4.21.1",
     "node": "^20.18.0",
     "pug": "^3.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
