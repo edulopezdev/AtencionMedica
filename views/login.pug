@@ -1,0 +1,18 @@
+doctype html
+html
+    head
+        title Iniciar Sesión
+        link(rel='stylesheet', href='./css/styles.css')
+    body
+        .container
+            h1 Iniciar Sesión
+            form(action='/login', method='POST')
+                div
+                    label(for='usuario') Usuario
+                    input(type='text', name='usuario', id='usuario', placeholder='Ingrese su usuario' required)
+                div
+                    label(for='contraseña') Contraseña
+                    input(type='password', name='contraseña', id='contraseña', placeholder='Ingrese su contraseña' required)
+                button(type='submit') Iniciar Sesión
+            p
+                a(href='/register') No tengo cuenta, registrarme // Enlace a la página de registro si es necesario
