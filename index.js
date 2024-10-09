@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+//para DB==========
+const mysql = require('mysql');
+const bodyParser = require('body-parser'); // O express.urlencoded
 
 // Middleware para servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -22,7 +25,9 @@ app.get('/login', (req, res) => {
 
 //============================ Conexion DB ==================================
 
-const mysql = require('mysql');
+// Middleware para analizar el cuerpo de las solicitudes
+app.use(bodyParser.urlencoded({ extended: true })); // O app.use(express.urlencoded({ extended: true }));
+
 
 // create a connection
 const conexion = mysql.createConnection({
@@ -40,6 +45,31 @@ conexion.connect((error) => {
         return;
     }
     console.log('Conectado a la base de datos como ID ' + conexion.threadId);
+});
+
+//-------------- User y Pass----------------------
+
+// Ruta para manejar la autenticación
+app.post('/login', (req, res) => {
+    const usuario = req.body.usuario; // Obtén el usuario del formulario
+    const contrasenia = req.body.contrasenia; // Obtén la contraseña del formulario
+
+    // Consulta a la base de datos
+    const query = 'SELECT * FROM medico WHERE matricula_medico = ? AND password = ?';
+    conexion.query(query, [usuario, contrasenia], (error, resultados) => {
+        if (error) {   //ver de crear algo visual !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            console.error('Error en la consulta:', error);
+            return res.status(500).send('Error en la base de datos');
+        }
+
+        if (resultados.length > 0) {
+            // El usuario y la contraseña son correctos
+            res.redirect('/index'); // Redirigir a la página de index
+        } else {
+            // Credenciales incorrectas----ver de crear algo visual !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            res.send('Usuario o contraseña incorrectos');
+        }
+    });
 });
 
 
