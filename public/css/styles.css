@@ -1,67 +1,10 @@
 /* Estilos generales */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Color de fondo */
-    display: flex;
-    justify-content: center; /* Centra el contenedor en la pantalla */
-    align-items: center; /* Centra verticalmente */
-    height: 100vh; /* Altura completa de la ventana */
     margin: 0; /* Elimina márgenes */
 }
 
-.container {
-    background: white; /* Fondo blanco para el contenedor */
-    padding: 20px; /* Espaciado interno */
-    border-radius: 5px; /* Bordes redondeados */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
-    width: 300px; /* Ancho fijo para el contenedor */
-}
-
-/* Estilos del encabezado */
-h1 {
-    text-align: center; /* Centra el texto */
-    color: #333; /* Color del texto */
-}
-
-/* Estilos para el formulario */
-form div {
-    margin-bottom: 15px; /* Espacio entre los campos */
-}
-
-label {
-    display: block; /* Hace que el label ocupe todo el ancho */
-    margin-bottom: 5px; /* Espacio debajo del label */
-    font-weight: bold; /* Texto en negrita */
-}
-
-/* Estilos de los campos de entrada */
-input[type="text"],
-input[type="password"] {
-    width: 100%; /* Ocupa todo el ancho del contenedor */
-    padding: 10px; /* Espaciado interno */
-    border: 1px solid #ccc; /* Borde gris claro */
-    border-radius: 4px; /* Bordes redondeados */
-    box-sizing: border-box; /* Incluye padding y border en el ancho total */
-}
-
-/* Estilos del botón */
-button {
-    width: 100%; /* Ocupa todo el ancho del contenedor */
-    padding: 10px; /* Espaciado interno */
-    background-color: #007bff; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
-    border: none; /* Sin borde */
-    border-radius: 4px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar el mouse */
-    font-size: 16px; /* Tamaño de fuente */
-}
-
-/* Efecto hover para el botón */
-button:hover {
-    background-color: #0056b3; /* Color de fondo más oscuro al pasar el mouse */
-}
-
-/* Estilo del enlace */
+/* Estilos de enlaces */
 a {
     text-decoration: none; /* Sin subrayado */
     color: #007bff; /* Color del enlace */
@@ -70,3 +13,5 @@ a {
 a:hover {
     text-decoration: underline; /* Subrayar al pasar el mouse */
 }
+
+/* Otros estilos generales que desees agregar */

@@ -9,9 +9,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
-// Definición de la ruta para la página de inicio de sesión
+// Ruta para redirigir a la página de inicio de sesión
+app.get('/', (req, res) => {
+    res.redirect('/login'); // Redirige a /login
+});
+
+// Ruta para la página de inicio de sesión
 app.get('/login', (req, res) => {
-    res.render('login'); // Renderiza la vista 'login.pug'
+    res.render('login');
 });
 
 // Configuración del puerto

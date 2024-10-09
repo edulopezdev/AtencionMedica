@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0; /* Elimina márgenes */
+    height: 100vh; /* Altura completa de la ventana */
+    overflow: hidden; /* Evita scrolls no deseados */
+}
+
+/* Estilos solo para la página de login */
+.login-container {
+    background-image: url('/images/background_login_002.png'); /* Ruta a la imagen */
+    background-size: cover; /* Ajusta la altura al 100% y el ancho se ajusta automáticamente */
+    background-position: center; /* Centra la imagen verticalmente */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    display: flex;
+    justify-content: center; /* Centra el contenedor en la pantalla */
+    align-items: center; /* Centra verticalmente */
+    height: 100vh; /* Altura completa de la ventana */
+}
+
+/* Contenedor del formulario */
+.container {
+    background: rgba(255, 255, 255, 0.214); /* Color blanco con opacidad */
+    padding: 30px; /* Espaciado interno aumentado */
+    border-radius: 30px; /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+    width: 260px; /* Ancho fijo para el contenedor */
+    backdrop-filter: blur(10px); /* Efecto de desenfoque del fondo */
+    min-height: 200px; /* Altura mínima del contenedor */
+    margin-top: 40px; /* Ajusta este valor según necesites */
+}
+
+
+
+/* Estilos del título */
+.title-container {
+    text-align: center; /* Centra el texto */
+}
+
+.title-container h1 {
+    font-family: 'Josefin Sans', sans-serif; /* Aplica la fuente */
+    font-size: 24px; /* Tamaño de fuente más pequeño */
+    color: #333; /* Color del texto */
+}
+
+/* Estilos para el formulario */
+.form-group {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en columna */
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    margin-bottom: 10px; /* Espacio entre los campos */
+}
+
+.form-group:nth-child(1) { /* Primer campo de texto */
+    margin-top: 60px; /* Ajusta este valor para moverlo hacia abajo */
+}
+
+.form-group:nth-child(2) { /* Segundo campo de texto */
+    margin-top: 20px; /* Ajusta este valor para moverlo hacia abajo */
+}
+
+
+/* Estilos de los campos de entrada */
+input[type="text"],
+input[type="password"] {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 8px; /* Bordes redondeados */
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+
+/* Estilos del botón */
+.button-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    margin-top: 20px; /* Espacio opcional encima del botón */
+}
+
+
+/* Estilos del botón */
+/* Estilos del botón */
+button {
+    width: 70%; /* Ocupa todo el ancho del contenedor */
+    padding: 12px; /* Espaciado interno aumentado */
+    background-color: #848393; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    border-radius: 16px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    font-size: 16px; /* Tamaño de fuente */
+    margin-top: 30px; /* Aumentado para bajar más */
+}
+
+
+/* Efecto hover para el botón */
+button:hover {
+    background-color: #7971ea; /* Color de fondo más oscuro al pasar el mouse */
+}
+
+/* Estilo para centrar el párrafo */
+.text-center {
+    text-align: center; /* Centra el texto horizontalmente */
+    margin-top: 20px; /* Espacio encima del texto */
+}
+
+/* Estilo del enlace */
+a {
+    text-decoration: none; /* Sin subrayado */
+    color: #007bff; /* Color del enlace */
+    font-weight: bold; /* Texto en negrita si lo deseas */
+}
+
+a:hover {
+    text-decoration: underline; /* Subrayar al pasar el mouse */
+}
+
+p {
+    font-family: 'Roboto', sans-serif; /* Cambia 'Roboto' por la fuente que desees */
+    text-align: center; /* Centra el texto */
+    margin-top: 20px; /* Espacio opcional encima del párrafo */
+    color: #929496; /* Color del texto, opcional */
+}
+
+
