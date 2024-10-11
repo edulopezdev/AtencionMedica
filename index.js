@@ -4,6 +4,8 @@ const path = require('path');
 //para DB==========
 const mysql = require('mysql');
 const bodyParser = require('body-parser'); // O express.urlencoded
+const bcrypt = require('bcrypt');
+const saltRounds = 1;
 
 // Middleware para servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -13,14 +15,20 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 //============================ PUG ==================================
+
+// Ruta para la página de inicio de sesión
+app.get('/login', (req, res) => {
+    res.render('login');
+});
 // Ruta para redirigir a la página de inicio de sesión
 app.get('/', (req, res) => {
     res.redirect('/login'); // Redirige a /login
 });
 
-// Ruta para la página de inicio de sesión
-app.get('/login', (req, res) => {
-    res.render('login');
+
+// Ruta para la página de inicio
+app.get('/index', (req, res) => {
+    res.render('index'); // Renderiza la vista de la página de inicio
 });
 
 //============================ Conexion DB ==================================
@@ -29,7 +37,7 @@ app.get('/login', (req, res) => {
 app.use(bodyParser.urlencoded({ extended: true })); // O app.use(express.urlencoded({ extended: true }));
 
 
-// create a connection
+// Creamos la conexion a la base
 const conexion = mysql.createConnection({
     host: 'localhost',
     port: 3307,   
@@ -38,7 +46,7 @@ const conexion = mysql.createConnection({
     database: 'test7'
 });
 
-// Conexión a la base de datos
+// Verificacion en server de conexion----solo mensaje
 conexion.connect((error) => {
     if (error) {
         console.error('Error al conectar a la base de datos:', error.stack);
@@ -63,14 +71,50 @@ app.post('/login', (req, res) => {
         }
 
         if (resultados.length > 0) {
+            
             // El usuario y la contraseña son correctos
-            res.redirect('/index'); // Redirigir a la página de index
+            res.redirect('/especialidades'); // Redirigir a la página de index
         } else {
             // Credenciales incorrectas----ver de crear algo visual !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            res.send('Usuario o contraseña incorrectos');
+            res.send('Usuario o contraseña incorrectos ddffdfdfd');
         }
     });
 });
+
+//--------------------consulta especialidades------------
+
+// Ruta para la página de inicio
+app.get('/especialidades', (req, res) => {
+    // Consulta para obtener las especialidades de la base de datos
+    const query = 'SELECT * FROM especialidad'; // Ajusta esta consulta según tu modelo de datos
+    conexion.query(query, (error, resultados) => {
+        if (error) {
+            console.error('Error en la consulta:', error);
+            return res.status(500).send('Error en la base de datos');
+        }
+        console.log('Resultados de especialidades:', resultados); // Agrega este log
+        // Renderiza la vista y pasa las especialidades
+        res.render('index', { especialidades: resultados });
+    });
+});
+
+
+
+
+//============================ Encriptado ======================
+
+const encriptarContrasena = async (contrasenaPlana) => {
+    try {
+      // Genera el hash de la contraseña
+      const hash = await bcrypt.hash(contrasenaPlana, saltRounds);
+      console.log('Contraseña encriptada:', hash);
+      return hash;
+    } catch (err) {
+      console.error('Error encriptando la contraseña:', err);
+    }
+  };
+
+ 
 
 
 //============================  ==================================
