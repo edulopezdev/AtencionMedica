@@ -4,8 +4,8 @@ const path = require('path');
 //para DB==========
 const mysql = require('mysql');
 const bodyParser = require('body-parser'); // O express.urlencoded
-const bcrypt = require('bcrypt');
-const saltRounds = 1;
+// const bcrypt = require('bcrypt');
+// const saltRounds = 1;
 
 // Middleware para servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // O app.use(express.urlenco
 // Creamos la conexion a la base
 const conexion = mysql.createConnection({
     host: 'localhost',
-    port: 3307,   
+    port: 3307,
     user: 'root',
     password: '',
     database: 'test7'
@@ -71,12 +71,12 @@ app.post('/login', (req, res) => {
         }
 
         if (resultados.length > 0) {
-            
+
             // El usuario y la contraseña son correctos
-            res.redirect('/especialidades'); // Redirigir a la página de index
+            res.redirect('/main'); // llamdo a metodo
         } else {
             // Credenciales incorrectas----ver de crear algo visual !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            res.send('Usuario o contraseña incorrectos ddffdfdfd');
+            res.send('Usuario o contraseña incorrectos');
         }
     });
 });
@@ -99,22 +99,65 @@ app.get('/especialidades', (req, res) => {
 });
 
 
+//-----------------------Consulta multiple-------------------
+
+app.get('/main', (req, res) => {
+    // Consulta para obtener las especialidades, médicos y turnos
+    const queryEspecialidades = 'SELECT * FROM especialidad';
+    const queryMedicos = 'SELECT * FROM medico'; // Ajusta la consulta a tu modelo de datos
+    const queryMedicosEspecialidad = 'SELECT * FROM medico_especialidad';
+    // Promesas para manejar las consultas de manera paralela
+    const consultaEspecialidades = new Promise((resolve, reject) => {
+        conexion.query(queryEspecialidades, (error, resultados) => {
+            if (error) return reject(error);
+            resolve(resultados);
+        });
+    });
+
+    const consultaMedicos = new Promise((resolve, reject) => {
+        conexion.query(queryMedicos, (error, resultados) => {
+            if (error) return reject(error);
+            resolve(resultados);
+        });
+    });
+
+    const consultaMedicosEspecialidad = new Promise((resolve, reject) => {
+        conexion.query(queryMedicosEspecialidad, (error, resultados) => {
+            if (error) return reject(error);
+            resolve(resultados);
+        });
+    });
+
+    // Ejecutar todas las consultas en paralelo
+    Promise.all([consultaEspecialidades, consultaMedicos, consultaMedicosEspecialidad])
+        .then(([especialidades, medicos, medicoEspecialidad]) => {
+            // Renderiza la vista y pasa los resultados
+            //console.log(especialidades, medicos);
+            res.render('index', { especialidades, medicos, medicoEspecialidad});
+        })
+        .catch((error) => {
+            console.error('Error en las consultas:', error);
+            res.status(500).send('Error en la base de datos');
+        });
+});
+
+
 
 
 //============================ Encriptado ======================
 
-const encriptarContrasena = async (contrasenaPlana) => {
-    try {
-      // Genera el hash de la contraseña
-      const hash = await bcrypt.hash(contrasenaPlana, saltRounds);
-      console.log('Contraseña encriptada:', hash);
-      return hash;
-    } catch (err) {
-      console.error('Error encriptando la contraseña:', err);
-    }
-  };
+// const encriptarContrasena = async (contrasenaPlana) => {
+//     try {
+//       // Genera el hash de la contraseña
+//       const hash = await bcrypt.hash(contrasenaPlana, saltRounds);
+//       console.log('Contraseña encriptada:', hash);
+//       return hash;
+//     } catch (err) {
+//       console.error('Error encriptando la contraseña:', err);
+//     }
+//   };
 
- 
+
 
 
 //============================  ==================================

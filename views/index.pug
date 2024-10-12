@@ -1,17 +1,26 @@
 doctype html
-html(lang="es")
+html
   head
-    title Seleccionar Especialidad
+    title Seleccionar Especialidades y Médicos
+    script(src="/js/main.js") // Incluyendo el archivo main.js
   body
-    h1 Selecciona una Especialidad
+    h1 Seleccionar Especialidad y Médico
 
-    if especialidades.length > 0
-      form(action="/especialidades" method="POST")
-        label(for="especialidad") Selecciona una especialidad:
-        select(name="especialidad" id="especialidad")
-          each especialidad in especialidades
-            option(value=especialidad.id) #{especialidad.nombre}
+    //- Select para Especialidades
+    label(for="especialidad") Seleccionar Especialidad:
+    select#especialidad(name="especialidad")
+      option(value="") Selecciona una especialidad
+      each especialidad in especialidades
+        option(value=especialidad.id_especialidad) #{especialidad.nombre}
 
+    //- Select para Médicos (inicialmente vacío)
+    label(for="medico") Seleccionar Médico:
+    select#medico(name="medico")
+      option(value="") Selecciona un médico
+      each medico in medicos
+        option(value=medico.matricula_medico) #{medico.apellido + " " + medico.nombre }
 
-    else
-      p No hay especialidades disponibles.
+    // Pasamos los médicos a una variable global accesible desde JavaScript
+    script.
+      window.medicos = !{JSON.stringify(medicos)}; // le paso los datos al js
+      window.medicoEspecialidad = !{JSON.stringify(medicoEspecialidad)}; // le paso los datos al js
