@@ -30,7 +30,7 @@ html
       if turnos.length > 0
         ul#turnosList 
           each turno in turnos
-            li
+            li(data-id=turno.numero_turno)
               | ID del turno: #{turno.numero_turno}, 
               | Fecha: #{turno.fecha}, 
               | Hora: #{turno.hora}, 

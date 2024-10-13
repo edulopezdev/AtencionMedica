@@ -7,10 +7,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const turnos = window.turnos;
     const fechaCalendario = document.getElementById('fechaCalendario');
     const resultadosContainer = document.getElementById('resultadosContainer');
+    const turnosList = document.getElementById("turnosList");
 
 
     // Función para limpiar y cargar los médicos filtrados
-    const getMedicosXEspecialidad = ( especialidadId ) => {
+    const getMedicosXEspecialidad = (especialidadId) => {
         // Limpiar el select de médicos
         medicoSelect.innerHTML = '<option value="">Selecciona un médico</option>';
 
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /////////
     // Función para actualizar los turnos según la fecha seleccionada
-    const actualizarTurnos = ( fecha ) => {
+    const actualizarTurnos = (fecha) => {
         // Hacer una petición fetch al servidor para obtener los turnos
         fetch(`/turnos/${fecha}`)
             .then(response => response.json())
@@ -53,10 +54,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     const ul = document.createElement('ul');
                     data.turnos.forEach(turno => {
                         const li = document.createElement('li');
-                        li.textContent = `ID del turno: ${turno.numero_turno}, Fecha: ${turno.fecha.slice(0,10)}, Hora: ${turno.hora}, Motivo: ${turno.motivo_consulta}, Paciente: ${turno.dni_paciente}`;
+                        li.textContent = `ID del turno: ${turno.numero_turno}, Fecha: ${turno.fecha.slice(0, 10)}, Hora: ${turno.hora}, Motivo: ${turno.motivo_consulta}, Paciente: ${turno.dni_paciente}`;
                         ul.appendChild(li);
                     });
                     resultadosContainer.appendChild(ul);
+
                 } else {
                     resultadosContainer.innerHTML = '<p>No se encontraron turnos para la fecha seleccionada.</p>';
                 }
@@ -75,4 +77,16 @@ document.addEventListener('DOMContentLoaded', function () {
             actualizarTurnos(fechaSeleccionada);
         }
     });
+
+    // Verifica si la lista de turnos existe
+    if (turnosList) {
+        // Agrega un listener de clic a cada elemento li
+        turnosList.addEventListener("click", function (event) {
+            const turnoSeleccionado = event.target.closest("li"); // Verifica si el clic fue en un li
+            if (turnoSeleccionado) {
+                const idTurno = turnoSeleccionado.getAttribute("data-id"); // Obtiene el ID del turno
+                alert("Turno seleccionado: " + idTurno); // Aquí puedes realizar la acción que desees
+            }
+        });
+    }
 });
