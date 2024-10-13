@@ -1,7 +1,7 @@
 // routes/authRoutes.js
 const express = require('express');
 const router = express.Router();
-const { autenticarMedico } = require('../Services/dbService');
+const { autenticarMedico } = require('../services/db-services');
 
 
 // Ruta para la página de inicio de sesión

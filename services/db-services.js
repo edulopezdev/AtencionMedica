@@ -47,10 +47,25 @@ const  obtenerMedicosEspecialidad = () => {
     });
 }
 
+// Función para procesar la fecha (por ejemplo, guardar en la base de datos)
+const procesarFecha = ( fecha = new Date().toISOString().slice(0, 10) ) => {
+    return new Promise(( resolve, reject ) => {
+        // Aquí puedes hacer una operación, como insertar en la base de datos
+        const query = 'SELECT * FROM turno where fecha = ?';
+        conexion.query( query, [fecha], ( error, resultado ) => {
+            if ( error ) {
+                return reject( error );
+            }
+            resolve( resultado );
+        });
+    });
+};
+
 // Exporta las funciones
 module.exports = {
     obtenerEspecialidades,
     obtenerMedicos,
     obtenerMedicosEspecialidad,
     autenticarMedico,
+    procesarFecha,
 };

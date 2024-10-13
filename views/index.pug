@@ -2,7 +2,7 @@ doctype html
 html
   head
     title Seleccionar Especialidades y Médicos
-    script(src="/js/main.js") // Incluyendo el archivo main.js
+    script(src="/js/frontMain.js") // Incluyendo el archivo JS
   body
     h1 Seleccionar Especialidad y Médico
 
@@ -20,7 +20,27 @@ html
       each medico in medicos
         option(value=medico.matricula_medico) #{medico.apellido + " " + medico.nombre }
 
-    // Pasamos los médicos a una variable global accesible desde JavaScript
+    //- Input de fecha
+    h1 Selecciona una fecha
+    input(type="date" id="fechaCalendario" value=fechaActual) 
+
+    // Contenedor donde se mostrarán los resultados
+    h1 Turnos para la fecha seleccionada
+    div#resultadosContainer
+      if turnos.length > 0
+        ul#turnosList 
+          each turno in turnos
+            li
+              | ID del turno: #{turno.numero_turno}, 
+              | Fecha: #{turno.fecha}, 
+              | Hora: #{turno.hora}, 
+              | Motivo: #{turno.motivo_consulta}, 
+              | Paciente: #{turno.dni_paciente}
+      else
+        p No se encontraron turnos para la fecha seleccionada.
+
+    // Pasamos los médicos y especialidades a una variable global accesible desde JavaScript
     script.
-      window.medicos = !{JSON.stringify(medicos)}; // le paso los datos al js
-      window.medicoEspecialidad = !{JSON.stringify(medicoEspecialidad)}; // le paso los datos al js
+      window.medicos = !{JSON.stringify(medicos)}; // Pasar médicos al JS
+      window.medicoEspecialidad = !{JSON.stringify(medicoEspecialidad)}; // Pasar relaciones de médicos y especialidades al JS
+      window.turnosIniciales = !{JSON.stringify(turnos)}; // Pasar los turnos iniciales al JS (opcional si lo necesitas en front-end)

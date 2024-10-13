@@ -1,5 +1,5 @@
 {
-    "watch": ["views", "public", "index.js", "index.pug", "routes", "Services"],
+    "watch": ["views", "public", "index.js", "index.pug", "routes", "services"],
     "ext": "js,json", 
     "exec": "node index.js" 
   }
