@@ -3,22 +3,22 @@ const mysql = require('mysql');
 
 
 //Direccion DB Franco
-/*const conexion = mysql.createConnection({
+const conexion = mysql.createConnection({
     host: 'localhost',
     port: 3307,
     user: 'root',
     password: '',
-    database: 'test7'
-}); */
+    database: 'atencion_medica'
+}); 
 
 //Direccion DB Edu
-const conexion = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '1234',
-    database: 'test7'
-});
+// const conexion = mysql.createConnection({
+//     host: 'localhost',
+//     port: 3306,
+//     user: 'root',
+//     password: '1234',
+//     database: 'test7'
+// });
 
 // Verificación de conexión
 conexion.connect((error) => {

@@ -58,7 +58,7 @@ router.get('/turnos/:fecha', async (req, res) => {
 //Generando la carga de consultas
 router.get('/getConsulta', (req, res) => {
     // Llamamos a las funciones de dbService para obtener datos
-    Promise.all([obtenerEspecialidades(), obtenerMedicos(), obtenerMedicosEspecialidad(), procesarFecha()])
+    Promise.all([ procesarFecha()])
         .then(([especialidades, medicos, medicoEspecialidad, turnos]) => {
             res.render('consulta', { especialidades, medicos, medicoEspecialidad, turnos }); // Enviamos datos a la vista
         })

@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (turnoSeleccionado) {
                     const idTurno = turnoSeleccionado.getAttribute("data-id"); // Obtiene el ID del turno
                     alert("Turno seleccionado: " + idTurno); // Aquí puedes realizar la acción que desees
-                    //res.render('getConsulta', { especialidades, medicos, medicoEspecialidad, turnos });
+                    res.render('/getConsulta', { idTurno });
                     //deberia tener -matricula_medico, id_turno, 
                     //al hacer click, deberia aparecer un cartel o ir a iniciar consulta
                     //en la consulta deberiamos tener link a ver hce ( en la navegacion otro link )
