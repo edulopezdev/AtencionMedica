@@ -1,11 +1,22 @@
 // config/db.js
 const mysql = require('mysql');
 
-const conexion = mysql.createConnection({
+
+//Direccion DB Franco
+/*const conexion = mysql.createConnection({
     host: 'localhost',
     port: 3307,
     user: 'root',
     password: '',
+    database: 'test7'
+}); */
+
+//Direccion DB Edu
+const conexion = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '1234',
     database: 'test7'
 });
 
