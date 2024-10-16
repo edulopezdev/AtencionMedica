@@ -1,0 +1,18 @@
+// views/agenda.pug
+doctype html
+html
+    head
+        title Agenda
+        link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/css/styles.css')
+    body
+        .d-flex
+            include sidebar.pug
+            .content
+                .container
+                    h1 Mi Agenda
+                    p Aquí va el contenido de la agenda.
+
+        script(src='https://code.jquery.com/jquery-3.6.0.min.js')
+        script(src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js')
+        script(src='https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js')
