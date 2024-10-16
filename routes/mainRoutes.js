@@ -9,10 +9,13 @@ router.get('/index', (req, res) => {
     res.render('index'); // Renderiza la vista de la página de inicio
 });
 
-
+// Ruta para la página de consultas
+router.get('/consulta', (req, res) => {
+    res.render('consulta'); // Renderiza consulta
+});
 
 // Definimos la ruta "/main"
-router.get('/main', (req, res) => {
+router.get('/getMain', (req, res) => {
     // Llamamos a las funciones de dbService para obtener datos
     Promise.all([obtenerEspecialidades(), obtenerMedicos(), obtenerMedicosEspecialidad(), procesarFecha()])
         .then(([especialidades, medicos, medicoEspecialidad, turnos]) => {
@@ -52,5 +55,16 @@ router.get('/turnos/:fecha', async (req, res) => {
     }
 });
 
-
+//Generando la carga de consultas
+router.get('/getConsulta', (req, res) => {
+    // Llamamos a las funciones de dbService para obtener datos
+    Promise.all([obtenerEspecialidades(), obtenerMedicos(), obtenerMedicosEspecialidad(), procesarFecha()])
+        .then(([especialidades, medicos, medicoEspecialidad, turnos]) => {
+            res.render('consulta', { especialidades, medicos, medicoEspecialidad, turnos }); // Enviamos datos a la vista
+        })
+        .catch((error) => {
+            console.error('Error en las consultas:', error);
+            res.status(500).send('Error en la base de datos');
+        });
+});
 module.exports = router; // Exportamos las rutas para usarlas en app.js

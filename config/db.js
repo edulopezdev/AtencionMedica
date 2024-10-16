@@ -6,7 +6,7 @@ const conexion = mysql.createConnection({
     port: 3307,
     user: 'root',
     password: '',
-    database: 'test7'
+    database: 'atencion_medica'
 });
 
 // Verificación de conexión

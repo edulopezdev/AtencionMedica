@@ -61,6 +61,8 @@ const procesarFecha = ( fecha = new Date().toISOString().slice(0, 10) ) => {
     });
 };
 
+
+
 // Exporta las funciones
 module.exports = {
     obtenerEspecialidades,

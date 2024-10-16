@@ -1,0 +1,53 @@
+doctype html
+html
+  head
+    title Formulario de Evolución del Paciente
+    script(src="/js/frontConsulta.js") // Incluyendo el archivo JS para manejo dinámico de campos adicionales
+  body
+    h1 Consulta actual
+
+    form(action="/submit" method="POST")
+
+      // Campo de evolución del paciente
+      label(for="evolucion") Evolución:
+      textarea#evolucion(name="evolucion" placeholder="Describir evolución del paciente") 
+
+      // Campo de diagnóstico
+      label(for="diagnostico") Diagnóstico:
+      textarea#diagnostico(name="diagnostico" placeholder="Ingresar diagnóstico")
+
+      // Campo de alergias con botón para agregar más
+      label(for="alergia") Alergias:
+      div#alergiasContainer
+       input(type="text" name="alergia" placeholder="Ingrese una alergia")
+       button(type="button" id="addAlergia") + Agregar otra alergia
+
+
+      // Campo de antecedentes con fecha de inicio y fin
+      label Antecedentes:
+      div#antecedentesContainer
+        input(type="text" name="antecedentes" placeholder="Ingresar antecedentes")
+        label(for="inicioAntecedentes") Inicio:
+        input(type="date" name="inicioAntecedentes")
+        label(for="finAntecedentes") Fin:
+        input(type="date" name="finAntecedentes")
+
+      // Campo de hábitos con fecha de inicio y fin
+      label Hábitos:
+      div#habitosContainer
+        input(type="text" name="habitos" placeholder="Ingresar hábitos")
+        label(for="inicioHabitos") Inicio:
+        input(type="date" name="inicioHabitos")
+        label(for="finHabitos") Fin:
+        input(type="date" name="finHabitos")
+
+      // Campo de medicamentos con botón para agregar más
+      label Medicamentos:
+      div#medicamentosContainer
+        input(type="text" name="medicamento[]" placeholder="Ingresar medicamento")
+        button(type="button" id="addMedicamento") + Agregar otro medicamento
+
+      // Botón de envío
+      button(type="submit") Guardar
+
+      

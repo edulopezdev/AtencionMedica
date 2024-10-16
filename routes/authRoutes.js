@@ -26,7 +26,7 @@ router.post('/login', async (req, res) => {
 
         if (resultados.length > 0) {
             // El usuario y la contraseña son correctos
-            res.redirect('/main'); // Llama a la página principal
+            res.redirect('/getMain'); // Llama a la página principal
         } else {
             // Credenciales incorrectas
             res.send('Usuario o contraseña incorrectos');
