@@ -84,28 +84,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    const escuchoClickTurno = () => { // escucho click en cada LI
-        const turnosList = document.getElementById('turnosList'); // Obtener el nuevo ul
-        // Verifica si la lista de turnos existe
+
+    const escuchoClickTurno = () => { 
+        const turnosList = document.getElementById('turnosList');
         if (turnosList) {
-            // Agrega un listener de clic a cada elemento li
             turnosList.addEventListener("click", function (event) {
-                console.log('jajajajajaj')
-                const turnoSeleccionado = event.target.closest("li"); // Verifica si el clic fue en un li
+                const turnoSeleccionado = event.target.closest("li");
                 if (turnoSeleccionado) {
-                    const idTurno = turnoSeleccionado.getAttribute("data-id"); // Obtiene el ID del turno
-                    alert("Turno seleccionado: " + idTurno); // Aquí puedes realizar la acción que desees
-                    res.render('/getConsulta', { idTurno });
-                    //deberia tener -matricula_medico, id_turno, 
-                    //al hacer click, deberia aparecer un cartel o ir a iniciar consulta
-                    //en la consulta deberiamos tener link a ver hce ( en la navegacion otro link )
-                    //En la consulta veriamos tipo form 
-                    //evolucion
-                    //diagnostico
-                    //alergia ( mas de uno y fecha )
-                    //antecedente ( fecha )
-                    //habito ( fecha )
-                    //medicamento ( mas de uno )
+                    const numero_turno = turnoSeleccionado.getAttribute("data-id");
+                    //alert("Turno seleccionado: " + numero_turno);
+    
+                    // Redirige a la ruta del backend para cargar la vista 'consulta' mando idTurno
+                    window.location.href = `/getConsulta?numero_turno=${numero_turno}`;
                 }
             });
         }

@@ -6,6 +6,21 @@ html
   body
     h1 Consulta actual
 
+    if paciente
+      h2 Datos del Paciente
+
+      p Nombre: #{paciente.nombre}
+      p Apellido: #{paciente.apellido}
+      p DNI: #{paciente.dni_paciente}
+      p Teléfono: #{paciente.telefono}
+      p Fecha de Nacimiento: #{paciente.fecha}
+      p Motivo consulta: #{paciente.motivo_consulta}
+      p Hora del turno: #{paciente.hora}
+    
+    else
+      p No se encontraron datos del paciente.
+
+    // Formulario para la evolución del paciente
     form(action="/submit" method="POST")
 
       // Campo de evolución del paciente
@@ -21,7 +36,6 @@ html
       div#alergiasContainer
        input(type="text" name="alergia" placeholder="Ingrese una alergia")
        button(type="button" id="addAlergia") + Agregar otra alergia
-
 
       // Campo de antecedentes con fecha de inicio y fin
       label Antecedentes:
@@ -49,5 +63,3 @@ html
 
       // Botón de envío
       button(type="submit") Guardar
-
-      

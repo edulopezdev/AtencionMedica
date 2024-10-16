@@ -1,7 +1,7 @@
 // routes/mainRoutes.js
 const express = require('express');
 const router = express.Router();
-const { obtenerEspecialidades, obtenerMedicos, obtenerMedicosEspecialidad, procesarFecha } = require('../services/db-services'); // Importamos las funciones de dbService
+const { obtenerEspecialidades, obtenerMedicos, obtenerMedicosEspecialidad, procesarFecha, iniciarConsulta } = require('../services/db-services'); // Importamos las funciones de dbService
 
 
 // Ruta para la página de inicio
@@ -55,16 +55,22 @@ router.get('/turnos/:fecha', async (req, res) => {
     }
 });
 
-//Generando la carga de consultas
+//Generando la carga de consultas, traigo datos de paciente y join con turno
 router.get('/getConsulta', (req, res) => {
-    // Llamamos a las funciones de dbService para obtener datos
-    Promise.all([ procesarFecha()])
-        .then(([especialidades, medicos, medicoEspecialidad, turnos]) => {
-            res.render('consulta', { especialidades, medicos, medicoEspecialidad, turnos }); // Enviamos datos a la vista
+    const { numero_turno } = req.query; // Obtener el idTurno de la query string
+    //console.log ( numero_turno );
+
+    // Ahora puedes usar idTurno en las consultas si lo necesitas
+    Promise.all([iniciarConsulta( numero_turno )])
+        .then(([resultado]) => {
+            //console.log( paciente );
+            const paciente = resultado[0]; 
+            res.render('consulta', { paciente });
         })
         .catch((error) => {
             console.error('Error en las consultas:', error);
             res.status(500).send('Error en la base de datos');
         });
 });
+
 module.exports = router; // Exportamos las rutas para usarlas en app.js

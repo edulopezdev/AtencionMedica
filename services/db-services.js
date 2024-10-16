@@ -61,6 +61,29 @@ const procesarFecha = ( fecha = new Date().toISOString().slice(0, 10) ) => {
     });
 };
 
+const iniciarConsulta = ( numero_turno ) => { //datos del paciente y su turno
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT *
+            FROM paciente p
+            JOIN turno t ON p.dni_paciente = t.dni_paciente
+            WHERE t.numero_turno = ?;
+        `;
+        
+        // Asumiendo que tienes acceso a la conexión de la base de datos
+        conexion.query(query, [numero_turno], (error, resultado) => {
+            if (error) {
+                return reject(error);  // En caso de error, se rechaza la promesa
+            }
+            //console.log( 'metodo ' + resultado)
+            resolve(resultado);  // En caso de éxito, se resuelven los datos del paciente
+        });
+    });
+};
+
+
+
+
 
 
 // Exporta las funciones
@@ -70,4 +93,5 @@ module.exports = {
     obtenerMedicosEspecialidad,
     autenticarMedico,
     procesarFecha,
+    iniciarConsulta,
 };
