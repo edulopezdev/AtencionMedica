@@ -8,7 +8,7 @@ html
     script(src="/js/frontMain.js") // Incluyendo el archivo JS
   body
     .wrapper
-      //- Incluyendo el sidebar
+      //- incluimos el sidebar
       include sidebar.pug
 
       .main.p-3
@@ -53,5 +53,5 @@ html
           window.medicoEspecialidad = !{JSON.stringify(medicoEspecialidad)}; // Pasar relaciones de médicos y especialidades al JS
           window.turnosIniciales = !{JSON.stringify(turnos)}; // Pasar los turnos iniciales al JS (opcional si lo necesitas en front-end)
 
-    // Incluyendo el archivo JS para manejar el sidebar
+    //-Incluyendo el archivo JS para manejar el sidebar
     script(src='/js/sidebar.js')

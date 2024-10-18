@@ -47,18 +47,21 @@ h1 {
 }
 
 .sidebar {
-    width: 70px;
-    min-width: 70px;
-    z-index: 1000;
+    position: fixed; /* Fija el sidebar en la pantalla */
+    top: 0; /* Alinea al top */
+    left: 0; /* Alinea al lado izquierdo */
+    height: 100%; /* Ocupa toda la altura de la ventana */
+    width: 70px; /* Ancho mínimo del sidebar */
+    min-width: 70px; /* Ancho mínimo */
+    z-index: 1000; /* Asegura que esté sobre otros elementos */
     transition: all 0.25s ease-in-out;
-    background-color: #0e2238;
-    display: flex;
-    flex-direction: column;
+    background-color: #0e2238; /* Color de fondo */
 }
 
+/* Para el estado expandido */
 .sidebar.expand {
-    width: 260px;
-    min-width: 260px;
+    width: 260px; /* Ancho expandido */
+    min-width: 260px; /* Ancho mínimo expandido */
 }
 
 .toggle-btn {

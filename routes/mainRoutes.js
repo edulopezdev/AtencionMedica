@@ -3,10 +3,14 @@ const express = require('express');
 const router = express.Router();
 const { obtenerEspecialidades, obtenerMedicos, obtenerMedicosEspecialidad, procesarFecha, iniciarConsulta } = require('../services/db-services'); // Importamos las funciones de dbService
 
-
 // Ruta para la página de inicio
 router.get('/index', (req, res) => {
     res.render('index'); // Renderiza la vista de la página de inicio
+});
+
+// Ruta para la página de agenda
+router.get('/agenda', (req, res) => {
+    res.render('agenda'); // Renderiza agenda
 });
 
 // Ruta para la página de consultas
@@ -55,16 +59,28 @@ router.get('/turnos/:fecha', async (req, res) => {
     }
 });
 
-//Generando la carga de consultas, traigo datos de paciente y join con turno
+// Generando la carga de consultas, traigo datos de paciente y join con turno
 router.get('/getConsulta', (req, res) => {
     const { numero_turno } = req.query; // Obtener el idTurno de la query string
-    //console.log ( numero_turno );
 
     // Ahora puedes usar idTurno en las consultas si lo necesitas
-    Promise.all([iniciarConsulta( numero_turno )])
+    Promise.all([iniciarConsulta(numero_turno)])
         .then(([resultado]) => {
-            //console.log( paciente );
             const paciente = resultado[0]; 
+
+            // Formatear la fecha de nacimiento
+            const formatDate = (date) => {
+                const d = new Date(date);
+                const day = String(d.getDate()).padStart(2, '0');
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const year = d.getFullYear();
+                return `${day}-${month}-${year}`;
+            };
+
+            if (paciente) {
+                paciente.fecha = formatDate(paciente.fecha); // Formatear la fecha
+            }
+
             res.render('consulta', { paciente });
         })
         .catch((error) => {
