@@ -1,0 +1,102 @@
+/* Estilos del sidebar */
+#sidebar {
+    position: fixed; /* Fija el sidebar en la pantalla */
+    top: 0; /* Alinea al top */
+    left: 0; /* Alinea al lado izquierdo */
+    height: 100%; /* Ocupa toda la altura de la ventana */
+    width: 70px; /* Ancho mínimo del sidebar */
+    min-width: 70px; /* Ancho mínimo */
+    z-index: 1000; /* Asegura que esté sobre otros elementos */
+    transition: width 0.5s ease-in-out; /* Suaviza la transición de ancho */
+    background-color: rgba(52, 6, 91, 0.817); /* Color con transparencia */
+    box-shadow: 2px 0 10px rgba(50, 49, 49, 0.265); /* Sombra */
+}
+
+/* Estado expandido */
+#sidebar.expand {
+    width: 260px; /* Ancho expandido */
+    min-width: 260px; /* Ancho mínimo expandido */
+}
+
+/* Estilos del botón de toggle */
+.toggle-btn {
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding: 1rem 1.5rem;
+}
+
+/* Icono del botón */
+.toggle-btn i {
+    font-size: 1.5rem;
+    color: #FFF;
+}
+
+/* Logo del sidebar */
+.sidebar-logo {
+    margin: auto 0;
+}
+
+/* Estilos del logo */
+.sidebar-logo a {
+    color: #FFF;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+/* Navegación del sidebar */
+.sidebar-nav {
+    padding: 2rem 0;
+    flex: 1 1 auto;
+}
+
+/* Estilos de los enlaces del sidebar */
+a.sidebar-link {
+    padding: .625rem 1.625rem;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+}
+
+/* Iconos de los enlaces */
+.sidebar-link i {
+    font-size: 1.1rem;
+    margin-right: .75rem;
+}
+
+/* Efecto hover en los enlaces */
+a.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, .075);
+    border-left: 3px solid #3b7ddd;
+}
+
+/* Ocultar texto de los enlaces si no está expandido */
+#sidebar:not(.expand) .sidebar-logo,
+#sidebar:not(.expand) a.sidebar-link span {
+    display: none; /* Oculta los textos en estado no expandido */
+}
+
+/* Mostrar texto en estado expandido */
+#sidebar.expand .sidebar-logo,
+#sidebar.expand a.sidebar-link span {
+    display: block; /* Muestra los textos cuando está expandido */
+}
+
+/* Cambia el comportamiento del sidebar al hacer hover */
+#sidebar:hover {
+    width: 260px; /* Ancho expandido al hacer hover */
+    min-width: 260px; /* Asegura que el ancho mínimo también sea 260px */
+}
+
+#sidebar:hover .sidebar-logo,
+#sidebar:hover a.sidebar-link span {
+    display: block; /* Muestra los textos al hacer hover */
+}
+
+/* Asegúrate de que la transición sea uniforme */
+#sidebar {
+    transition: width 0.25s ease-in-out, background-color 0.25s ease-in-out;
+}

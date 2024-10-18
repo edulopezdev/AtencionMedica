@@ -15,88 +15,81 @@ html
         .col-md-9.mx-auto
           .main.p-3(style="margin: auto;")
             .row.justify-content-center
-              .col-md-4 
+              .col-md-12 
                 h1.text-center Consulta actual
                 if paciente
-                  .card.mb-4
-                    .card-body
-                      h2.text-center Datos del Paciente
-                      .text-center
-                        p Nombre: #{paciente.nombre}
-                        p Apellido: #{paciente.apellido}
-                        p DNI: #{paciente.dni_paciente}
-                        p Teléfono: #{paciente.telefono}
-                        p Fecha de Nacimiento: #{paciente.fecha}
-                        p Motivo consulta: #{paciente.motivo_consulta}
-                        p Hora del turno: #{paciente.hora}
-
-                  // Nuevo div para Resumen de la última consulta
-                  .card.mb-4
-                    .card-body
-                      h2.text-center Resumen última consulta
-                      .text-center
-                        p Resumen: Acá vamos a agregar la lógica correspondiente.
-                        p Fecha: #{paciente.fecha_ultima_consulta} // Ej. 20-09-2023
+                  .card.mb-4.custom-bg
+                    .card-body 
+                      .row
+                        .col-md-6
+                          h2.text-center Datos del Paciente
+                          .text-center
+                            p Nombre: #{paciente.nombre}
+                            p Apellido: #{paciente.apellido}
+                            p Motivo consulta: #{paciente.motivo_consulta}
+                        .col-md-6
+                          h2.text-center Última visita
+                          .text-center
+                            p Resumen: Acá vamos a agregar la lógica correspondiente.
+                            p Fecha: #{paciente.fecha_ultima_consulta}
 
                 else
                   p No se encontraron datos del paciente.
 
-              // Separación adicional entre los datos del paciente y el formulario
-              .col-md-8.mt-5
-                h2.text-center Formulario de Evolución
-                form(action="/submit" method="POST")
-                  .mb-3
-                    label(for="evolucion", class="form-label") Evolución:
-                    textarea#evolucion.form-control(name="evolucion" placeholder="Describir evolución del paciente" rows="3") 
-
-                  .mb-3
-                    label(for="diagnostico", class="form-label") Diagnóstico:
-                    textarea#diagnostico.form-control(name="diagnostico" placeholder="Ingresar diagnóstico" rows="3")
-
-                  .mb-3
-                    label(for="alergia", class="form-label") Alergias:
-                    div#alergiasContainer
-                      input.form-control(type="text" name="alergia" placeholder="Ingrese una alergia")
-                      button(type="button" id="addAlergia", class="btn btn-secondary mt-2") + Agregar otra alergia
-
-                  h3.text-center Antecedentes:
-                  div#antecedentesContainer
-                    .row.justify-content-center
-                      .col-12.col-md-6
-                        .d-flex.align-items-center.mb-3.justify-content-center
-                          label(for="inicioAntecedentes", class="form-label me-2") Inicio:
-                          input(type="date" name="inicioAntecedentes" class="form-control" style="width: 180px;")
-
-                      .col-12.col-md-6
-                        .d-flex.align-items-center.mb-3.justify-content-center
-                          label(for="finAntecedentes", class="form-label me-2") Fin:
-                          input(type="date" name="finAntecedentes" class="form-control" style="width: 180px;")
+                // Separación adicional entre los datos del paciente y el formulario
+                .col-md-12.mt-5
+                  h2.text-center Formulario de Evolución
+                  form(action="/submit" method="POST")
+                    .mb-3
+                      label(for="evolucion", class="form-label") Evolución:
+                      textarea#evolucion.form-control(name="evolucion" placeholder="Describir evolución del paciente" rows="3") 
 
                     .mb-3
-                      input.form-control(type="text" name="antecedentes" placeholder="Ingresar antecedentes")
-
-                  h3.text-center Hábitos:
-                  div#habitosContainer
-                    .row.justify-content-center
-                      .col-12.col-md-6
-                        .d-flex.align-items-center.mb-3.justify-content-center
-                          label(for="inicioHabitos", class="form-label me-2") Inicio:
-                          input(type="date" name="inicioHabitos" class="form-control" style="width: 180px;")
-
-                      .col-12.col-md-6
-                        .d-flex.align-items-center.mb-3.justify-content-center
-                          label(for="finHabitos", class="form-label me-2") Fin:
-                          input(type="date" name="finHabitos" class="form-control" style="width: 180px;")
+                      label(for="diagnostico", class="form-label") Diagnóstico:
+                      textarea#diagnostico.form-control(name="diagnostico" placeholder="Ingresar diagnóstico" rows="3")
 
                     .mb-3
-                      input.form-control(type="text" name="habitos" placeholder="Ingresar hábitos")
+                      label(for="alergia", class="form-label") Alergias:
+                      div#alergiasContainer
+                        input.form-control(type="text" name="alergia" placeholder="Ingrese una alergia")
+                        button(type="button" id="addAlergia", class="btn btn-secondary mt-2") + Agregar otra alergia
 
-                  h3.text-center Medicamentos:
-                  div#medicamentosContainer
-                    .mb-3
-                      input.form-control(type="text" name="medicamento[]" placeholder="Ingresar medicamento")
-                      button(type="button" id="addMedicamento", class="btn btn-secondary mt-2") + Agregar otro medicamento
+                    h3.text-center Antecedentes:
+                    div#antecedentesContainer
+                      .row.justify-content-center
+                        .col-12.col-md-6
+                          .d-flex.align-items-center.mb-3.justify-content-center
+                            label(for="inicioAntecedentes", class="form-label me-2") Inicio:
+                            input(type="date" name="inicioAntecedentes" class="form-control" style="width: 180px;")
 
-                  button(type="submit", class="btn btn-primary") Guardar
+                        .col-12.col-md-6
+                          .d-flex.align-items-center.mb-3.justify-content-center
+                            label(for="finAntecedentes", class="form-label me-2") Fin:
+                            input(type="date" name="finAntecedentes" class="form-control" style="width: 180px;")
 
-    script(src='/js/sidebar.js')
+                      .mb-3
+                        input.form-control(type="text" name="antecedentes" placeholder="Ingresar antecedentes")
+
+                    h3.text-center Hábitos:
+                    div#habitosContainer
+                      .row.justify-content-center
+                        .col-12.col-md-6
+                          .d-flex.align-items-center.mb-3.justify-content-center
+                            label(for="inicioHabitos", class="form-label me-2") Inicio:
+                            input(type="date" name="inicioHabitos" class="form-control" style="width: 180px;")
+
+                        .col-12.col-md-6
+                          .d-flex.align-items-center.mb-3.justify-content-center
+                            label(for="finHabitos", class="form-label me-2") Fin:
+                            input(type="date" name="finHabitos" class="form-control" style="width: 180px;")
+
+                      .mb-3
+                        input.form-control(type="text" name="habitos" placeholder="Ingresar hábitos")
+
+                    h3.text-center Medicamentos:
+                    div#medicamentosContainer
+                      .mb-3
+                        input.form-control(type="text" name="medicamento[]" placeholder="Ingresar medicamento")
+                        button(type="button" id="addMedicamento", class="btn btn-secondary mt-2") + Agregar otro medicamento
+
+                    button(type="submit", class="btn btn-primary") Guardar
