@@ -1,76 +1,27 @@
-// routes/mainRoutes.js
 const express = require('express');
 const router = express.Router();
-const { obtenerEspecialidades, obtenerMedicos, obtenerMedicosEspecialidad, procesarFecha, iniciarConsulta } = require('../services/db-services'); // Importamos las funciones de dbService
-
+const consultaController = require('../controllers/consultaController'); // Importamos el controlador
 
 // Ruta para la página de inicio
 router.get('/index', (req, res) => {
-    res.render('index'); // Renderiza la vista de la página de inicio
+    res.render('index');
 });
 
 // Ruta para la página de consultas
 router.get('/consulta', (req, res) => {
-    res.render('consulta'); // Renderiza consulta
+    res.render('consulta');
 });
 
-// Definimos la ruta "/main"
-router.get('/getMain', (req, res) => {
-    // Llamamos a las funciones de dbService para obtener datos
-    Promise.all([obtenerEspecialidades(), obtenerMedicos(), obtenerMedicosEspecialidad(), procesarFecha()])
-        .then(([especialidades, medicos, medicoEspecialidad, turnos]) => {
-            res.render('index', { especialidades, medicos, medicoEspecialidad, turnos }); // Enviamos datos a la vista
-        })
-        .catch((error) => {
-            console.error('Error en las consultas:', error);
-            res.status(500).send('Error en la base de datos');
-        });
-});
+// Ruta "/main"
+router.get('/getMain', consultaController.getMain);
 
-// Ruta para manejar la consulta de fecha y mostrar los resultados en Pug
-router.post('/procesar-fecha', (req, res) => {
-    const fechaSeleccionada = req.body.fecha; // Asumimos que 'fecha' viene del formulario
-
-    // Llamar a la función para procesar la fecha
-    procesarFecha(fechaSeleccionada)
-        .then(resultados => {
-            // Renderizar la vista de Pug y pasar los resultados
-            res.render('index', { turnos: resultados });
-        })
-        .catch(error => {
-            console.error('Error en la consulta:', error);
-            res.status(500).send('Error en la consulta de la base de datos');
-        });
-});
+// Ruta para manejar la consulta de fecha
+router.post('/procesar-fecha', consultaController.procesarFechaConsulta);
 
 // Ruta para obtener turnos por fecha
-router.get('/turnos/:fecha', async (req, res) => {
-    const fecha = req.params.fecha;
-    try {
-        const turnos = await procesarFecha(fecha);
-        res.json({ turnos });
-    } catch (error) {
-        console.error('Error al obtener turnos:', error);
-        res.status(500).json({ message: 'Error al obtener los turnos' });
-    }
-});
+router.get('/turnos/:fecha', consultaController.obtenerTurnosPorFecha);
 
-//Generando la carga de consultas, traigo datos de paciente y join con turno
-router.get('/getConsulta', (req, res) => {
-    const { numero_turno } = req.query; // Obtener el idTurno de la query string
-    //console.log ( numero_turno );
+// Ruta para obtener consulta por número de turno
+router.get('/getConsulta', consultaController.iniciarConsultaPorNumero);
 
-    // Ahora puedes usar idTurno en las consultas si lo necesitas
-    Promise.all([iniciarConsulta( numero_turno )])
-        .then(([resultado]) => {
-            //console.log( paciente );
-            const paciente = resultado[0]; 
-            res.render('consulta', { paciente });
-        })
-        .catch((error) => {
-            console.error('Error en las consultas:', error);
-            res.status(500).send('Error en la base de datos');
-        });
-});
-
-module.exports = router; // Exportamos las rutas para usarlas en app.js
+module.exports = router;
