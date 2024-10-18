@@ -7,6 +7,11 @@ router.get('/index', (req, res) => {
     res.render('index');
 });
 
+// Ruta para la página de agenda
+router.get('/agenda', (req, res) => {
+    res.render('agenda'); // Renderiza agenda
+});
+
 // Ruta para la página de consultas
 router.get('/consulta', (req, res) => {
     res.render('consulta');

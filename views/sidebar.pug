@@ -1,32 +1,39 @@
-.sidebar(id="sidebar")
-    .d-flex
-        button.toggle-btn(type="button")
-            i.lni.lni-grid-alt
-        .sidebar-logo
-            a(href="#") Centro Médico
+doctype html
+html
+    head
+        title Centro Médico
+        link(rel="stylesheet" href="css/sidebar.css")
+    body
+        .sidebar(id="sidebar")
+            .d-flex
+                button.toggle-btn(type="button")
+                    i.lni.lni-grid-alt
+                .sidebar-logo
+                    a(href="#") Centro Médico
 
-    ul.sidebar-nav
-        li.sidebar-item
-            a.sidebar-link(href='/main')
-                i.lni.lni-home
-                span Inicio
-        li.sidebar-item
-            a.sidebar-link(href='/agenda')
-                i.lni.lni-agenda
-                span Agenda
-        li.sidebar-item
-            a.sidebar-link(href='/hce')
-                i.lni.lni-clipboard
-                span HCE        
-        li.sidebar-item
-            a.sidebar-link(href='/profile')
-                i.lni.lni-user
-                span Perfil
-        li.sidebar-item
-            a.sidebar-link(href='/settings')
-                i.lni.lni-cog
-                span Configuración
-    .sidebar-footer
-        a.sidebar-link(href="/logout")
-            i.lni.lni-exit
-            span Cerrar Sesión
+            ul.sidebar-nav
+                li.sidebar-item
+                    a.sidebar-link(href='/getMain')
+                        i.lni.lni-home
+                        span Inicio
+                li.sidebar-item
+                    a.sidebar-link(href='/agenda')
+                        i.lni.lni-agenda
+                        span Agenda
+                li.sidebar-item
+                    a.sidebar-link(href='/hce')
+                        i.lni.lni-clipboard
+                        span HCE        
+                li.sidebar-item
+                    a.sidebar-link(href='/profile')
+                        i.lni.lni-user
+                        span Perfil
+                li.sidebar-item
+                    a.sidebar-link(href='/settings')
+                        i.lni.lni-cog
+                        span Configuración
+
+            .sidebar-footer
+                a.sidebar-link(href="/logout")
+                    i.lni.lni-exit
+                    span Cerrar Sesión
