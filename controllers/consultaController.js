@@ -3,9 +3,11 @@ const { procesarFecha, iniciarConsulta, obtenerMedicoLogueado } = require('../se
 
 // Controlador para la ruta "/getMain"
 const getMain = (req, res) => {
-    Promise.all([ procesarFecha(), obtenerMedicoLogueado() ])
+    const usuario = req.query.usuario; // Obtener el usuario de la query string
+    Promise.all([ procesarFecha(), obtenerMedicoLogueado( usuario ) ])
         .then(([ turnos, medicoLogueado ]) => {
-            res.render('index', {turnos, medicoLogueado });
+            const medico = medicoLogueado[0];
+            res.render('index', {turnos, medico });
         })
         .catch((error) => {
             console.error('Error en las consultas:', error);
