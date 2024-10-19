@@ -36,6 +36,17 @@ const obtenerMedicos = () => {
     });
 }
 
+// Función para obtener médicos
+const obtenerMedicoLogueado = ( user ) => {
+    return new Promise((resolve, reject) => {
+        const queryMedicos = 'SELECT * FROM medico where matricula_medico = ?';
+        conexion.query(queryMedicos, [user], (error, resultados) => {
+            if (error) return reject(error);
+            resolve(resultados);
+        });
+    });
+}
+
 // Función para obtener relaciones médico-especialidad
 const  obtenerMedicosEspecialidad = () => {
     return new Promise((resolve, reject) => {
@@ -82,10 +93,6 @@ const iniciarConsulta = ( numero_turno ) => { //datos del paciente y su turno
 };
 
 
-
-
-
-
 // Exporta las funciones
 module.exports = {
     obtenerEspecialidades,
@@ -94,4 +101,5 @@ module.exports = {
     autenticarMedico,
     procesarFecha,
     iniciarConsulta,
+    obtenerMedicoLogueado,
 };
