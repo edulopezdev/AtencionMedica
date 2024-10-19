@@ -1,39 +1,78 @@
 doctype html
-html
+html(lang="es")
     head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
         title Centro Médico
+        link(href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400&display=swap", rel="stylesheet")
+        link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css", rel="stylesheet")
+        link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css")
         link(rel="stylesheet" href="css/sidebar.css")
     body
         .sidebar(id="sidebar")
-            .d-flex
-                button.toggle-btn(type="button")
-                    i.lni.lni-grid-alt
-                .sidebar-logo
-                    a(href="#") Centro Médico
-
+            .d-flex.flex-column.align-items-center
+                button.toggle-btn.btn(type="button")
+                    i.bi.bi-three-dots-vertical(id="toggleIcon")
+                .sidebar-logo(style="display: none; margin-top: 10px;")
+                    img(src="images/logo_blanco.png", alt="LM Médical Group Logo", class="logo")
             ul.sidebar-nav
                 li.sidebar-item
-                    a.sidebar-link(href='/getMain')
-                        i.lni.lni-home
+                    a.sidebar-link(href="/getMain", class="menu-item")
+                        i.bi.bi-house-door-fill
                         span Inicio
                 li.sidebar-item
-                    a.sidebar-link(href='/agenda')
-                        i.lni.lni-agenda
+                    a.sidebar-link(href="/agenda", class="menu-item")
+                        i.bi.bi-calendar-event-fill
                         span Agenda
                 li.sidebar-item
-                    a.sidebar-link(href='/hce')
-                        i.lni.lni-clipboard
-                        span HCE        
+                    a.sidebar-link(href="/hce", class="menu-item")
+                        i.bi.bi-heart-pulse-fill
+                        span HCE
                 li.sidebar-item
-                    a.sidebar-link(href='/profile')
-                        i.lni.lni-user
+                    a.sidebar-link(href="/profile", class="menu-item")
+                        i.bi.bi-person-fill
                         span Perfil
                 li.sidebar-item
-                    a.sidebar-link(href='/settings')
-                        i.lni.lni-cog
+                    a.sidebar-link(href="/settings", class="menu-item")
+                        i.bi.bi-gear-fill
                         span Configuración
-
             .sidebar-footer
-                a.sidebar-link(href="/logout")
-                    i.lni.lni-exit
+                a.sidebar-link(href="/login")
+                    i.bi.bi-door-open-fill
                     span Cerrar Sesión
+
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js")
+        script.
+            const sidebar = document.getElementById('sidebar');
+            const toggleIcon = document.getElementById('toggleIcon');
+            const logo = document.querySelector('.sidebar-logo');
+
+            sidebar.addEventListener('mouseenter', function () {
+                this.classList.add('expand');
+                toggleIcon.style.display = 'none'; // Ocultar los tres puntitos
+                logo.style.display = 'block'; // Mostrar el logo
+            });
+
+            sidebar.addEventListener('mouseleave', function () {
+                this.classList.remove('expand');
+                toggleIcon.style.display = 'block'; // Mostrar los tres puntitos
+                logo.style.display = 'none'; // Ocultar el logo
+            });
+
+            // Resaltar la opción seleccionada
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Al cargar la página, resaltar la opción activa según la URL
+            const currentPath = window.location.pathname;
+            menuItems.forEach(item => {
+                if (item.getAttribute('href') === currentPath) {
+                    item.classList.add('active');
+                }
+            });

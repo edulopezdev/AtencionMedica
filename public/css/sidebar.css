@@ -1,21 +1,17 @@
 /* Estilos del sidebar */
 #sidebar {
-    position: fixed; /* Fija el sidebar en la pantalla */
-    top: 0; /* Alinea al top */
-    left: 0; /* Alinea al lado izquierdo */
-    height: 100%; /* Ocupa toda la altura de la ventana */
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
     width: 70px; /* Ancho mínimo del sidebar */
-    min-width: 70px; /* Ancho mínimo */
-    z-index: 1000; /* Asegura que esté sobre otros elementos */
-    transition: width 0.5s ease-in-out; /* Suaviza la transición de ancho */
-    background-color: rgba(52, 6, 91, 0.817); /* Color con transparencia */
-    box-shadow: 2px 0 10px rgba(50, 49, 49, 0.265); /* Sombra */
-}
-
-/* Estado expandido */
-#sidebar.expand {
-    width: 260px; /* Ancho expandido */
-    min-width: 260px; /* Ancho mínimo expandido */
+    min-width: 70px;
+    z-index: 1000;
+    transition: width 0.25s ease-in-out, background-color 0.25s ease-in-out;
+    background-color: rgba(52, 6, 91, 0.817);
+    box-shadow: 2px 0 10px rgba(50, 49, 49, 0.265);
 }
 
 /* Estilos del botón de toggle */
@@ -24,24 +20,27 @@
     cursor: pointer;
     border: 0;
     padding: 1rem 1.5rem;
+    color: #FFF;
 }
 
 /* Icono del botón */
 .toggle-btn i {
     font-size: 1.5rem;
-    color: #FFF;
+}
+
+/* Estilo del logo */
+.logo {
+    width: 150px; /* Ajusta el ancho según lo necesites */
+    height: auto; /* Mantiene la proporción */
 }
 
 /* Logo del sidebar */
 .sidebar-logo {
-    margin: auto 0;
-}
-
-/* Estilos del logo */
-.sidebar-logo a {
-    color: #FFF;
-    font-size: 1.15rem;
-    font-weight: 600;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el logo */
+    align-items: center; /* Centra verticalmente el logo */
+    margin: 10px 0; /* Ajusta el margen superior e inferior */
+    width: 100%; /* Asegúrate de que ocupe todo el ancho del sidebar */
 }
 
 /* Navegación del sidebar */
@@ -59,12 +58,19 @@ a.sidebar-link {
     font-size: 0.9rem;
     white-space: nowrap;
     border-left: 3px solid transparent;
+    text-decoration: none; /* Eliminar subrayado */
 }
 
 /* Iconos de los enlaces */
 .sidebar-link i {
     font-size: 1.1rem;
     margin-right: .75rem;
+}
+
+/* Estado activo */
+.sidebar-link.active {
+    background-color: rgba(95, 89, 32, 0.1);
+    border-left: 3px solid #3b7ddd;
 }
 
 /* Efecto hover en los enlaces */
@@ -76,27 +82,33 @@ a.sidebar-link:hover {
 /* Ocultar texto de los enlaces si no está expandido */
 #sidebar:not(.expand) .sidebar-logo,
 #sidebar:not(.expand) a.sidebar-link span {
-    display: none; /* Oculta los textos en estado no expandido */
+    display: none;
 }
 
 /* Mostrar texto en estado expandido */
 #sidebar.expand .sidebar-logo,
 #sidebar.expand a.sidebar-link span {
-    display: block; /* Muestra los textos cuando está expandido */
+    display: block;
 }
 
 /* Cambia el comportamiento del sidebar al hacer hover */
 #sidebar:hover {
-    width: 260px; /* Ancho expandido al hacer hover */
-    min-width: 260px; /* Asegura que el ancho mínimo también sea 260px */
+    width: 200px; /* Ancho expandido al hacer hover */
 }
 
 #sidebar:hover .sidebar-logo,
 #sidebar:hover a.sidebar-link span {
-    display: block; /* Muestra los textos al hacer hover */
+    display: block;
 }
 
-/* Asegúrate de que la transición sea uniforme */
-#sidebar {
-    transition: width 0.25s ease-in-out, background-color 0.25s ease-in-out;
+/* Estilos del pie de página */
+.sidebar-footer {
+    margin-top: auto; /* Empuja el pie de página hacia el fondo del sidebar */
 }
+
+/* Ajustes adicionales */
+.sidebar-logo {
+    display: flex; /* Asegura que se mantenga como flexbox */
+    margin-left: 50px;
+}
+
