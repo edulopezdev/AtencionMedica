@@ -1,11 +1,11 @@
 // controllers/consultaController.js
-const { obtenerEspecialidades, obtenerMedicos, obtenerMedicosEspecialidad, procesarFecha, iniciarConsulta } = require('../services/db-services');
+const { procesarFecha, iniciarConsulta, obtenerMedicoLogueado } = require('../services/db-services');
 
 // Controlador para la ruta "/getMain"
 const getMain = (req, res) => {
-    Promise.all([obtenerEspecialidades(), obtenerMedicos(), obtenerMedicosEspecialidad(), procesarFecha()])
-        .then(([especialidades, medicos, medicoEspecialidad, turnos]) => {
-            res.render('index', { especialidades, medicos, medicoEspecialidad, turnos });
+    Promise.all([ procesarFecha(), obtenerMedicoLogueado() ])
+        .then(([ turnos, medicoLogueado ]) => {
+            res.render('index', {turnos, medicoLogueado });
         })
         .catch((error) => {
             console.error('Error en las consultas:', error);
