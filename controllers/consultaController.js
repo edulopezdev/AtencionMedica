@@ -1,5 +1,5 @@
 // controllers/consultaController.js
-const { procesarFecha, iniciarConsulta, obtenerMedicoLogueado } = require('../services/db-services');
+const { procesarFecha, iniciarConsulta, obtenerMedicoLogueado, ultimaConsultaPorDni } = require('../services/db-services');
 
 // Controlador para la ruta "/getMain"
 const getMain = (req, res) => {
@@ -48,6 +48,7 @@ const iniciarConsultaPorNumero = (req, res) => {
     Promise.all([iniciarConsulta(numero_turno)])
         .then(([resultado]) => {
             const paciente = resultado[0];
+            console.log( paciente );
             res.render('consulta', { paciente });
         })
         .catch((error) => {

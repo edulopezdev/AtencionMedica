@@ -93,6 +93,41 @@ const iniciarConsulta = ( numero_turno ) => { //datos del paciente y su turno
 };
 
 
+const ultimaConsultaPorDni = ( dni ) => { //datos del paciente y su turno
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT 
+    a.nombre_alergia,
+    an.descripcion_antecedente,
+    d.resumen_diagnostico,
+    e.resumen_evolucion,
+    h.descripcion_habito,
+    t.fecha,
+    t.dni_paciente
+FROM 
+    turno t
+LEFT JOIN alergia a ON t.numero_turno = a.numero_turno
+LEFT JOIN antecedente an ON t.numero_turno = an.numero_turno
+LEFT JOIN diagnostico d ON t.numero_turno = d.numero_turno
+LEFT JOIN evolucion e ON t.numero_turno = e.numero_turno
+LEFT JOIN habito h ON t.numero_turno = h.numero_turno
+WHERE 
+    t.dni_paciente = 11234567
+ORDER BY 
+    t.fecha DESC;
+        `;
+        
+        // Asumiendo que tienes acceso a la conexión de la base de datos
+        conexion.query(query, [dni], (error, resultado) => {
+            if (error) {
+                return reject(error);  // En caso de error, se rechaza la promesa
+            }
+            //console.log( 'metodo ' + resultado)
+            resolve(resultado);  // En caso de éxito, se resuelven los datos del paciente
+        });
+    });
+};
+
 // Exporta las funciones
 module.exports = {
     obtenerEspecialidades,
@@ -102,4 +137,6 @@ module.exports = {
     procesarFecha,
     iniciarConsulta,
     obtenerMedicoLogueado,
+    ultimaConsultaPorDni,
+    
 };
