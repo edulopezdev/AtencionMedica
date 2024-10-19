@@ -133,10 +133,10 @@ module.exports = {
     obtenerEspecialidades,
     obtenerMedicos,
     obtenerMedicosEspecialidad,
-    autenticarMedico,
+    autenticarMedico, 
     procesarFecha,
     iniciarConsulta,
     obtenerMedicoLogueado,
     ultimaConsultaPorDni,
-    
+
 };

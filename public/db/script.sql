@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3307
--- Tiempo de generación: 16-10-2024 a las 22:53:12
+-- Tiempo de generación: 19-10-2024 a las 20:42:02
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -62,7 +62,7 @@ INSERT INTO `alergia` (`id_alergia`, `nombre_alergia`, `importancia`, `fecha_des
 
 CREATE TABLE `antecedente` (
   `id_antecedente` int(11) NOT NULL,
-  `descripcion` varchar(300) NOT NULL,
+  `descripcion_antecedente` varchar(300) NOT NULL,
   `fecha_desde` date NOT NULL,
   `fecha_hasta` date NOT NULL,
   `numero_turno` int(11) DEFAULT NULL
@@ -72,7 +72,7 @@ CREATE TABLE `antecedente` (
 -- Volcado de datos para la tabla `antecedente`
 --
 
-INSERT INTO `antecedente` (`id_antecedente`, `descripcion`, `fecha_desde`, `fecha_hasta`, `numero_turno`) VALUES
+INSERT INTO `antecedente` (`id_antecedente`, `descripcion_antecedente`, `fecha_desde`, `fecha_hasta`, `numero_turno`) VALUES
 (1, 'Infarto de miocardio en 2010', '2010-05-10', '2024-01-05', 1),
 (2, 'Cirugía de amígdalas en 2005', '2005-03-25', '2024-01-07', 2),
 (3, 'Fractura de pierna en 2015', '2015-08-15', '2024-01-09', 3),
@@ -92,16 +92,16 @@ INSERT INTO `antecedente` (`id_antecedente`, `descripcion`, `fecha_desde`, `fech
 
 CREATE TABLE `diagnostico` (
   `id_diagnostico` int(11) NOT NULL,
-  `resumen_evolucion` varchar(500) NOT NULL,
-  `estado` enum('Preliminar','Confirmado') DEFAULT 'Preliminar',
-  `numero_turno` int(11) DEFAULT NULL
+  `resumen_diagnostico` varchar(500) NOT NULL,
+  `estado` enum('Preliminar','Confirmado') NOT NULL DEFAULT 'Preliminar',
+  `numero_turno` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `diagnostico`
 --
 
-INSERT INTO `diagnostico` (`id_diagnostico`, `resumen_evolucion`, `estado`, `numero_turno`) VALUES
+INSERT INTO `diagnostico` (`id_diagnostico`, `resumen_diagnostico`, `estado`, `numero_turno`) VALUES
 (1, 'Sospecha de angina, exámenes en proceso', 'Preliminar', 1),
 (2, 'Consulta de control sin complicaciones', 'Confirmado', 2),
 (3, 'Diagnóstico de dermatitis atópica', 'Confirmado', 3),
@@ -111,7 +111,139 @@ INSERT INTO `diagnostico` (`id_diagnostico`, `resumen_evolucion`, `estado`, `num
 (7, 'Cancelación de cirugía por infección', 'Preliminar', 7),
 (8, 'Examen ginecológico normal', 'Confirmado', 8),
 (9, 'Infección urinaria tratada con antibióticos', 'Confirmado', 9),
-(10, 'Ansiedad diagnosticada, inicio de tratamiento', 'Confirmado', 10);
+(10, 'Ansiedad diagnosticada, inicio de tratamiento', 'Confirmado', 10),
+(11, 'Consulta cardiológica sin anormalidades.', 'Confirmado', 11),
+(12, 'Presión arterial dentro de los límites normales.', 'Confirmado', 12),
+(13, 'Dermatitis leve observada.', 'Confirmado', 13),
+(14, 'Posible gastritis, se recomienda tratamiento.', 'Preliminar', 14),
+(15, 'Consulta ginecológica normal.', 'Confirmado', 15),
+(16, 'Lesión ortopédica menor, reposo recomendado.', 'Confirmado', 16),
+(17, 'Chequeo general sin hallazgos preocupantes.', 'Confirmado', 17),
+(18, 'Chequeo endocrinológico normal.', 'Confirmado', 18),
+(19, 'Evaluación psiquiátrica sin irregularidades.', 'Confirmado', 19),
+(20, 'Sin hallazgos en consulta odontológica.', 'Confirmado', 20),
+(21, 'Infección urinaria leve, tratamiento necesario.', 'Preliminar', 21),
+(22, 'Insomnio leve, se sugiere terapia.', 'Preliminar', 22),
+(23, 'Función pulmonar adecuada.', 'Confirmado', 23),
+(24, 'Ansiedad moderada, se recomienda seguimiento.', 'Preliminar', 24),
+(25, 'Chequeo de diabetes dentro de lo normal.', 'Confirmado', 25),
+(26, 'Migrañas recurrentes, se sugiere tratamiento.', 'Preliminar', 26),
+(27, 'Dolor muscular, se recomienda reposo.', 'Preliminar', 27),
+(28, 'Chequeo neurológico sin hallazgos.', 'Confirmado', 28),
+(29, 'Consulta ginecológica normal, seguimiento en seis meses.', 'Confirmado', 29),
+(30, 'Presión arterial ligeramente elevada, seguimiento recomendado.', 'Preliminar', 30),
+(31, 'Dermatitis leve observada en la piel.', 'Confirmado', 31),
+(32, 'Dolor de espalda sin anormalidades.', 'Preliminar', 32),
+(33, 'Chequeo ginecológico normal, se sugiere examen anual.', 'Confirmado', 33),
+(34, 'Consulta cardiológica sin anormalidades.', 'Confirmado', 34),
+(35, 'Lesión ortopédica leve, se recomienda tratamiento.', 'Preliminar', 35),
+(36, 'Consulta traumatológica sin hallazgos relevantes.', 'Confirmado', 36),
+(37, 'Colesterol en niveles normales.', 'Confirmado', 37),
+(38, 'Evaluación psiquiátrica sin irregularidades.', 'Confirmado', 38),
+(39, 'Presión arterial dentro de los límites normales.', 'Confirmado', 39),
+(40, 'Chequeo neurológico sin hallazgos preocupantes.', 'Confirmado', 40),
+(41, 'Chequeo oftalmológico sin irregularidades.', 'Confirmado', 41),
+(42, 'Alergia leve, se recomienda antihistamínico.', 'Preliminar', 42),
+(43, 'Dolor abdominal, se sugiere ecografía.', 'Preliminar', 43),
+(44, 'Chequeo dermatológico sin hallazgos.', 'Confirmado', 44),
+(45, 'Análisis de sangre normal.', 'Confirmado', 45),
+(46, 'Consulta nutricional, dieta adecuada.', 'Confirmado', 46),
+(47, 'Rinitis alérgica, se recomienda tratamiento.', 'Preliminar', 47),
+(48, 'Dolor de cabeza, se sugiere consulta.', 'Preliminar', 48),
+(49, 'Chequeo otorrinolaringológico normal.', 'Confirmado', 49),
+(50, 'Control de colesterol, se recomienda seguimiento.', 'Preliminar', 50),
+(51, 'Consulta endocrinológica, análisis necesarios.', 'Preliminar', 51),
+(52, 'Chequeo de salud mental sin anormalidades.', 'Confirmado', 52),
+(53, 'Problemas de sueño, se sugiere terapia.', 'Preliminar', 53),
+(54, 'Consulta reumatológica sin hallazgos preocupantes.', 'Confirmado', 54),
+(55, 'Control de presión arterial normal.', 'Confirmado', 55),
+(56, 'Evaluación cardiovascular recomendada.', 'Preliminar', 56),
+(57, 'Chequeo pediátrico normal.', 'Confirmado', 57),
+(58, 'Consulta geriátrica sin irregularidades.', 'Confirmado', 58),
+(59, 'Dolor articular leve, se recomienda reposo.', 'Preliminar', 59),
+(60, 'Chequeo de fertilidad en parámetros normales.', 'Confirmado', 60),
+(61, 'Infección respiratoria leve, tratamiento necesario.', 'Preliminar', 61),
+(62, 'Chequeo de salud sexual normal.', 'Confirmado', 62),
+(63, 'Evaluación del riesgo cardiovascular, se recomienda seguimiento.', 'Preliminar', 63),
+(64, 'Consulta de salud ocupacional sin anormalidades.', 'Confirmado', 64),
+(65, 'Chequeo de la función hepática normal.', 'Confirmado', 65),
+(66, 'Dolor de cuello, se sugiere fisioterapia.', 'Preliminar', 66),
+(67, 'Consulta alergológica sin hallazgos preocupantes.', 'Confirmado', 67),
+(68, 'Chequeo geriátrico, se recomienda examen anual.', 'Confirmado', 68),
+(69, 'Control de glucosa normal.', 'Confirmado', 69),
+(70, 'Consulta dermatológica para lunares, seguimiento necesario.', 'Preliminar', 70),
+(71, 'Chequeo endocrinológico normal, se sugiere seguimiento.', 'Confirmado', 71),
+(72, 'Consulta para dejar de fumar, se recomienda programa.', 'Preliminar', 72),
+(73, 'Chequeo de salud mental sin hallazgos.', 'Confirmado', 73),
+(74, 'Consulta sobre salud reproductiva, examen normal.', 'Confirmado', 74),
+(75, 'Chequeo de salud dental sin anormalidades.', 'Confirmado', 75),
+(76, 'Dolor en las articulaciones, se recomienda tratamiento.', 'Preliminar', 76),
+(77, 'Consulta sobre salud intestinal, se sugiere dieta.', 'Preliminar', 77),
+(78, 'Chequeo neurológico normal, sin síntomas.', 'Confirmado', 78),
+(79, 'Consulta dermatológica para manchas, seguimiento necesario.', 'Preliminar', 79),
+(80, 'Chequeo ortopédico, se recomienda fisioterapia.', 'Preliminar', 80),
+(81, 'Consulta de salud respiratoria sin irregularidades.', 'Confirmado', 81),
+(82, 'Chequeo de salud ósea normal.', 'Confirmado', 82),
+(83, 'Consulta sobre alimentación, se recomienda dieta balanceada.', 'Preliminar', 83),
+(84, 'Control de hipertensión, seguimiento necesario.', 'Preliminar', 84),
+(85, 'Chequeo pediátrico normal, se sugiere revisión anual.', 'Confirmado', 85),
+(189, 'Consulta dermatológica para acne, se recomienda tratamiento.', 'Preliminar', 189),
+(190, 'Chequeo cardíaco, todos los parámetros en rango normal.', 'Confirmado', 190),
+(191, 'Dolor de rodilla, se sugiere fisioterapia.', 'Preliminar', 191),
+(192, 'Evaluación nutricional, se recomienda ajuste de dieta.', 'Preliminar', 192),
+(193, 'Chequeo de salud mental, se recomienda terapia grupal.', 'Preliminar', 193),
+(194, 'Control de glucosa, resultado dentro de lo normal.', 'Confirmado', 194),
+(195, 'Consulta pediátrica para vacunación, se recomienda seguimiento.', 'Preliminar', 195),
+(196, 'Chequeo oftalmológico, se sugiere revisión anual.', 'Confirmado', 196),
+(197, 'Evaluación ortopédica sin hallazgos preocupantes.', 'Confirmado', 197),
+(198, 'Consulta de salud sexual, se recomienda examen anual.', 'Preliminar', 198),
+(199, 'Chequeo dental, sin caries encontradas.', 'Confirmado', 199),
+(200, 'Dolor en el pecho, se recomienda consulta inmediata.', 'Preliminar', 200),
+(201, 'Chequeo de colesterol, se sugiere mantener dieta saludable.', 'Preliminar', 201),
+(202, 'Consulta sobre problemas de sueño, se sugiere terapia.', 'Preliminar', 202),
+(203, 'Chequeo de función renal normal.', 'Confirmado', 203),
+(204, 'Evaluación psiquiátrica, se recomienda seguimiento.', 'Preliminar', 204),
+(205, 'Consulta sobre ansiedad, se sugiere terapia cognitiva.', 'Preliminar', 205),
+(206, 'Chequeo endocrinológico normal, se recomienda seguimiento en seis meses.', 'Confirmado', 206),
+(207, 'Consulta para problemas de peso, se recomienda programa de nutrición.', 'Preliminar', 207),
+(208, 'Chequeo de la vista, resultado dentro de lo normal.', 'Confirmado', 208),
+(209, 'Dolor de espalda, se sugiere fisioterapia.', 'Preliminar', 209),
+(210, 'Chequeo de salud reproductiva, se sugiere examen anual.', 'Confirmado', 210),
+(211, 'Consulta para dejar de fumar, se recomienda seguimiento.', 'Preliminar', 211),
+(212, 'Evaluación cardíaca sin hallazgos preocupantes.', 'Confirmado', 212),
+(213, 'Consulta sobre salud mental, se sugiere terapia individual.', 'Preliminar', 213),
+(214, 'Chequeo de salud digestiva normal.', 'Confirmado', 214),
+(215, 'Dolor de muelas, se sugiere tratamiento dental.', 'Preliminar', 215),
+(216, 'Consulta geriátrica sin irregularidades.', 'Confirmado', 216),
+(217, 'Chequeo de salud pulmonar normal.', 'Confirmado', 217),
+(218, 'Consulta endocrinológica para hipotiroidismo, se recomienda análisis.', 'Preliminar', 218),
+(219, 'Chequeo otorrinolaringológico, se recomienda seguimiento.', 'Preliminar', 219),
+(220, 'Consulta sobre salud intestinal, se sugiere revisión.', 'Preliminar', 220),
+(221, 'Chequeo de salud auditiva normal.', 'Confirmado', 221),
+(222, 'Consulta sobre problemas dermatológicos, se recomienda seguimiento.', 'Preliminar', 222),
+(223, 'Chequeo de salud mental sin hallazgos preocupantes.', 'Confirmado', 223),
+(224, 'Consulta sobre insomnio, se recomienda tratamiento médico.', 'Preliminar', 224),
+(225, 'Chequeo pediátrico, se recomienda revisión anual.', 'Confirmado', 225),
+(226, 'Consulta sobre alergias, se recomienda antihistamínico.', 'Preliminar', 226),
+(227, 'Chequeo de salud reproductiva normal.', 'Confirmado', 227),
+(228, 'Consulta para dolor de cuello, se recomienda fisioterapia.', 'Preliminar', 228),
+(229, 'Chequeo de diabetes, se recomienda seguimiento cada seis meses.', 'Preliminar', 229),
+(230, 'Consulta sobre salud cardiovascular, se recomienda chequeo anual.', 'Preliminar', 230),
+(231, 'Chequeo ginecológico normal, se recomienda examen anual.', 'Confirmado', 231),
+(232, 'Consulta dermatológica para eczemas, se sugiere tratamiento.', 'Preliminar', 232),
+(233, 'Chequeo de salud mental, se sugiere terapia de grupo.', 'Preliminar', 233),
+(234, 'Consulta sobre problemas respiratorios, se recomienda revisión.', 'Preliminar', 234),
+(235, 'Chequeo de salud auditiva, se recomienda examen anual.', 'Confirmado', 235),
+(236, 'Consulta sobre salud ósea, se recomienda análisis de densidad.', 'Preliminar', 236),
+(237, 'Chequeo de salud endocrina, resultados normales.', 'Confirmado', 237),
+(238, 'Consulta sobre problemas gastrointestinales, se recomienda dieta.', 'Preliminar', 238),
+(239, 'Chequeo neurológico, sin hallazgos preocupantes.', 'Confirmado', 239),
+(240, 'Consulta sobre salud mental, se recomienda seguimiento.', 'Preliminar', 240),
+(241, 'Chequeo geriátrico normal, se sugiere examen anual.', 'Confirmado', 241),
+(242, 'Consulta sobre problemas de peso, se recomienda programa de ejercicio.', 'Preliminar', 242),
+(243, 'Chequeo de salud dental, se recomienda limpieza anual.', 'Confirmado', 243),
+(244, 'Consulta sobre alergias alimentarias, se recomienda seguimiento.', 'Preliminar', 244),
+(245, 'Chequeo general, todos los parámetros dentro de lo normal.', 'Confirmado', 245);
 
 -- --------------------------------------------------------
 
@@ -177,7 +309,7 @@ INSERT INTO `evolucion` (`id_evolucion`, `resumen_evolucion`, `numero_turno`, `i
 
 CREATE TABLE `habito` (
   `id_habito` int(11) NOT NULL,
-  `descripcion` varchar(300) NOT NULL,
+  `descripcion_habito` varchar(300) NOT NULL,
   `fecha_desde` date NOT NULL,
   `fecha_hasta` date NOT NULL,
   `numero_turno` int(11) DEFAULT NULL
@@ -187,7 +319,7 @@ CREATE TABLE `habito` (
 -- Volcado de datos para la tabla `habito`
 --
 
-INSERT INTO `habito` (`id_habito`, `descripcion`, `fecha_desde`, `fecha_hasta`, `numero_turno`) VALUES
+INSERT INTO `habito` (`id_habito`, `descripcion_habito`, `fecha_desde`, `fecha_hasta`, `numero_turno`) VALUES
 (1, 'Fumar 10 cigarrillos al día', '2015-01-01', '2023-06-01', 1),
 (2, 'Consumo diario de alcohol moderado', '2018-03-15', '2023-06-01', 2),
 (3, 'Ejercicio regular 3 veces por semana', '2020-07-10', '2023-06-01', 3),
@@ -431,15 +563,15 @@ INSERT INTO `receta` (`id_receta`, `id_medicamento`, `numero_turno`) VALUES
 
 CREATE TABLE `templates` (
   `id_template` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `contenido` varchar(1000) NOT NULL
+  `nombre_template` varchar(100) NOT NULL,
+  `contenido_template` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `templates`
 --
 
-INSERT INTO `templates` (`id_template`, `nombre`, `contenido`) VALUES
+INSERT INTO `templates` (`id_template`, `nombre_template`, `contenido_template`) VALUES
 (1, 'Internación', 'Se solicita internación del paciente ___________ dni __________ atendido el día _________, su diagnóstico _____________'),
 (2, 'Pedido de Análisis', 'Se solicita la realización de los siguientes análisis: ___________ para el paciente ___________ dni __________.'),
 (3, 'Receta Médica', 'Se prescribe el medicamento ___________ en dosis de ___________ para el paciente ___________ dni __________.'),
@@ -732,7 +864,7 @@ ALTER TABLE `antecedente`
 -- AUTO_INCREMENT de la tabla `diagnostico`
 --
 ALTER TABLE `diagnostico`
-  MODIFY `id_diagnostico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_diagnostico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
 
 --
 -- AUTO_INCREMENT de la tabla `especialidad`
