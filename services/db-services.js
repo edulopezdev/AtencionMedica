@@ -59,18 +59,24 @@ const  obtenerMedicosEspecialidad = () => {
 }
 
 // Función para procesar la fecha (por ejemplo, guardar en la base de datos)
-const procesarFecha = ( fecha = new Date().toISOString().slice(0, 10) ) => {
-    return new Promise(( resolve, reject ) => {
-        // Aquí puedes hacer una operación, como insertar en la base de datos
-        const query = 'SELECT * FROM turno where fecha = ?';
-        conexion.query( query, [fecha], ( error, resultado ) => {
-            if ( error ) {
-                return reject( error );
+const procesarFecha = (fecha = new Date().toISOString().slice(0, 10)) => {
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT t.*, p.nombre, p.apellido
+            FROM turno t
+            JOIN paciente p ON t.dni_paciente = p.dni_paciente
+            WHERE t.fecha = ?;
+        `;
+        conexion.query(query, [fecha], (error, resultado) => {
+            if (error) {
+                console.error("Error en la consulta:", error);
+                return reject(error);
             }
-            resolve( resultado );
+            resolve(resultado);
         });
     });
 };
+
 
 const iniciarConsulta = ( numero_turno ) => { //datos del paciente y su turno
     return new Promise((resolve, reject) => {

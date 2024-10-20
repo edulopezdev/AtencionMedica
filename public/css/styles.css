@@ -5,15 +5,18 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     background-color: #fafbfe;
+    color: #333; /* Color de texto más oscuro para mejor legibilidad */
 }
 
 a {
     text-decoration: none;
     color: #007bff;
+    transition: color 0.3s; /* Transición suave para el color del enlace */
 }
 
 a:hover {
     text-decoration: underline;
+    color: #0056b3; /* Color más oscuro al pasar el mouse */
 }
 
 /* Estilos del layout */
@@ -22,22 +25,90 @@ a:hover {
     flex-direction: column;
     align-items: center;
     padding: 20px; /* Padding opcional */
-    width: 90%; /* Ancho del 90% */
-    max-width: 90%; /* Max ancho del 90% */
+    width: 100%; /* Ancho del 100% */
+    max-width: 1200px; /* Ajusta este valor según lo necesites */
 }
 
+/* Estilos de las tarjetas */
 .card {
-    width: 100%; /* Mantiene el 100% del contenedor */
-    max-width: 90%; /* Aumenta el max-width al 90% */
-    margin: 0 auto; /* Centra las tarjetas */
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none; /* Sin borde */
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white; /* Fondo blanco */
+    cursor: pointer; /* Cambiar cursor al pasar sobre la tarjeta */
 }
 
-.custom-bg {
-    background-color: rgba(52, 6, 91, 0.817);
-    color: white !important; /* Texto blanco */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
-    padding: 20px; /* Espaciado interno */
+.card:hover {
+    transform: scale(1.05); /* Escala al pasar el mouse */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
 }
 
+/* Efecto de selección */
+.selected {
+    background-color: rgba(239, 5, 184, 0.7); /* Color de fondo para la tarjeta seleccionada */
+    color: white; /* Para que el texto sea visible */
+    border-left: 5px solid #ef05b8; /* Resalte lateral */
+}
 
+/* Estilos para títulos y texto en tarjetas */
+.card-title {
+    font-weight: 600;
+}
 
+.card-text {
+    margin-bottom: 0; /* Evita márgenes innecesarios */
+}
+
+/* Hover para filas de tablas (si se usan) */
+.table-hover tbody tr:hover {
+    background-color: rgba(239, 5, 184, 0.5); /* Color de fondo en hover */
+}
+
+/* Estilos adicionales para mejorar la apariencia general */
+
+/* Botones personalizados */
+.btn-custom {
+    background-color: #ef05b8;
+    color: white;
+}
+
+.btn-custom:hover {
+    background-color: #d4009f; /* Color más oscuro al pasar el mouse */
+}
+
+/* Animaciones suaves en los botones */
+.btn {
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-2px); /* Efecto de elevación al pasar el mouse sobre el botón */
+}
+
+/* Estilo del modal personalizado */
+.animated-modal {
+    animation: bounceIn 0.5s; /* Efecto de entrada */
+}
+
+.custom-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333; /* Color del título */
+}
+
+.custom-content {
+    font-size: 16px;
+}
+
+/* Animaciones */
+@keyframes bounceIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
