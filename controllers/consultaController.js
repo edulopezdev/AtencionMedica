@@ -32,6 +32,7 @@ const procesarFechaConsulta = (req, res) => {
 // Controlador para obtener turnos por fecha
 const obtenerTurnosPorFecha = async (req, res) => {
     const fecha = req.params.fecha;
+    console.log( fecha );
     try {
         const turnos = await procesarFecha(fecha);
         res.json({ turnos });
@@ -41,7 +42,7 @@ const obtenerTurnosPorFecha = async (req, res) => {
     }
 };
 
-// Controlador para iniciar consulta por número de turno
+// Controlador para iniciar consulta por número de turno--Lo llamo en Routes/getConsulta
 const iniciarConsultaPorNumero = (req, res) => {
     const { numero_turno } = req.query;
 
