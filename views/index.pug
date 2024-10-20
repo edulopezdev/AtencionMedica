@@ -8,6 +8,34 @@ html
     link(rel="stylesheet" href="css/styles.css")
     script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11") // Incluir SweetAlert2
     script(src="/js/frontMain.js") 
+    style.
+      .card {
+        border: none; 
+        border-radius: 15px; 
+        transition: transform 0.3s, box-shadow 0.3s; 
+        background-color: #ffffff; 
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+      }
+
+      .card:hover {
+        transform: translateY(-5px); 
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); 
+      }
+
+      .card-title {
+        font-size: 1.5rem; 
+        color: #333; 
+      }
+
+      .card-text {
+        font-size: 1rem; 
+        color: #666; 
+      }
+
+      .list-group-item {
+        margin-bottom: 15px; 
+      }
+      
   body
     .container-fluid(style="background-image: url('images/background_modulos.png'); background-size: cover; background-attachment: fixed; min-height: 100vh;")
       .row.m-0
@@ -22,20 +50,18 @@ html
             h1.text-center Estos son los turnos de hoy
             #resultadosContainer
               if turnos.length > 0
-                ul#turnosList.list-group
+                .row
                   each turno in turnos
-                    li.list-group-item(data-id=turno.numero_turno data-nombre=`${turno.nombre} ${turno.apellido}`)
-                      .card(turno.numero_turno)
-                        .card-body
-                          h5.card-title #{turno.hora.slice(0, 5)}
-                          p.card-text Paciente: #{turno.nombre} #{turno.apellido}
-                          p.card-text Motivo: #{turno.motivo_consulta}
+                    .col-md-3
+                      li.list-group-item(data-id=turno.numero_turno data-nombre=`${turno.nombre} ${turno.apellido}`)
+                        .card(turno.numero_turno)
+                          .card-body
+                            h5.card-title #{turno.hora.slice(0, 5)}
+                            p.card-text Paciente: #{turno.nombre} #{turno.apellido}
+                            p.card-text Motivo: #{turno.motivo_consulta}
               else
                 p.text-center No se encontraron turnos para la fecha seleccionada.
 
-            // Pasamos los médicos y especialidades a una variable global accesible desde JavaScript
             script.
               window.turnosIniciales = !{JSON.stringify(turnos)};
-
-    // Incluyendo el archivo JS para manejar el sidebar y otros scripts necesarios
     script(src='/js/frontMain.js')

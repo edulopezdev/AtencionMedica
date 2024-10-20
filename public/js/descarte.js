@@ -9,7 +9,7 @@
             // Buscar en el array de medicoEspecialidad para ver si este médico tiene la especialidad seleccionada
             medicoEspecialidad.forEach(relacion => {
                 if (medico.matricula_medico === relacion.matricula_medico && relacion.id_especialidad == especialidadId) {
-                    console.log('Médico encontrado con especialidad: ' + relacion.id_especialidad);
+                    //console.log('Médico encontrado con especialidad: ' + relacion.id_especialidad);
                     const option = document.createElement('option');
                     option.value = medico.matricula_medico;
                     option.textContent = medico.apellido + " " + medico.nombre;

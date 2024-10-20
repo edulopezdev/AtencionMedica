@@ -48,7 +48,7 @@ const iniciarConsultaPorNumero = (req, res) => {
     Promise.all([iniciarConsulta(numero_turno)])
         .then(([resultado]) => {
             const paciente = resultado[0];
-            console.log( paciente );
+            //console.log( paciente );
             res.render('consulta', { paciente });
         })
         .catch((error) => {
