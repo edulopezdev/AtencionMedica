@@ -93,7 +93,7 @@ const iniciarConsulta = ( numero_turno ) => { //datos del paciente y su turno
 };
 
 
-const ultimaConsultaPorDni = ( dni ) => { //datos del paciente y su turno
+const ultimaConsultaPorNumeroTurno = ( numero ) => { //datos completos del ultimo turno del paciente
     return new Promise((resolve, reject) => {
         const query = `
             SELECT 
@@ -112,13 +112,13 @@ LEFT JOIN diagnostico d ON t.numero_turno = d.numero_turno
 LEFT JOIN evolucion e ON t.numero_turno = e.numero_turno
 LEFT JOIN habito h ON t.numero_turno = h.numero_turno
 WHERE 
-    t.dni_paciente = 11234567
+    t.numero_turno = ?
 ORDER BY 
     t.fecha DESC;
         `;
         
         // Asumiendo que tienes acceso a la conexión de la base de datos
-        conexion.query(query, [dni], (error, resultado) => {
+        conexion.query(query, [ numero], (error, resultado) => {
             if (error) {
                 return reject(error);  // En caso de error, se rechaza la promesa
             }
@@ -137,6 +137,6 @@ module.exports = {
     procesarFecha,
     iniciarConsulta,
     obtenerMedicoLogueado,
-    ultimaConsultaPorDni,
+    ultimaConsultaPorNumeroTurno,
 
 };
