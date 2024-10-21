@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3307
--- Tiempo de generación: 19-10-2024 a las 20:42:02
+-- Tiempo de generación: 21-10-2024 a las 03:50:31
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -386,16 +386,16 @@ CREATE TABLE `medico` (
 --
 
 INSERT INTO `medico` (`matricula_medico`, `nombre`, `apellido`, `password`) VALUES
-(1, 'Carlos', 'Gomez', '123'),
-(2, 'Maria', 'Fernandez', '$2b$04$XE2Yo2fAOasyhK9n9JopNORgGKMi5GdVSiPeRF7snaNVS1ggDaQXq'),
-(3, 'Jose', 'Perez', '$2b$04$XE2Yo2fAOasyhK9n9JopNORgGKMi5GdVSiPeRF7snaNVS1ggDaQXq'),
-(4, 'Ana', 'Lopez', '$2b$04$XE2Yo2fAOasyhK9n9JopNORgGKMi5GdVSiPeRF7snaNVS1ggDaQXq'),
-(5, 'Juan', 'Martinez', '$2b$04$XE2Yo2fAOasyhK9n9JopNORgGKMi5GdVSiPeRF7snaNVS1ggDaQXq'),
-(6, 'Lucia', 'Gonzalez', '$2b$04$XE2Yo2fAOasyhK9n9JopNORgGKMi5GdVSiPeRF7snaNVS1ggDaQXq'),
-(7, 'Miguel', 'Rodriguez', '$2b$04$XE2Yo2fAOasyhK9n9JopNORgGKMi5GdVSiPeRF7snaNVS1ggDaQXq'),
-(8, 'Sofia', 'Diaz', '$2b$04$XE2Yo2fAOasyhK9n9JopNORgGKMi5GdVSiPeRF7snaNVS1ggDaQXq'),
-(9, 'Fernando', 'Romero', '$2b$04$XE2Yo2fAOasyhK9n9JopNORgGKMi5GdVSiPeRF7snaNVS1ggDaQXq'),
-(10, 'Clara', 'Sanchez', '$2b$04$XE2Yo2fAOasyhK9n9JopNORgGKMi5GdVSiPeRF7snaNVS1ggDaQXq');
+(1, 'Carlos', 'Gomez', '$2b$10$5t2sv9aI6C9cbDtFlWp1iekWGMk.Addu7ha6dWzK50CC2Uc.1/Rzi'),
+(2, 'Maria', 'Fernandez', '$2b$10$Kg.I6h/wU5tyLdkFoi9c2uqCMklOLerC1b0g5pbBN/ClKNCGMA4xO'),
+(3, 'Jose', 'Perez', '$2b$10$g8nk0mgsg.ORBhO9GHXSceqEIhs/A1mZRqUzlXEBoyBP680jlhnQ6'),
+(4, 'Ana', 'Lopez', '$2b$10$ebhAaqXHbMECbbXCBnFjFOJsz3yQ93XDktcTX7Otu341Srthv/PTO'),
+(5, 'Juan', 'Martinez', '$2b$10$yPpOc2AgYjACPNkF8HLABuf4lBM9A1usx8Pj6QkS5/BVxqPVvAste'),
+(6, 'Lucia', 'Gonzalez', '$2b$10$Z0.Rj8x/tBLvus93Q5Wjo.iiBHAfqYoB.dvP4XXTeargBl2VbtMXW'),
+(7, 'Miguel', 'Rodriguez', '$2b$10$SVA978pDjZyn1Eseoa2Ka.IX2XEeX/gvFmU3tZ5IjrqJS04voteAq'),
+(8, 'Sofia', 'Diaz', '$2b$10$dhSrsF87d.gpk51UzREUYuJNZW79FoO71SUmzyFng0R3Kj3bX11da'),
+(9, 'Fernando', 'Romero', '$2b$10$oQfQQD50onu2dE/JSh.t1eqahnYbZ2lvxhqBw0WngjIswEnl0yna.'),
+(10, 'Clara', 'Sanchez', '$2b$10$L9BYQG83bbPwkR9jk9.4Du67c31QsR95P4NL9IuOVMCMNpD0.vkyi');
 
 -- --------------------------------------------------------
 
