@@ -31,17 +31,33 @@ a:hover {
 
 /* Estilos de las tarjetas */
 .card {
-    transition: transform 0.3s, box-shadow 0.3s;
-    border: none; /* Sin borde */
-    border-radius: 15px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: white; /* Fondo blanco */
-    cursor: pointer; /* Cambiar cursor al pasar sobre la tarjeta */
+    border: none; 
+    border-radius: 15px; 
+    background-color: #ffffff; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer; 
+    transition: box-shadow 0.2s ease; /* Solo sombra en la transición */
 }
 
 .card:hover {
-    transform: scale(1.05); /* Escala al pasar el mouse */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Sombra más intensa al hacer hover */
+}
+
+/* Estilo para el cuerpo de la tarjeta que no se moverá */
+.card-body.no-hover {
+    background-color: #f8f9fa; /* Color más claro para diferenciar */
+    cursor: default; /* Cambia el cursor a uno normal */
+}
+
+.card.no-hover {
+    pointer-events: none; /* Desactiva todos los eventos de puntero */
+    background-color: #f8f9fa; /* Color de fondo más claro para diferenciar */
+    cursor: default; /* Cambia el cursor a uno normal */
+}
+
+.card.no-hover:hover {
+    transform: none; /* Asegúrate de que no se aplique ninguna transformación */
+    box-shadow: none; /* Asegúrate de que no se aplique ninguna sombra */
 }
 
 /* Efecto de selección */
@@ -54,18 +70,19 @@ a:hover {
 /* Estilos para títulos y texto en tarjetas */
 .card-title {
     font-weight: 600;
+    font-size: 1.5rem; /* Tamaño de fuente para el título de la tarjeta */
 }
 
 .card-text {
     margin-bottom: 0; /* Evita márgenes innecesarios */
+    font-size: 1rem; 
+    color: #666; 
 }
 
 /* Hover para filas de tablas (si se usan) */
 .table-hover tbody tr:hover {
     background-color: rgba(239, 5, 184, 0.5); /* Color de fondo en hover */
 }
-
-/* Estilos adicionales para mejorar la apariencia general */
 
 /* Botones personalizados */
 .btn-custom {
@@ -86,6 +103,29 @@ a:hover {
     transform: translateY(-2px); /* Efecto de elevación al pasar el mouse sobre el botón */
 }
 
+/* Estilo del boton HCE */
+.btn-hce {
+    background-color: #7c09f0; /* Color de fondo */
+    color: white; /* Color del texto */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Transición suave para la sombra y el color de fondo */
+    text-decoration: none; /* Asegúrate de que no haya subrayado */
+}
+
+.btn-hce:hover {
+    box-shadow: 0 0 20px rgba(138, 35, 249, 0.8); /* Resplandor al hacer hover */
+    background-color: #7c09d0; /* Cambia a un tono más oscuro o diferente si deseas un cambio sutil en el fondo */
+}
+
+/* Anular estilos de Bootstrap para enlaces */
+.btn-hce:hover,
+.btn-hce:focus {
+    color: white !important; /* Mantener el color del texto en blanco */
+    text-decoration: none !important; /* Asegúrate de que no haya subrayado */
+}
 /* Estilo del modal personalizado */
 .animated-modal {
     animation: bounceIn 0.5s; /* Efecto de entrada */
@@ -94,7 +134,6 @@ a:hover {
 .custom-title {
     font-size: 24px;
     font-weight: bold;
-    color: #333; /* Color del título */
 }
 
 .custom-content {
@@ -107,11 +146,9 @@ a:hover {
         transform: scale(0);
         opacity: 0;
     }
+    
     to {
         transform: scale(1);
         opacity: 1;
     }
 }
-
-
-
