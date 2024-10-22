@@ -14,7 +14,7 @@ const bcrypt = require('bcrypt');
 //     });
 // }
 
-//Probando autenticacion
+//Probando autenticacion decryptando contrasenias
 const autenticarMedico = (usuario, contrasenia) => {
     return new Promise((resolve, reject) => {
         const query = 'SELECT * FROM medico WHERE matricula_medico = ?';
@@ -60,10 +60,10 @@ const obtenerMedicos = () => {
 }
 
 // Función para obtener médicos
-const obtenerMedicoLogueado = ( user ) => {
+const obtenerMedicoLogueado = ( matricula ) => {
     return new Promise((resolve, reject) => {
         const queryMedicos = 'SELECT * FROM medico where matricula_medico = ?';
-        conexion.query(queryMedicos, [user], (error, resultados) => {
+        conexion.query(queryMedicos, [matricula], (error, resultados) => {
             if (error) return reject(error);
             resolve(resultados);
         });

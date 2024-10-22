@@ -1,5 +1,5 @@
 // controllers/authController.js
-const { autenticarMedico } = require('../services/db-services');
+const { autenticarMedico, obtenerMedicoLogueado } = require('../services/db-services');
 
 //Probando autenticacion
 // Controlador para manejar la autenticación
@@ -14,25 +14,35 @@ exports.authMiddleware = (req, res, next) => {
     }
 };
 exports.postLogin = async (req, res) => {
-
-
     const usuario = req.body.usuario; // Obtén el usuario del formulario
     const contrasenia = req.body.contrasenia; // Obtén la contraseña del formulario
 
     try {
         // Llama a la función del servicio para autenticar al médico
-        console.log('asdasddsads')
         const resultados = await autenticarMedico(usuario, contrasenia);
 
         if (resultados.length > 0) {
-            // Guarda el estado de sesión
-            req.session.isLoggedIn = true; // Marca al usuario como autenticado
-            req.session.usuario = usuario; // Guarda el nombre de usuario o identificador
-            // Redirige a la página principal
-            res.redirect(`/getMain?usuario=${usuario}`);
+            // Espera a que se obtenga el médico logueado
+            const medico = await obtenerMedicoLogueado(usuario);
+
+            if (medico) {
+                // Almacena el nombre y el ID del médico en la sesión
+                req.session.nombre = medico[0].nombre + ' ' + medico[0].apellido;
+                req.session.id = medico.id;
+
+                // Guarda el estado de sesión
+                req.session.isLoggedIn = true; // Marca al usuario como autenticado
+                req.session.usuario = usuario; // Guarda el nombre de usuario o identificador
+
+                // Redirige a la página principal
+                return res.redirect(`/getMain`);
+            } else {
+                // Si no se encuentra el médico, maneja el error
+                return res.send('Médico no encontrado');
+            }
         } else {
             // Credenciales incorrectas
-            res.send('Usuario o contraseña incorrectos');
+            return res.send('Usuario o contraseña incorrectos');
         }
     } catch (error) {
         console.error('Error en la consulta:', error);

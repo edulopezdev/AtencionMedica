@@ -15,10 +15,10 @@ html
           include sidebar.pug
         .col-md-10
           .main.p-3
-            if medico
-              h3 #{"Bienvenido Doctor: " + medico.nombre + " " + medico.apellido}
+            if nombre
+              h3 #{"Bienvenido Doctor: " + nombre}
             else
-              h3 Bienvenido Doctor: Información no disponible.
+              h3 Bienvenido Doctor: #{ nombre }
             h1.text-center Estos son los turnos de hoy
             #resultadosContainer
               if turnos.length > 0
