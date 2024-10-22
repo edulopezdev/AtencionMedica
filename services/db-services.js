@@ -1,18 +1,41 @@
 const conexion = require('../config/db'); 
-
+const bcrypt = require('bcrypt');
 
 //--------------------consultas DB ------------
 
 // Función para autenticar un médico
-const autenticarMedico = ( usuario, contrasenia ) => {
-    return new Promise(( resolve, reject ) => {
-        const query = 'SELECT * FROM medico WHERE matricula_medico = ? AND password = ?';
-        conexion.query( query, [usuario, contrasenia], ( error, resultados ) => {
-            if ( error ) return reject( error );
-            resolve( resultados );
+// const autenticarMedico = ( usuario, contrasenia ) => {
+//     return new Promise(( resolve, reject ) => {
+//         const query = 'SELECT * FROM medico WHERE matricula_medico = ? AND password = ?';
+//         conexion.query( query, [usuario, contrasenia], ( error, resultados ) => {
+//             if ( error ) return reject( error );
+//             resolve( resultados );
+//         });
+//     });
+// }
+
+//Probando autenticacion
+const autenticarMedico = (usuario, contrasenia) => {
+    return new Promise((resolve, reject) => {
+        const query = 'SELECT * FROM medico WHERE matricula_medico = ?';
+        conexion.query(query, [usuario], async (error, resultados) => {
+            if (error) return reject(error);
+            // Verifica si se encontró un médico
+            if (resultados.length > 0) {
+                const medico = resultados[0];
+                // Compara la contraseña proporcionada con el hash almacenado
+                const coinciden = await bcrypt.compare(contrasenia, medico.password);
+                if (coinciden) {
+                    resolve(resultados);
+                } else {
+                    resolve([]); // La contraseña no coincide
+                }
+            } else {
+                resolve([]); // No se encontró el médico
+            }
         });
     });
-}
+};
 
 // Función para obtener especialidades
 const obtenerEspecialidades = () => {
@@ -133,6 +156,9 @@ ORDER BY
         });
     });
 };
+
+
+
 
 // Exporta las funciones
 module.exports = {
