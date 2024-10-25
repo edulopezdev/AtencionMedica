@@ -1,6 +1,5 @@
 // controllers/authController.js
-const { autenticarMedico, obtenerMedicoLogueado } = require('../services/db-services');
-
+const { autenticarMedico, obtenerMedicoLogueado } = require('../services/conectionService');
 //Probando autenticacion
 // Controlador para manejar la autenticación
 exports.authMiddleware = (req, res, next) => {
@@ -28,7 +27,8 @@ exports.postLogin = async (req, res) => {
             if (medico) {
                 // Almacena el nombre y el ID del médico en la sesión
                 req.session.nombre = medico[0].nombre + ' ' + medico[0].apellido;
-                req.session.id = medico.id;
+                req.session.matricula = usuario;
+                //req.session.id = medico.id;
 
                 // Guarda el estado de sesión
                 req.session.isLoggedIn = true; // Marca al usuario como autenticado
@@ -73,29 +73,3 @@ exports.logout = (req, res) => {
     });
 };
 
-// module.exports = {
-//     authMiddleware, // Exporta el middleware también
-// };
-
-
-// Controlador para manejar la autenticación
-// exports.postLogin = async (req, res) => {
-//     const usuario = req.body.usuario; // Obtén el usuario del formulario
-//     const contrasenia = req.body.contrasenia; // Obtén la contraseña del formulario
-
-//     try {
-//         // Llama a la función del servicio para autenticar al médico
-//         const resultados = await autenticarMedico(usuario, contrasenia);
-
-//         if (resultados.length > 0) {
-//             // Redirige a la página principal pasando el usuario en la query string
-//             res.redirect(`/getMain?usuario=${usuario}`);
-//         } else {
-//             // Credenciales incorrectas
-//             res.send('Usuario o contraseña incorrectos');
-//         }
-//     } catch (error) {
-//         console.error('Error en la consulta:', error);
-//         return res.status(500).send('Error en la base de datos');
-//     }
-// };

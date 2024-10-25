@@ -1,10 +1,11 @@
 // controllers/consultaController.js
-const { procesarFecha, iniciarConsulta, obtenerMedicoLogueado, ultimaConsultaPorNumeroTurno } = require('../services/db-services');
+const { turnosHoyMatricula, iniciarConsulta, ultimaConsultaPorNumeroTurno, turnosXFechaYMatricula } = require('../services/agendaService');
 
 // Controlador para la ruta "/getMain"
 const getMain = (req, res) => {
     // const usuario = req.query.usuario; // Obtener el usuario de la query string
-    Promise.all([ procesarFecha() ])
+    const matricula_medico = req.session.matricula;
+    Promise.all([ turnosHoyMatricula( matricula_medico ) ])
         .then(([ turnos]) => {
             // const medico = medicoLogueado[0];
             const nombre = req.session.nombre;
