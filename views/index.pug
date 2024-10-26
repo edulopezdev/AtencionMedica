@@ -19,7 +19,13 @@ html
               h3 #{"Bienvenido Doctor: " + medico.nombre + " " + medico.apellido}
             else
               h3 Bienvenido Doctor: Información no disponible.
-            h1.text-center Estos son los turnos de hoy
+
+            // Obtener la fecha completa
+            - var fechaActual = new Date();
+            - var opcionesFecha = { weekday: 'long', day: 'numeric', month: 'long' };
+            - var fechaCompleta = fechaActual.toLocaleDateString('es-ES', opcionesFecha);
+
+            h1.text-center Estos son los turnos para este #{fechaCompleta}
             #resultadosContainer
               if turnos.length > 0
                 .row
@@ -35,5 +41,5 @@ html
                 p.text-center No se encontraron turnos para la fecha seleccionada.
 
             script.
-              window.turnosIniciales = !{JSON.stringify(turnos)};
+              window.turnosIniciales = !{JSON.stringify(turnos)}
     script(src='/js/frontMain.js')
