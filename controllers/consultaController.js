@@ -1,7 +1,7 @@
 // controllers/consultaController.js
-const { turnosHoyMatricula, iniciarConsulta, ultimaConsultaPorNumeroTurno, turnosXFechaYMatricula } = require('../services/agendaService');
+const { turnosHoyMatricula, datosTurno , ultimaConsultaPorNumeroDni, turnosXFechaYMatricula } = require('../services/agendaService');
 
-// Controlador para la ruta "/getMain"
+// Controlador para la ruta "/getMain" renderizo vista index
 const getMain = (req, res) => {
     // const usuario = req.query.usuario; // Obtener el usuario de la query string
     const matricula_medico = req.session.matricula;
@@ -17,26 +17,13 @@ const getMain = (req, res) => {
         });
 };
 
-// Controlador para manejar la consulta de fecha
-const procesarFechaConsulta = (req, res) => {
-    const fechaSeleccionada = req.body.fecha;
-
-    procesarFecha(fechaSeleccionada)
-        .then(resultados => {
-            res.render('index', { turnos: resultados });
-        })
-        .catch(error => {
-            console.error('Error en la consulta:', error);
-            res.status(500).send('Error en la consulta de la base de datos');
-        });
-};
 
 // Controlador para obtener turnos por fecha
 const obtenerTurnosPorFecha = async (req, res) => {
     const fecha = req.params.fecha;
     console.log( fecha );
     try {
-        const turnos = await procesarFecha(fecha);
+        const turnos = await turnosXFechaYMatricula( fecha, req.session.matricula);
         res.json({ turnos });
     } catch (error) {
         console.error('Error al obtener turnos:', error);
@@ -44,16 +31,30 @@ const obtenerTurnosPorFecha = async (req, res) => {
     }
 };
 
-// Controlador para iniciar consulta por número de turno--Lo llamo en Routes/getConsulta
-const iniciarConsultaPorNumero = (req, res) => {
+// Trae los datos ultima consulta y turno, y renderizo vista consulta
+const iniciarConsultaPorNumeroTurno = (req, res) => {
     const { numero_turno } = req.query;
 
-    Promise.all([iniciarConsulta(numero_turno), ultimaConsultaPorNumeroTurno( numero_turno )])
-        .then(([resultado, consultaUltima]) => {
-            const paciente = resultado[0];
+    datosTurno( numero_turno )
+        .then((resultado) => {
+            if (resultado.length === 0) {
+                return res.status(404).send('Turno no encontrado');
+            }
+
+            const turno = resultado[0];
+            const dni_paciente = turno.dni_paciente;
+
+            // Llama a `ultimaConsultaPorNumeroDni` usando el DNI obtenido
+            return Promise.all([
+                Promise.resolve( turno ),
+                ultimaConsultaPorNumeroDni( dni_paciente )
+            ]);
+        })
+        .then(([turno, consultaUltima]) => {
             const ultimoTurno = consultaUltima[0];
-            // console.log( ultimoTurno[0] );
-            res.render('consulta', { paciente, ultimoTurno });
+            // console.log( turno);
+            // console.log( ultimoTurno);
+            res.render('consulta', { turno, ultimoTurno });
         })
         .catch((error) => {
             console.error('Error en las consultas:', error);
@@ -61,9 +62,25 @@ const iniciarConsultaPorNumero = (req, res) => {
         });
 };
 
+
+
+// Controlador renderizo index
+// const procesarFechaConsulta = (req, res) => {
+//     const fechaSeleccionada = req.body.fecha;
+
+//     turnosXFechaYMatricula(fechaSeleccionada, req.session.matricula)
+//         .then(resultados => {
+//             res.render('index', { turnos: resultados });
+//         })
+//         .catch(error => {
+//             console.error('Error en la consulta:', error);
+//             res.status(500).send('Error en la consulta de la base de datos');
+//         });
+// };
+
 module.exports = {
     getMain,
-    procesarFechaConsulta,
+    //procesarFechaConsulta,
     obtenerTurnosPorFecha,
-    iniciarConsultaPorNumero
+    iniciarConsultaPorNumeroTurno,
 };

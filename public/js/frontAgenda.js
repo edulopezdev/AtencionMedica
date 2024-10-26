@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
     fechaCalendario.addEventListener('change', function() {
       const fecha = this.value;
-      console.log( fecha ); 
+      // console.log( fecha ); 
       fetchTurnos( fecha );
     });
   
