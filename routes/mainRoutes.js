@@ -38,16 +38,16 @@ router.post('/logout', (req, res) => {
     res.render('index', { showLogoutModal: true }); // Redirigir a la página de inicio con el modal de confirmación
 });
 
-// Ruta "/main"
+// Ruta "/main" renderiza la vista "index"
 router.get('/getMain',  authController.authMiddleware,  consultaController.getMain);
 
 // Ruta para manejar la consulta de fecha
-router.post('/procesar-fecha',   authController.authMiddleware, consultaController.procesarFechaConsulta);
+//router.post('/procesar-fecha',   authController.authMiddleware, consultaController.procesarFechaConsulta);
 
-// Ruta para obtener turnos por fecha
+// Ruta para obtener turnos por fecha //llamado del front de consulta
 router.get('/turnos/:fecha',   authController.authMiddleware, consultaController.obtenerTurnosPorFecha);
 
 // Ruta para obtener consulta por número de turno
-router.get('/getConsulta',   authController.authMiddleware, consultaController.iniciarConsultaPorNumero);
+router.get('/getConsulta',   authController.authMiddleware, consultaController.iniciarConsultaPorNumeroTurno);
 
 module.exports = router;

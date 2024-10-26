@@ -17,16 +17,16 @@ html
             .row.justify-content-center
               .col-md-12 
                 h1.text-center Consulta actual
-                if paciente
+                if turno
                   .card.mb-4.custom-bg
                     .card-body.no-hover
                       .row
                         .col-md-6
                           h2.text-center Datos del Paciente
                           .text-center
-                            p Nombre: #{paciente.nombre}
-                            p Apellido: #{paciente.apellido}
-                            p Motivo consulta: #{paciente.motivo_consulta}
+                            p Nombre: #{turno.nombre}
+                            p Apellido: #{turno.apellido}
+                            p Motivo consulta: #{turno.motivo_consulta}
                         .col-md-6
                           h2.text-center Última visita
                           .text-center
