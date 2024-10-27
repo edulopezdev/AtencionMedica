@@ -1,5 +1,6 @@
 // controllers/consultaController.js
-const { turnosHoyMatricula, datosTurno , ultimaConsultaPorNumeroDni, turnosXFechaYMatricula } = require('../services/agendaService');
+const { turnosHoyMatricula, datosTurno , turnosXFechaYMatricula } = require('../services/agendaService');
+const { ultimaConsultaPorNumeroDni } = require('../services/pacienteService');
 
 // Controlador para la ruta "/getMain" renderizo vista index
 const getMain = (req, res) => {
