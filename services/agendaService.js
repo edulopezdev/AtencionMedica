@@ -112,6 +112,21 @@ const listarTemplates = () => {
     });
 };
 
+//Listar medicamentos
+const listarMedicamentos = () => {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT * FROM medicamento;`;
+        
+        conexion.query(query, (error, resultado) => {
+            if (error) {
+                console.error("Error al obtener medicamento:", error);
+                return reject(error);  // En caso de error, se rechaza la promesa
+            }
+            resolve(resultado);  // En caso de éxito, se resuelve el resultado de la consulta
+        });
+    });
+};
+
 
 
 //Modificar la ultima atencion del paciente
@@ -126,6 +141,7 @@ module.exports = {
     turnosXFechaYMatricula,
     listarTemplates,
     cambiarEstadoTurnoAtendido,
-    cambiarEstadoTurnoCancelado
+    cambiarEstadoTurnoCancelado,
+    listarMedicamentos,
 
 };

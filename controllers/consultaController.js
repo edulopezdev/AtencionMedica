@@ -1,5 +1,5 @@
 // controllers/consultaController.js
-const { turnosHoyMatricula, datosTurno , turnosXFechaYMatricula, listarTemplates } = require('../services/agendaService');
+const { turnosHoyMatricula, datosTurno , turnosXFechaYMatricula, listarTemplates, listarMedicamentos } = require('../services/agendaService');
 const { ultimaConsultaPorNumeroDni } = require('../services/pacienteService');
 
 // Controlador para la ruta "/getMain" renderizo vista index
@@ -50,13 +50,14 @@ const iniciarConsultaPorNumeroTurno = (req, res) => {
                 Promise.resolve( turno ),
                 ultimaConsultaPorNumeroDni( dni_paciente ),
                 listarTemplates(),
+                listarMedicamentos(),
             ]);
         })
-        .then(([turno, consultaUltima, templates]) => {
+        .then(([turno, consultaUltima, templates, medicamentos]) => {
             const ultimoTurno = consultaUltima[0];
             // console.log( templates);
-            console.log( ultimoTurno );
-            res.render('consulta', { turno, ultimoTurno, templates });
+            // console.log( ultimoTurno );
+            res.render('consulta', { turno, ultimoTurno, templates, medicamentos });
         })
         .catch((error) => {
             console.error('Error en las consultas:', error);

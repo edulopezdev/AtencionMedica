@@ -1,58 +1,86 @@
 
 
 document.addEventListener('DOMContentLoaded', function () {
+  //Evolucion ok
   const txtEvolucion = document.getElementById('evolucion');
+  //Diagnostico ok
   const txtDiagnostico = document.getElementById('diagnostico');
-  const txtAlergia = document.getElementById('alergia');
-  const btnAddAlergia = document.getElementById('addAlergia');
-  const txtMedicamento = document.getElementById('medicamentosContainer');
-  const btnAddMedicamento = document.getElementById('addMedicamento');
+  const estadoDiagnosticoSelect = document.getElementById('estadoDiagnostico');
+  //Alergia 
+  const alergiaTextarea = document.getElementById('alergia');
+  const estadoAlergiaSelect = document.getElementById('estadoAlergia');
+  //Medicamentos
+  const medicamentoSelect = document.getElementById('medicamento');
   // llenado de desplegable templates y auto completado de input
   const templateSelect = document.getElementById('template');
   const evolucionInput = document.getElementById('evolucion');
 
 
-  // Función para actualizar el campo de texto
-function llenarEvolucion() {
-  const selectedOption = templateSelect.options[templateSelect.selectedIndex];
-  const contenidoTemplate = selectedOption.getAttribute('data-contenido');
-  evolucionInput.value = contenidoTemplate || '';
-}
+  // Evolucion
+  const llenarEvolucion = () => {
+    const selectedOption = templateSelect.options[templateSelect.selectedIndex];
+    const contenidoTemplate = selectedOption.getAttribute('data-contenido');
+    evolucionInput.value = contenidoTemplate || '';
+  }
 
-// Añadir el evento de cambio
-templateSelect.addEventListener('change', llenarEvolucion);
+  templateSelect.addEventListener('change', llenarEvolucion);
 
-  // Lógica para agregar más alergias
-  addAlergiaButton.addEventListener('click', function () {
-    const newAlergia = document.createElement('div');
-    newAlergia.innerHTML = `
-        <select name="alergia[]">
-          <option value="">Seleccionar alergia</option>
-          <option value="polen">Polen</option>
-          <option value="polvo">Polvo</option>
-          <option value="medicamento">Medicamento</option>
-          <option value="alimentos">Alimentos</option>
-        </select>
-        <button type="button" class="removeAlergia">- Eliminar</button>`;
-    alergiasContainer.appendChild(newAlergia);
+  //Diagnostico ->  Escucha el cambio en el desplegable y lo guarda
+  estadoDiagnosticoSelect.addEventListener('change', (event) => {
+    estadoDiagnosticoSelect = event.target.value;
 
-    // Agregar la funcionalidad de remover campo
-    newAlergia.querySelector('.removeAlergia').addEventListener('click', function () {
-      newAlergia.remove();
-    });
   });
 
-  // Lógica para agregar más medicamentos
-  addMedicamentoButton.addEventListener('click', function () {
-    const newMedicamento = document.createElement('div');
-    newMedicamento.innerHTML = `
-        <input type="text" name="medicamento[]" placeholder="Ingresar medicamento">
-        <button type="button" class="removeMedicamento">- Eliminar</button>`;
-    medicamentosContainer.appendChild(newMedicamento);
+  //Alergias
+  estadoAlergiaSelect.addEventListener('change', (event) => {
+    estadoAlergiaSelect = event.target.value;
 
-    // Agregar la funcionalidad de remover campo
-    newMedicamento.querySelector('.removeMedicamento').addEventListener('click', function () {
-      newMedicamento.remove();
-    });
   });
+
+  //Antecedentes
+  // Function to retrieve input values
+  const obtenerDatosAntecedentes = () => {
+    const inicioAntecedentes = document.getElementById('inicioAntecedentes').value;
+    const finAntecedentes = document.getElementById('finAntecedentes').value;
+    const antecedentes = document.getElementById('antecedentes').value;
+
+    return {
+      antecedentes: {
+        inicioAntecedentes,
+        finAntecedentes,
+        antecedentes
+      }
+    };
+  }
+
+  //Habitos
+  const obtenerDatosHabitos = () =>{
+    // Recuperar datos de hábitos
+    const inicioHabitos = document.getElementById('inicioHabitos').value;
+    const finHabitos = document.getElementById('finHabitos').value;
+    const habitos = document.getElementById('habitos').value;
+
+    return {
+      habitos: {
+        inicioHabitos,
+        finHabitos,
+        habitos
+      }
+    };
+  }
+
+//Medicamentos
+const llenarDetallesMedicamento = () => {
+  const selectedOption = medicamentoSelect.options[medicamentoSelect.selectedIndex];
+};
+
+// Evento para actualizar detalles cuando cambia la selección
+medicamentoSelect.addEventListener('change', llenarDetallesMedicamento);
+
+
+
+
+
+
+
 });

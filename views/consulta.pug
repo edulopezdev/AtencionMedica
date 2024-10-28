@@ -54,16 +54,28 @@ html
                     .mb-3
                       label(for="evolucion", class="form-label") Evolución:
                       textarea#evolucion.form-control(name="evolucion" placeholder="Describir evolución del paciente" rows="3") 
-
+                    h3.text-center Diagnostico:
                     .mb-3
                       label(for="diagnostico", class="form-label") Diagnóstico:
                       textarea#diagnostico.form-control(name="diagnostico" placeholder="Ingresar diagnóstico" rows="3")
 
                     .mb-3
+                        label(for="estadoDiagnostico", class="form-label") Estado del Diagnóstico:
+                        select#estadoDiagnostico.form-select(name="estadoDiagnostico")
+                            option(value="Preliminar") Preliminar
+                            option(value="Confirmado") Confirmado
+
+                    h3.text-center Alergias:
+                    .mb-3
                       label(for="alergia", class="form-label") Alergias:
-                      div#alergiasContainer
-                        input.form-control(type="text" name="alergia" placeholder="Ingrese una alergia")
-                        button(type="button" id="addAlergia", class="btn btn-secondary mt-2") + Agregar otra alergia
+                      textarea#diagnostico.form-control(name="alergia" placeholder="Ingresar alergia" rows="3")
+
+                    .mb-3
+                        label(for="estadoAlergia", class="form-label") Nivel de alergia:
+                        select#estadoAlergia.form-select(name="estadoAlergia")
+                            option(value="Preliminar") Normal
+                            option(value="Confirmado") Leve
+                            option(value="Confirmado") Alta
 
                     h3.text-center Antecedentes:
                     div#antecedentesContainer
@@ -71,15 +83,15 @@ html
                         .col-12.col-md-6
                           .d-flex.align-items-center.mb-3.justify-content-center
                             label(for="inicioAntecedentes", class="form-label me-2") Inicio:
-                            input(type="date" name="inicioAntecedentes" class="form-control" style="width: 180px;")
-
+                            input#inicioAntecedentes(type="date" name="inicioAntecedentes" class="form-control" style="width: 180px;")
+                    
                         .col-12.col-md-6
                           .d-flex.align-items-center.mb-3.justify-content-center
                             label(for="finAntecedentes", class="form-label me-2") Fin:
-                            input(type="date" name="finAntecedentes" class="form-control" style="width: 180px;")
-
+                            input#finAntecedentes(type="date" name="finAntecedentes" class="form-control" style="width: 180px;")
+                    
                       .mb-3
-                        input.form-control(type="text" name="antecedentes" placeholder="Ingresar antecedentes")
+                        input#antecedentes.form-control(type="text" name="antecedentes" placeholder="Ingresar antecedentes")
 
                     h3.text-center Hábitos:
                     div#habitosContainer
@@ -87,20 +99,22 @@ html
                         .col-12.col-md-6
                           .d-flex.align-items-center.mb-3.justify-content-center
                             label(for="inicioHabitos", class="form-label me-2") Inicio:
-                            input(type="date" name="inicioHabitos" class="form-control" style="width: 180px;")
-
+                            input#inicioHabitos(type="date" name="inicioHabitos" class="form-control" style="width: 180px;")
+                    
                         .col-12.col-md-6
                           .d-flex.align-items-center.mb-3.justify-content-center
                             label(for="finHabitos", class="form-label me-2") Fin:
-                            input(type="date" name="finHabitos" class="form-control" style="width: 180px;")
-
+                            input#finHabitos(type="date" name="finHabitos" class="form-control" style="width: 180px;")
+                    
                       .mb-3
-                        input.form-control(type="text" name="habitos" placeholder="Ingresar hábitos")
+                        input#habitos.form-control(type="text" name="habitos" placeholder="Ingresar hábitos")
 
                     h3.text-center Medicamentos:
-                    div#medicamentosContainer
-                      .mb-3
-                        input.form-control(type="text" name="medicamento[]" placeholder="Ingresar medicamento")
-                        button(type="button" id="addMedicamento", class="btn btn-secondary mt-2") + Agregar otro medicamento
+                    .mb-3
+                    label(for="medicamento", class="form-label") Seleccionar medicamento:
+                    select#medicamento.form-select(name="medicamento")
+                      option(value="") Seleccionar medicamento
+                      each m in medicamentos
+                        option(value=m.id_medicamento ) #{m.nombre_medicamento}
 
                     button(type="submit", class="btn btn-primary") Guardar
