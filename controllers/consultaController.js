@@ -55,7 +55,7 @@ const iniciarConsultaPorNumeroTurno = (req, res) => {
         .then(([turno, consultaUltima, templates]) => {
             const ultimoTurno = consultaUltima[0];
             // console.log( templates);
-            // console.log( ultimoTurno);
+            console.log( ultimoTurno );
             res.render('consulta', { turno, ultimoTurno, templates });
         })
         .catch((error) => {

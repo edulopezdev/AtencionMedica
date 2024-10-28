@@ -1,7 +1,7 @@
-const conexion = require('../config/db'); 
+const conexion = require('../config/db');
 
 //Ultima consulta por numero de dni
-const ultimaConsultaPorNumeroDni = ( dni ) => { //datos completos del ultimo turno del paciente
+const ultimaConsultaPorNumeroDni = (dni) => { //datos completos del ultimo turno del paciente
     return new Promise((resolve, reject) => {
         const query = `
             SELECT 
@@ -25,9 +25,9 @@ ORDER BY
     t.fecha DESC
     LIMIT 1;
         `;
-        
+
         // Asumiendo que tienes acceso a la conexión de la base de datos
-        conexion.query(query, [ dni], (error, resultado) => {
+        conexion.query(query, [dni], (error, resultado) => {
             if (error) {
                 return reject(error);  // En caso de error, se rechaza la promesa
             }
@@ -38,7 +38,7 @@ ORDER BY
 };
 
 //Todas las consultas de un paciente HCE
-const hceXDni = ( dni ) => { //datos completos de todas las consultas
+const hceXDni = (dni) => { //datos completos de todas las consultas
     return new Promise((resolve, reject) => {
         const query = `
             SELECT 
@@ -61,9 +61,9 @@ WHERE
 ORDER BY 
     t.fecha DESC;
         `;
-        
+
         // Asumiendo que tienes acceso a la conexión de la base de datos
-        conexion.query(query, [ dni], (error, resultado) => {
+        conexion.query(query, [dni], (error, resultado) => {
             if (error) {
                 return reject(error);  // En caso de error, se rechaza la promesa
             }
@@ -74,7 +74,7 @@ ORDER BY
 };
 
 //Consultas de un paciente con otros profesionales
-const consultasPacienteConOtrosMedicos = ( dni ) => { //consultas con otros profesionales
+const consultasPacienteConOtrosMedicos = (dni) => { //consultas con otros profesionales
     return new Promise((resolve, reject) => {
         const query = `
             SELECT 
@@ -92,9 +92,9 @@ WHERE
 ORDER BY 
     t.fecha DESC;
         `;
-        
+
         // Asumiendo que tienes acceso a la conexión de la base de datos
-        conexion.query(query, [ dni], (error, resultado) => {
+        conexion.query(query, [dni], (error, resultado) => {
             if (error) {
                 return reject(error);  // En caso de error, se rechaza la promesa
             }
@@ -104,10 +104,95 @@ ORDER BY
     });
 };
 
+//Metodo para insertar la consulta completa, abarcando todos los campos
+const cargarDatosPaciente = (datos) => {
+    return new Promise((resolve, reject) => {
+        // Comienza la transacción
+        conexion.beginTransaction((err) => {
+            if (err) return reject(err);
+
+            // Inserta en la tabla alergia
+            const queryAlergia = `
+                INSERT INTO alergia (nombre_alergia, importancia, fecha_desde, fecha_hasta, numero_turno)
+                VALUES (?, ?, ?, ?, ?)
+            `;
+            const paramsAlergia = [datos.nombre_alergia, datos.importancia_alergia, datos.fecha_desde_alergia, datos.fecha_hasta_alergia, datos.numero_turno];
+
+            conexion.query(queryAlergia, paramsAlergia, (error) => {
+                if (error) return conexion.rollback(() => reject(error));
+
+                // Inserta en la tabla antecedente
+                const queryAntecedente = `
+                    INSERT INTO antecedente (descripcion_antecedente, fecha_desde, fecha_hasta, numero_turno)
+                    VALUES (?, ?, ?, ?)
+                `;
+                const paramsAntecedente = [datos.descripcion_antecedente, datos.fecha_desde_antecedente, datos.fecha_hasta_antecedente, datos.numero_turno];
+
+                conexion.query(queryAntecedente, paramsAntecedente, (error) => {
+                    if (error) return conexion.rollback(() => reject(error));
+
+                    // Inserta en la tabla diagnostico
+                    const queryDiagnostico = `
+                        INSERT INTO diagnostico (resumen_diagnostico, estado, numero_turno)
+                        VALUES (?, ?, ?)
+                    `;
+                    const paramsDiagnostico = [datos.resumen_diagnostico, datos.estado_diagnostico, datos.numero_turno];
+
+                    conexion.query(queryDiagnostico, paramsDiagnostico, (error) => {
+                        if (error) return conexion.rollback(() => reject(error));
+
+                        // Inserta en la tabla evolucion
+                        const queryEvolucion = `
+                            INSERT INTO evolucion (resumen_evolucion, numero_turno)
+                            VALUES (?, ?)
+                        `;
+                        const paramsEvolucion = [datos.resumen_evolucion, datos.numero_turno];
+
+                        conexion.query(queryEvolucion, paramsEvolucion, (error) => {
+                            if (error) return conexion.rollback(() => reject(error));
+
+                            // Inserta en la tabla habito
+                            const queryHabito = `
+                                INSERT INTO habito (descripcion_habito, fecha_desde, fecha_hasta, numero_turno)
+                                VALUES (?, ?, ?, ?)
+                            `;
+                            const paramsHabito = [datos.descripcion_habito, datos.fecha_desde_habito, datos.fecha_hasta_habito, datos.numero_turno];
+
+                            conexion.query(queryHabito, paramsHabito, (error) => {
+                                if (error) return conexion.rollback(() => reject(error));
+
+                                // Inserta en la tabla receta
+                                const queryReceta = `
+                                    INSERT INTO receta (id_medicamento, numero_turno)
+                                    VALUES (?, ?)
+                                `;
+                                const paramsReceta = [datos.id_medicamento, datos.numero_turno];
+
+                                conexion.query(queryReceta, paramsReceta, (error) => {
+                                    if (error) return conexion.rollback(() => reject(error));
+
+                                    // Si todo ha ido bien, confirma la transacción
+                                    conexion.commit((err) => {
+                                        if (err) return conexion.rollback(() => reject(err));
+                                        resolve('Datos actualizados correctamente');
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+};
+
+
+
 // Exporta las funciones
 module.exports = {
     ultimaConsultaPorNumeroDni,
     hceXDni,
     consultasPacienteConOtrosMedicos,
+    cargarDatosPaciente,
 
 };
