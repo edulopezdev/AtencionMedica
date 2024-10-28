@@ -1,3 +1,5 @@
+const conexion = require('../config/db'); 
+
 //Ultima consulta por numero de dni
 const ultimaConsultaPorNumeroDni = ( dni ) => { //datos completos del ultimo turno del paciente
     return new Promise((resolve, reject) => {

@@ -46,6 +46,12 @@ html
                   h2.text-center Formulario de Evolución
                   form(action="/submit" method="POST")
                     .mb-3
+                      label(for="template", class="form-label") Template evolucion:
+                      select#template.form-select(name="template")
+                          option(value="") Seleccionar template
+                          each t in templates
+                              option(value=t.id_template data-contenido=t.contenido_template) #{t.nombre_template}
+                    .mb-3
                       label(for="evolucion", class="form-label") Evolución:
                       textarea#evolucion.form-control(name="evolucion" placeholder="Describir evolución del paciente" rows="3") 
 
