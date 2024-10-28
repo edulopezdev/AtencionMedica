@@ -30,13 +30,16 @@ html
                         .col-md-6
                           h2.text-center Última visita
                           .text-center
-                            - var fecha = new Date(ultimoTurno.fecha);
-                            - var dia = String(fecha.getDate()).padStart(2, '0');
-                            - var mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses son 0-indexed
-                            - var anio = fecha.getFullYear();
-                            p Fecha: #{dia}-#{mes}-#{anio}
-                            p Resumen: #{ultimoTurno.resumen_diagnostico}.
-                            a.btn-hce.mt-3(href="/hce") Ir a HCE del paciente
+                            if ultimoTurno
+                              - var fecha = new Date(ultimoTurno.fecha);
+                              - var dia = String(fecha.getDate()).padStart(2, '0');
+                              - var mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses son 0-indexed
+                              - var anio = fecha.getFullYear();
+                              p Fecha: #{dia}-#{mes}-#{anio}
+                              p Resumen: #{ultimoTurno.resumen_diagnostico}.
+                              a.btn-hce.mt-3(href="/hce") Ir a HCE del paciente
+                            else
+                              p Esta es la primera visita del paciente
 
                 else
                   p No se encontraron datos del paciente.
@@ -46,7 +49,7 @@ html
                   h2.text-center Formulario de Evolución
                   form(action="/submit" method="POST")
                     .mb-3
-                      label(for="template", class="form-label") Template evolucion:
+                      label(for="template", class="form-label") Template evolución:
                       select#template.form-select(name="template")
                           option(value="") Seleccionar template
                           each t in templates
