@@ -97,6 +97,21 @@ const cambiarEstadoTurnoCancelado = (numero_turno) => {
     });
 };
 
+//Obtenes las templates y su contenido
+const listarTemplates = () => {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT * FROM templates;`;
+        
+        conexion.query(query, (error, resultado) => {
+            if (error) {
+                console.error("Error al obtener templates:", error);
+                return reject(error);  // En caso de error, se rechaza la promesa
+            }
+            resolve(resultado);  // En caso de éxito, se resuelve el resultado de la consulta
+        });
+    });
+};
+
 
 
 //Modificar la ultima atencion del paciente
@@ -109,5 +124,8 @@ module.exports = {
     turnosHoyMatricula,
     datosTurno,
     turnosXFechaYMatricula,
+    listarTemplates,
+    cambiarEstadoTurnoAtendido,
+    cambiarEstadoTurnoCancelado
 
 };
