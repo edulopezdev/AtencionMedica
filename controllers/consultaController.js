@@ -4,20 +4,30 @@ const { ultimaConsultaPorNumeroDni } = require('../services/pacienteService');
 
 // Controlador para la ruta "/getMain" renderizo vista index
 const getMain = (req, res) => {
-    // const usuario = req.query.usuario; // Obtener el usuario de la query string
     const matricula_medico = req.session.matricula;
-    Promise.all([ turnosHoyMatricula( matricula_medico ) ])
-        .then(([ turnos]) => {
-            // const medico = medicoLogueado[0];
+    Promise.all([turnosHoyMatricula(matricula_medico)])
+        .then(([turnos]) => {
+            const turnosPorHora = {}; // Objeto para almacenar turnos organizados por hora
+
+            // Organiza los turnos por hora
+            turnos.forEach(turno => {
+                turnosPorHora[turno.hora] = {
+                    nombre: turno.nombre,
+                    apellido: turno.apellido,
+                    motivo_consulta: turno.motivo_consulta || 'Consulta general',
+                };
+            });
+
+            console.log('Turnos organizados por hora:', turnosPorHora); // Log para depuración
+
             const nombre = req.session.nombre;
-            res.render('index', {turnos, nombre });
+            res.render('index', { turnos: turnosPorHora, nombre });
         })
         .catch((error) => {
             console.error('Error en las consultas:', error);
             res.status(500).send('Error en la base de datos');
         });
 };
-
 
 // Controlador para obtener turnos por fecha
 const obtenerTurnosPorFecha = async (req, res) => {

@@ -4,7 +4,7 @@
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    background-color: #fafbfe;
+    background-color: #f0f4f8; /* Fondo más suave */
     color: #333; /* Color de texto más oscuro para mejor legibilidad */
 }
 
@@ -32,39 +32,37 @@ a:hover {
 /* Estilos de las tarjetas */
 .card {
     border: none; 
-    border-radius: 15px; 
-    background-color: #ffffff; 
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 20px; /* Bordes redondeados */
+    background-color: transparent; /* Asegúrate de que sea transparente */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra más suave */
     cursor: pointer; 
     transition: box-shadow 0.2s ease; /* Solo sombra en la transición */
+    margin-bottom: 20px; /* Separación entre tarjetas */
 }
 
 .card:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Sombra más intensa al hacer hover */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Sombra más intensa al hacer hover */
+}
+
+/* Estilo para el cuerpo de la tarjeta con fondo transparente y separación */
+.card-body {
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con transparencia */
+    border-radius: 20px; /* Asegura que los bordes sean redondeados también aquí */
 }
 
 /* Estilo para el cuerpo de la tarjeta que no se moverá */
 .card-body.no-hover {
-    background-color: #f8f9fa; /* Color más claro para diferenciar */
+    background-color: rgba(248, 249, 250, 1); /* Color más claro para diferenciar sin hover */
     cursor: default; /* Cambia el cursor a uno normal */
 }
 
 .card.no-hover {
     pointer-events: none; /* Desactiva todos los eventos de puntero */
-    background-color: #f8f9fa; /* Color de fondo más claro para diferenciar */
-    cursor: default; /* Cambia el cursor a uno normal */
-}
-
-.card.no-hover:hover {
-    transform: none; /* Asegúrate de que no se aplique ninguna transformación */
-    box-shadow: none; /* Asegúrate de que no se aplique ninguna sombra */
 }
 
 /* Efecto de selección */
 .selected {
     background-color: rgba(239, 5, 184, 0.7); /* Color de fondo para la tarjeta seleccionada */
-    color: white; /* Para que el texto sea visible */
-    border-left: 5px solid #ef05b8; /* Resalte lateral */
 }
 
 /* Estilos para títulos y texto en tarjetas */
@@ -75,8 +73,19 @@ a:hover {
 
 .card-text {
     margin-bottom: 0; /* Evita márgenes innecesarios */
-    font-size: 1rem; 
-    color: #666; 
+}
+
+/* Estilos para badges de estado de turno */
+.badge {
+    display: inline-block;
+}
+
+.bg-success {
+    background-color: #28a745; /* Verde para turnos cubiertos */
+}
+
+.bg-warning {
+    background-color: #ffc107; /* Amarillo para turnos libres */
 }
 
 /* Hover para filas de tablas (si se usan) */
@@ -84,72 +93,17 @@ a:hover {
     background-color: rgba(239, 5, 184, 0.5); /* Color de fondo en hover */
 }
 
-/* Botones personalizados */
-.btn-custom {
-    background-color: #ef05b8;
-    color: white;
-}
+/* Botones personalizados y otros estilos... (continúa como antes) */
 
-.btn-custom:hover {
-    background-color: #d4009f; /* Color más oscuro al pasar el mouse */
+/* Animaciones*/
+@keyframes bounceIn{
+   from{
+       transform :scale(0) ; 
+       opacity :0 ; 
+   }
+   
+   to{
+       transform :scale(1) ; 
+       opacity :1 ; 
+   }
 }
-
-/* Animaciones suaves en los botones */
-.btn {
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.btn:hover {
-    transform: translateY(-2px); /* Efecto de elevación al pasar el mouse sobre el botón */
-}
-
-/* Estilo del boton HCE */
-.btn-hce {
-    background-color: #7c09f0; /* Color de fondo */
-    color: white; /* Color del texto */
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 5px 10px; /* Espaciado interno */
-    font-size: 16px; /* Tamaño de fuente */
-    cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
-    transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Transición suave para la sombra y el color de fondo */
-    text-decoration: none; /* Asegúrate de que no haya subrayado */
-}
-
-.btn-hce:hover {
-    box-shadow: 0 0 20px rgba(138, 35, 249, 0.8); /* Resplandor al hacer hover */
-    background-color: #7c09d0; /* Cambia a un tono más oscuro o diferente si deseas un cambio sutil en el fondo */
-}
-
-/* Anular estilos de Bootstrap para enlaces */
-.btn-hce:hover,
-.btn-hce:focus {
-    color: white !important; /* Mantener el color del texto en blanco */
-    text-decoration: none !important; /* Asegúrate de que no haya subrayado */
-}
-/* Estilo del modal personalizado */
-.animated-modal {
-    animation: bounceIn 0.5s; /* Efecto de entrada */
-}
-
-.custom-title {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.custom-content {
-    font-size: 16px;
-}
-
-/* Animaciones */
-@keyframes bounceIn {
-    from {
-        transform: scale(0);
-        opacity: 0;
-    }
-    
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-

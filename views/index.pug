@@ -26,20 +26,46 @@ html
             - var fechaCompleta = fechaActual.toLocaleDateString('es-ES', opcionesFecha);
 
             h1.text-center Estos son los turnos para este #{fechaCompleta}
+
             #resultadosContainer
-              if turnos.length > 0
+              if Object.keys(turnos).length > 0
+                // Grupo 1 - MATUTINO
+                h2.text-center MAÑANA
                 .row
-                  each turno in turnos
+                  each hora in ['09:00:00', '09:15:00', '09:30:00', '09:45:00', '10:00:00', '10:15:00', '10:30:00', '10:45:00', '11:00:00', '11:15:00', '11:30:00', '11:45:00', '12:00:00', '12:15:00', '12:30:00', '12:45:00']
                     .col-md-3
-                      li.list-group-item(data-id=turno.numero_turno data-nombre=`${turno.nombre} ${turno.apellido}`)
-                        .card(turno.numero_turno)
-                          .card-body
-                            h5.card-title #{turno.hora.slice(0, 5)}
-                            p.card-text Paciente: #{turno.nombre} #{turno.apellido}
-                            p.card-text Motivo: #{turno.motivo_consulta}
+                      .card(turno.numero_turno)
+                        .card-body
+                          h5.card-title #{hora}
+                          if turnos[hora] 
+                            p.card-text Paciente: #{turnos[hora].nombre} #{turnos[hora].apellido}
+                            //p.card-text Motivo: #{turnos[hora].motivo_consulta}
+                            .badge.bg-success Turno Cubierto
+                          else
+                            p.card-text No hay turno disponible.
+                            .badge.bg-warning Turno Libre
+
+                // Grupo 2 - VESPERTINO
+                h2.text-center TARDE
+                .row
+                  each hora in ['17:00:00', '17:15:00', '17:30:00', '17:45:00', '18:00:00', '18:15:00', '18:30:00', '18:45:00', '19:00:00', '19:15:00', '19:30:00', '19:45:00', '20:00:00', '20:15:00', '20:30:00', '20:45:00']
+                    .col-md-3
+                      .card(turno.numero_turno)
+                        .card-body
+                          h5.card-title #{hora}
+                          if turnos[hora]
+                            p.card-text Paciente: #{turnos[hora].nombre} #{turnos[hora].apellido}
+                            //p.card-text Motivo: #{turnos[hora].motivo_consulta}
+                            .badge.bg-success Turno Cubierto
+                          else
+                            p.card-text No hay turno disponible.
+                            .badge.bg-warning Turno Libre
+
               else
                 p.text-center No se encontraron turnos para la fecha seleccionada.
 
             script.
-              window.turnosIniciales = !{JSON.stringify(turnos)}
+              window.turnos = !{JSON.stringify(turnos)}; 
+              console.log('Datos de turnos iniciales:', window.turnos); 
+
     script(src='/js/frontMain.js')

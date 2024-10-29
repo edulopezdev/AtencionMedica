@@ -10,15 +10,40 @@ body {
     padding: 0; /* Eliminar padding del contenedor */
 }
 
+.row {
+    display: flex; /* Asegura que la fila use flexbox */
+    justify-content: center; /* Centrar contenido en el eje horizontal */
+}
+
 #calendario {
-    margin-bottom: 20px;
+    margin: 0 auto; /* Centrar el calendario */
     display: flex;
     justify-content: center;
+    max-width: 100%; /* Asegurarse de que no exceda el ancho del contenedor */
+    margin-bottom: 20px; /* Espacio debajo del calendario */
+    position: relative; /* Asegúrate de que esté en el flujo normal */
+}
+
+/* Asegúrate de que el calendario esté centrado */
+.flatpickr-calendar {
+    position: absolute; /* Mantener posición absoluta */
+    top: 60px; /* Ajusta este valor para que esté por debajo del h1 */
+    left: 50%; /* Coloca el calendario en la mitad horizontal de la pantalla */
+    transform: translate(-50%, 0); /* Ajusta la posición para centrarlo */
+    z-index: 1; /* Asegúrate de que esté por debajo del h1 */
+}
+
+h2.text-center {
+    margin-top: 30px; /* Espaciado superior para el h2 */
 }
 
 #resultadosContainer {
-    width: 100%;
+    width: 100%; /* Asegura que la lista ocupe todo el ancho disponible */
     margin-top: 20px;
+}
+
+.list-group {
+    padding: 0; /* Eliminar padding de la lista */
 }
 
 .list-group-item {
@@ -28,14 +53,21 @@ body {
     background-color: #ffffff;
     border: 1px solid #dee2e6;
     border-radius: 0.25rem;
-    padding: 10px;
+    padding: 15px; /* Aumentar el padding para un mejor espaciado */
     margin-bottom: 10px;
-    flex: 1; /* Ocupa el ancho completo del contenedor */
     transition: background-color 0.3s;
 }
 
 .list-group-item:hover {
     background-color: #f1f1f1; /* Color al pasar el mouse */
+}
+
+.list-group-item strong {
+    color: #007bff; /* Color del texto fuerte */
+}
+
+.list-group-item span {
+    color: #6c757d; /* Color para información adicional */
 }
 
 .card {
