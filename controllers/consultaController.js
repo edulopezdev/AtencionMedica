@@ -11,10 +11,12 @@ const getMain = (req, res) => {
 
             // Organiza los turnos por hora
             turnos.forEach(turno => {
+                console.log(turno);
                 turnosPorHora[turno.hora] = {
                     nombre: turno.nombre,
                     apellido: turno.apellido,
                     numero:  turno.numero_turno,
+                    estado: turno.estado,
                     motivo_consulta: turno.motivo_consulta || 'Consulta general',
                 };
             });

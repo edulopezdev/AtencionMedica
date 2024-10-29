@@ -65,6 +65,7 @@ html
                     .mb-3
                         label(for="estadoDiagnostico", class="form-label") Estado del Diagnóstico:
                         select#estadoDiagnostico.form-select(name="estadoDiagnostico")
+                            option(value="") Seleccionar
                             option(value="Preliminar") Preliminar
                             option(value="Confirmado") Confirmado
 
@@ -89,9 +90,10 @@ html
                     .mb-3
                         label(for="estadoAlergia", class="form-label") Nivel de alergia:
                         select#estadoAlergia.form-select(name="estadoAlergia")
-                            option(value="Preliminar") Normal
-                            option(value="Confirmado") Leve
-                            option(value="Confirmado") Alta
+                            option(value="") Seleccionar
+                            option(value="Normal") Normal
+                            option(value="Leve") Leve
+                            option(value="Alta") Alta
 
                     h3.text-center Antecedentes:
                     div#antecedentesContainer
