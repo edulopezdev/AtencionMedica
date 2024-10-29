@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (turnoInfo) { 
                 const nombrePaciente = `${turnoInfo.nombre} ${turnoInfo.apellido}`;
                 const numero_turno = horaTurno;
+                const numero = turnoInfo.numero;
 
                 Swal.fire({
                     title: 'Confirmar Consulta',
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     cancelButtonText:'No, cancelar',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = `/getConsulta?numero_turno=${numero_turno}`;
+                        window.location.href = `/getConsulta?hora=${numero_turno}&numero_turno=${numero}`;
                     }
                 });
             } else {

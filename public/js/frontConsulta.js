@@ -5,15 +5,21 @@ document.addEventListener('DOMContentLoaded', function () {
   const txtEvolucion = document.getElementById('evolucion');
   //Diagnostico ok
   const txtDiagnostico = document.getElementById('diagnostico');
-  const estadoDiagnosticoSelect = document.getElementById('estadoDiagnostico');
+  let estadoDiagnosticoSelect = document.getElementById('estadoDiagnostico');
   //Alergia 
   const alergiaTextarea = document.getElementById('alergia');
-  const estadoAlergiaSelect = document.getElementById('estadoAlergia');
+  let estadoAlergiaSelect = document.getElementById('estadoAlergia');
   //Medicamentos
   const medicamentoSelect = document.getElementById('medicamento');
   // llenado de desplegable templates y auto completado de input
   const templateSelect = document.getElementById('template');
   const evolucionInput = document.getElementById('evolucion');
+  //Boton de enviar
+  const botonGuardar = document.getElementById('guardarBoton');
+  //datos del turno
+  const turno = window.turno;
+  const numero_turno = turno.numero_turno;
+
 
 
   // Evolucion
@@ -54,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   //Habitos
-  const obtenerDatosHabitos = () =>{
+  const obtenerDatosHabitos = () => {
     // Recuperar datos de hábitos
     const inicioHabitos = document.getElementById('inicioHabitos').value;
     const finHabitos = document.getElementById('finHabitos').value;
@@ -69,18 +75,72 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   }
 
-//Medicamentos
-const llenarDetallesMedicamento = () => {
-  const selectedOption = medicamentoSelect.options[medicamentoSelect.selectedIndex];
-};
+  //Medicamentos
+  const llenarDetallesMedicamento = () => {
+    const selectedOption = medicamentoSelect.options[medicamentoSelect.selectedIndex];
+  };
 
-// Evento para actualizar detalles cuando cambia la selección
-medicamentoSelect.addEventListener('change', llenarDetallesMedicamento);
+  // Evento para actualizar detalles cuando cambia la selección
+  medicamentoSelect.addEventListener('change', llenarDetallesMedicamento);
 
+  // Escuchar el clic en el botón "Guardar"
+  botonGuardar.addEventListener('click', (event) => {
+    event.preventDefault(); // Evita el envío del formulario
 
+    // Desestructuramos los valores de antecedentes y hábitos
+    const { antecedentes } = obtenerDatosAntecedentes();
+    const { habitos } = obtenerDatosHabitos();
 
+    // Crear objeto con todos los datos
+    const datosFormulario = {
+      evolucion: txtEvolucion.value,
+      diagnostico: {
+        texto: txtDiagnostico.value,
+        estado: estadoDiagnosticoSelect
+      },
+      alergia: {
+        texto: alergiaTextarea.value,
+        nivel: estadoAlergiaSelect,
+        fechaDesde: document.querySelector('#inicioAlergia').value,
+        fechaHasta: document.querySelector('#finAlergia').value,
+      },
+      antecedentes,
+      habitos,
+      medicamento: medicamentoSelect.value,
+      numero_turno,
+    };
 
+    console.log('Datos del formulario:', datosFormulario);
+    // Aquí puedes enviar `datosFormulario` a tu backend o hacer cualquier otra acción
 
+    // Enviar los datos al endpoint cargarConsultaCompleta
+    fetch('/guardarConsulta', { // Cambia esta ruta a la correcta
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(datosFormulario)
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error en la solicitud: ' + response.statusText);
+        }
+        return response.json(); // Suponiendo que tu backend devuelve un JSON
+      })
+      .then(data => {
+        console.log('Respuesta del servidor:', data);
+        // Aquí puedes manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
+        alert('Consulta guardada correctamente');
+        window.location.href = '/getMain';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Aquí puedes manejar errores, por ejemplo, mostrar un mensaje de error
+        alert('Error al guardar la consulta');
+      });
+
+  });
 
 
 });
+
