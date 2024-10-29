@@ -20,7 +20,6 @@ html
             else
               h3 Bienvenido Doctor: Información no disponible.
 
-            // Obtener la fecha completa
             - var fechaActual = new Date();
             - var opcionesFecha = { weekday: 'long', day: 'numeric', month: 'long' };
             - var fechaCompleta = fechaActual.toLocaleDateString('es-ES', opcionesFecha);
@@ -29,37 +28,31 @@ html
 
             #resultadosContainer
               if Object.keys(turnos).length > 0
-                // Grupo 1 - MATUTINO
                 h2.text-center MAÑANA
                 .row
                   each hora in ['09:00:00', '09:15:00', '09:30:00', '09:45:00', '10:00:00', '10:15:00', '10:30:00', '10:45:00', '11:00:00', '11:15:00', '11:30:00', '11:45:00', '12:00:00', '12:15:00', '12:30:00', '12:45:00']
                     .col-md-3
-                      .card(turno.numero_turno)
-                        .card-body
-                          h5.card-title #{hora}
-                          if turnos[hora] 
-                            p.card-text Paciente: #{turnos[hora].nombre} #{turnos[hora].apellido}
-                            //p.card-text Motivo: #{turnos[hora].motivo_consulta}
-                            .badge.bg-success Turno Cubierto
-                          else
-                            p.card-text No hay turno disponible.
-                            .badge.bg-warning Turno Libre
+                      .card
+                        h5.card-title.text-left #{hora}
+                        if turnos[hora] 
+                          p.card-text Paciente: #{turnos[hora].nombre} #{turnos[hora].apellido}
+                          .badge.bg-success.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Turno Cubierto
+                        else
+                          p.card-text.text-center No hay turno disponible.
+                          .badge.bg-warning.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Turno Libre
 
-                // Grupo 2 - VESPERTINO
                 h2.text-center TARDE
                 .row
                   each hora in ['17:00:00', '17:15:00', '17:30:00', '17:45:00', '18:00:00', '18:15:00', '18:30:00', '18:45:00', '19:00:00', '19:15:00', '19:30:00', '19:45:00', '20:00:00', '20:15:00', '20:30:00', '20:45:00']
                     .col-md-3
-                      .card(turno.numero_turno)
-                        .card-body
-                          h5.card-title #{hora}
-                          if turnos[hora]
-                            p.card-text Paciente: #{turnos[hora].nombre} #{turnos[hora].apellido}
-                            //p.card-text Motivo: #{turnos[hora].motivo_consulta}
-                            .badge.bg-success Turno Cubierto
-                          else
-                            p.card-text No hay turno disponible.
-                            .badge.bg-warning Turno Libre
+                      .card
+                        h5.card-title.text-left #{hora}
+                        if turnos[hora]
+                          p.card-text Paciente: #{turnos[hora].nombre} #{turnos[hora].apellido}
+                          .badge.bg-success.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Turno Cubierto
+                        else
+                          p.card-text.text-center No hay turno disponible.
+                          .badge.bg-warning.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Turno Libre
 
               else
                 p.text-center No se encontraron turnos para la fecha seleccionada.

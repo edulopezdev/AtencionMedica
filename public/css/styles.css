@@ -1,109 +1,79 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-/* Estilos generales */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    background-color: #f0f4f8; /* Fondo más suave */
-    color: #333; /* Color de texto más oscuro para mejor legibilidad */
+    background-color: #f0f4f8;
+    color: #333;
 }
 
-a {
-    text-decoration: none;
-    color: #007bff;
-    transition: color 0.3s; /* Transición suave para el color del enlace */
-}
-
-a:hover {
-    text-decoration: underline;
-    color: #0056b3; /* Color más oscuro al pasar el mouse */
-}
-
-/* Estilos del layout */
 .main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px; /* Padding opcional */
-    width: 100%; /* Ancho del 100% */
-    max-width: 1200px; /* Ajusta este valor según lo necesites */
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
 }
 
-/* Estilos de las tarjetas */
 .card {
     border: none; 
-    border-radius: 20px; /* Bordes redondeados */
-    background-color: transparent; /* Asegúrate de que sea transparente */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer; 
-    transition: box-shadow 0.2s ease; /* Solo sombra en la transición */
-    margin-bottom: 20px; /* Separación entre tarjetas */
+    transition: box-shadow 0.2s ease;
+    margin-bottom: 20px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    padding: 10px; 
+    height: 120px; /* Reducir altura de la tarjeta */
+    min-height: 120px; /* Mantener altura mínima */
+    background-color: rgba(255, 255, 255, 0.8); /* Ajustar transparencia */
 }
 
 .card:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Sombra más intensa al hacer hover */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Estilo para el cuerpo de la tarjeta con fondo transparente y separación */
-.card-body {
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con transparencia */
-    border-radius: 20px; /* Asegura que los bordes sean redondeados también aquí */
-}
-
-/* Estilo para el cuerpo de la tarjeta que no se moverá */
-.card-body.no-hover {
-    background-color: rgba(248, 249, 250, 1); /* Color más claro para diferenciar sin hover */
-    cursor: default; /* Cambia el cursor a uno normal */
-}
-
-.card.no-hover {
-    pointer-events: none; /* Desactiva todos los eventos de puntero */
-}
-
-/* Efecto de selección */
-.selected {
-    background-color: rgba(239, 5, 184, 0.7); /* Color de fondo para la tarjeta seleccionada */
-}
-
-/* Estilos para títulos y texto en tarjetas */
 .card-title {
     font-weight: 600;
-    font-size: 1.5rem; /* Tamaño de fuente para el título de la tarjeta */
+    font-size: 1.5rem;
+    margin: 0; 
+    text-align: left; 
 }
 
 .card-text {
-    margin-bottom: 0; /* Evita márgenes innecesarios */
+    margin: 0; 
+    text-align: center; 
 }
 
-/* Estilos para badges de estado de turno */
 .badge {
-    display: inline-block;
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 5px; 
+    font-size: 0.9rem; 
+    max-width: 60%; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
 }
 
 .bg-success {
-    background-color: #28a745; /* Verde para turnos cubiertos */
+    background-color: #28a745;
 }
 
 .bg-warning {
-    background-color: #ffc107; /* Amarillo para turnos libres */
+    background-color: #ffc107;
 }
 
-/* Hover para filas de tablas (si se usan) */
-.table-hover tbody tr:hover {
-    background-color: rgba(239, 5, 184, 0.5); /* Color de fondo en hover */
-}
+@media (max-width: 1176px) {
+    .badge {
+        font-size: 0.8rem; 
+    }
 
-/* Botones personalizados y otros estilos... (continúa como antes) */
-
-/* Animaciones*/
-@keyframes bounceIn{
-   from{
-       transform :scale(0) ; 
-       opacity :0 ; 
-   }
-   
-   to{
-       transform :scale(1) ; 
-       opacity :1 ; 
-   }
+    .card {
+        padding: 15px; 
+    }
 }
