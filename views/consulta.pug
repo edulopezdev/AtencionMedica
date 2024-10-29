@@ -69,9 +69,22 @@ html
                             option(value="Confirmado") Confirmado
 
                     h3.text-center Alergias:
+                    div#alergiasContainer
+
+                      .row.justify-content-center
+                          .col-12.col-md-6
+                            .d-flex.align-items-center.mb-3.justify-content-center
+                              label(for="inicioAlergia", class="form-label me-2") Inicio:
+                              input#inicioAlergia(type="date" name="inicioAlergia" class="form-control" style="width: 180px;")
+                          
+                          .col-12.col-md-6
+                            .d-flex.align-items-center.mb-3.justify-content-center
+                              label(for="finAlergia", class="form-label me-2") Fin:
+                              input#finAlergia(type="date" name="finAlergia" class="form-control" style="width: 180px;")
+
                     .mb-3
                       label(for="alergia", class="form-label") Alergias:
-                      textarea#diagnostico.form-control(name="alergia" placeholder="Ingresar alergia" rows="3")
+                      textarea#alergia.form-control(name="alergia" placeholder="Ingresar alergia" rows="3")
 
                     .mb-3
                         label(for="estadoAlergia", class="form-label") Nivel de alergia:
@@ -120,4 +133,8 @@ html
                       each m in medicamentos
                         option(value=m.id_medicamento ) #{m.nombre_medicamento}
 
-                    button(type="submit", class="btn btn-primary") Guardar
+                    button#guardarBoton(type="submit", class="btn btn-primary") Guardar
+
+                    script.
+                      window.turno = !{JSON.stringify(turno)}; 
+                      console.log('Datos de turnos iniciales:', window.turno); 

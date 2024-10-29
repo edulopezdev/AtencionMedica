@@ -105,12 +105,24 @@ ORDER BY
 };
 
 //Metodo para insertar la consulta completa, abarcando todos los campos
-const cargarDatosPaciente = (datos) => {
+const guardarConsultaCompleta = (datos) => {
+    console.log(datos);
     return new Promise((resolve, reject) => {
         // Comienza la transacción
         conexion.beginTransaction((err) => {
             if (err) return reject(err);
 
+            // Actualiza el estado_turno en la tabla turno
+            const queryActualizarTurno = `
+                UPDATE turno
+                SET estado = 'Atendido'
+                WHERE numero_turno = ?
+                `;
+            const paramsActualizarTurno = [datos.numero_turno];
+
+            conexion.query(queryActualizarTurno, paramsActualizarTurno, (error) => {
+                if (error) return conexion.rollback(() => reject(error));
+            });
             // Inserta en la tabla alergia
             const queryAlergia = `
                 INSERT INTO alergia (nombre_alergia, importancia, fecha_desde, fecha_hasta, numero_turno)
@@ -184,15 +196,15 @@ const cargarDatosPaciente = (datos) => {
             });
         });
     });
-};
+
+}
 
 
 
-// Exporta las funciones
-module.exports = {
-    ultimaConsultaPorNumeroDni,
-    hceXDni,
-    consultasPacienteConOtrosMedicos,
-    cargarDatosPaciente,
-
-};
+    // Exporta las funciones
+    module.exports = {
+        ultimaConsultaPorNumeroDni,
+        hceXDni,
+        consultasPacienteConOtrosMedicos,
+        guardarConsultaCompleta,
+    };
