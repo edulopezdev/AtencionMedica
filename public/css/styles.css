@@ -67,6 +67,29 @@ body {
 .bg-warning {
     background-color: #ffc107;
 }
+/* Estilo del boton HCE */
+.btn-hce {
+    background-color: #7c09f0; /* Color de fondo */
+    color: white; /* Color del texto */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Transición suave para la sombra y el color de fondo */
+    text-decoration: none; /* Asegúrate de que no haya subrayado */
+}
+
+.btn-hce:hover {
+    box-shadow: 0 0 20px rgba(138, 35, 249, 0.8); /* Resplandor al hacer hover */
+    background-color: #7c09d0; /* Cambia a un tono más oscuro o diferente si deseas un cambio sutil en el fondo */
+}
+
+/* Anular estilos de Bootstrap para enlaces */
+.btn-hce:hover,
+.btn-hce:focus {
+    color: white !important; /* Mantener el color del texto en blanco */
+    text-decoration: none !important; /* Asegúrate de que no haya subrayado */
+}
 
 @media (max-width: 1176px) {
     .badge {

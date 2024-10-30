@@ -19,4 +19,12 @@ html
           div#calendario(style="margin: 0 auto;")
           h2.text-center Turnos
           ul.list-group#resultadosContainer(style="margin-top: 20px;")
-            // Aquí se mostrarán los turnos como lista
+            if turnos && turnos.length > 0
+              each turno in turnos
+                li.list-group-item
+                  .d-flex.justify-content-between.align-items-center
+                    .flex-grow-1
+                      p Turno: #{turno.numero_turno} - Paciente: #{turno.nombre} #{turno.apellido}
+                    a.btn-hce.mt-3(href="/hce") Ir a HCE del paciente
+            else
+              li.list-group-item No hay turnos disponibles

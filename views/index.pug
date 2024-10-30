@@ -34,9 +34,14 @@ html
                     .col-md-3
                       .card
                         h5.card-title.text-left #{hora}
-                        if turnos[hora] 
+                        if turnos[hora]
                           p.card-text Paciente: #{turnos[hora].nombre} #{turnos[hora].apellido}
-                          .badge.bg-success.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Turno Cubierto
+                          if turnos[hora].estado.toLowerCase() === 'pendiente'
+                            .badge.bg-success.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Pendiente
+                          else if turnos[hora].estado.toLowerCase() === 'atendido'
+                            .badge.bg-primary.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Atendido
+                          else if turnos[hora].estado.toLowerCase() === 'cancelado'
+                            .badge.bg-danger.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Cancelado
                         else
                           p.card-text.text-center No hay turno disponible.
                           .badge.bg-warning.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Turno Libre
@@ -49,7 +54,12 @@ html
                         h5.card-title.text-left #{hora}
                         if turnos[hora]
                           p.card-text Paciente: #{turnos[hora].nombre} #{turnos[hora].apellido}
-                          .badge.bg-success.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Turno Cubierto
+                          if turnos[hora].estado.toLowerCase() === 'pendiente'
+                            .badge.bg-success.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Pendiente
+                          else if turnos[hora].estado.toLowerCase() === 'atendido'
+                            .badge.bg-primary.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Atendido
+                          else if turnos[hora].estado.toLowerCase() === 'cancelado'
+                            .badge.bg-danger.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Cancelado
                         else
                           p.card-text.text-center No hay turno disponible.
                           .badge.bg-warning.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Turno Libre
