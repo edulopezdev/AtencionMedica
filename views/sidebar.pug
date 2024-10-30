@@ -37,12 +37,30 @@ html(lang="es")
                         i.bi.bi-gear-fill
                         span Configuración
             .sidebar-footer
-                a.sidebar-link(href="/login")
+                a.sidebar-link(href="javascript:void(0)", onclick="logout()")
                     i.bi.bi-door-open-fill
                     span Cerrar Sesión
 
         script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js")
+        script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11") // Asegúrate de incluir SweetAlert2
         script.
+            function logout() {
+                Swal.fire({
+                    title: 'Confirmar Cierre de Sesión',
+                    text: '¿Está seguro de que desea cerrar sesión?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Sí, cerrar sesión',
+                    cancelButtonText: 'No, cancelar',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/login';
+                    }
+                });
+            }
+
             const sidebar = document.getElementById('sidebar');
             const toggleIcon = document.getElementById('toggleIcon');
             const logo = document.querySelector('.sidebar-logo');
