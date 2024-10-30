@@ -3,6 +3,9 @@ const { autenticarMedico, obtenerMedicoLogueado } = require('../services/conecti
 //Probando autenticacion
 // Controlador para manejar la autenticación
 exports.authMiddleware = (req, res, next) => {
+//linea para evitar que guarde las paginas en cache y recargue desde el servidor
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+
     // Verifica si hay una sesión activa
     if (req.session && req.session.isLoggedIn) {
         // El usuario está autenticado, continúa a la siguiente función de middleware
@@ -52,8 +55,24 @@ exports.postLogin = async (req, res) => {
 
 // Controlador para renderizar la vista de login
 exports.getLogin = (req, res) => {
-    res.render('login'); // Renderiza la vista 'login'
+
+
+    if ( req.session.isLoggedIn ) {
+        // Si hay una sesión activa, ejecuta el logout y redirige a la página de inicio de sesión
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Error al cerrar sesión:', err);
+                return res.status(500).send('Error al cerrar sesión');
+            }
+            console.log('Session cerrada');
+            res.render('login'); // Redirige a la página de inicio de sesión después de cerrar sesión
+        });
+    } else {
+        // Si no hay sesión activa, redirige directamente a la página de inicio de sesión
+        res.render('login');
+    }
 };
+
 
 // Controlador para redirigir a la página de inicio de sesión desde "/"
 exports.redirectLogin = (req, res) => {
