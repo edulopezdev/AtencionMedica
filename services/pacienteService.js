@@ -74,7 +74,7 @@ ORDER BY
 };
 
 //Consultas de un paciente con otros profesionales
-const consultasPacienteConOtrosMedicos = (dni) => { //consultas con otros profesionales
+const consultasPacienteConOtrosMedicos = ( dni ) => { 
     return new Promise((resolve, reject) => {
         const query = `
             SELECT 
@@ -93,13 +93,12 @@ ORDER BY
     t.fecha DESC;
         `;
 
-        // Asumiendo que tienes acceso a la conexión de la base de datos
         conexion.query(query, [dni], (error, resultado) => {
             if (error) {
                 return reject(error);  // En caso de error, se rechaza la promesa
             }
             //console.log( 'metodo ' + resultado)
-            resolve(resultado);  // En caso de éxito, se resuelven los datos del paciente
+            resolve(resultado);  
         });
     });
 };
@@ -199,6 +198,27 @@ const guardarConsultaCompleta = (datos) => {
 
 }
 
+//Listar pacientes
+const listarPacientes = () => {
+    return new Promise((resolve, reject) => {
+        const queryPacientes = 'SELECT * FROM paciente'; 
+        conexion.query(queryPacientes, (error, resultados) => {
+            if (error) return reject(error);
+            resolve(resultados);
+        });
+    });
+};
+
+//buscar paciente por nombre
+const obtenerPacienteXNombre = ( nombre ) => {
+    return new Promise((resolve, reject) => {
+        const queryPacientePorNombre = 'SELECT * FROM paciente WHERE nombre like "%?%" or apellido like "%?%"'; // Reemplaza 'paciente' y 'nombre' según el nombre de tu tabla y columna
+        conexion.query(queryPacientePorNombre, [nombre], (error, resultados) => {
+            if (error) return reject(error);
+            resolve(resultados);
+        });
+    });
+};
 
 
     // Exporta las funciones
@@ -207,4 +227,7 @@ const guardarConsultaCompleta = (datos) => {
         hceXDni,
         consultasPacienteConOtrosMedicos,
         guardarConsultaCompleta,
+        listarPacientes,
+        obtenerPacienteXNombre,
+        
     };
