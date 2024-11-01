@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const buscarPacienteInput = async (query) => {
         try {
             const response = await fetch(`/buscarPacientesPorNombre?query=${encodeURIComponent(query)}`);
-            if (response.ok) { 
+            if (response.ok) {
                 const turnos = await response.json();
 
                 // Mostrar resultados en el datalist
@@ -71,10 +71,10 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error("Elemento con ID 'resultados' no encontrado en el DOM");
             return;
         }
-        
+
         // Limpia el contenido previo de la tabla antes de agregar nuevos resultados
         tablaResultados.innerHTML = '';
-    
+
         // Crea el thead de la tabla
         const thead = `
             <tr>
@@ -88,15 +88,15 @@ document.addEventListener('DOMContentLoaded', function () {
             </tr>
         `;
         tablaResultados.innerHTML = `<thead>${thead}</thead>`;
-    
+
         // Crea el tbody
         const tbody = document.createElement('tbody');
         tbody.id = 'lala'; // Asignamos un ID si es necesario
-    
+
         // Recorre los turnos y crea filas para la tabla
         turnosHistoria.forEach(turno => {
             const fila = document.createElement('tr');
-    
+
             // Crea las celdas (td)
             fila.innerHTML = `
                 <td>${turno.fecha}</td>
@@ -107,11 +107,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>${turno.resumen_evolucion || 'N/A'}</td>
                 <td>${turno.descripcion_habito || 'N/A'}</td>
             `;
-    
+
             // Añade la fila al tbody
             tbody.appendChild(fila);
         });
-    
+
         // Añade el tbody a la tablaResultados
         tablaResultados.appendChild(tbody);
     }
@@ -123,6 +123,10 @@ document.addEventListener('DOMContentLoaded', function () {
     buscarButton.addEventListener('click', async () => {
         const dni = searchInput.value.substring(searchInput.value.length - 8, searchInput.value.length) * 1;
         console.log(dni)
+
+        const tablaResultados = document.getElementById('resultados');
+        tablaResultados.innerHTML = ''; // Limpia el contenido de la tabla
+
         try {
             const response = await fetch(`/buscarHcePacientePorDni?dni=${dni}`);
 
@@ -132,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 mostrarTurnosHce(turnos);
             } else {
-                console.error('Error en la respuesta:', response.statusText);
+                console.error('Error en la respuesta: ', response.statusText);
             }
         } catch (error) {
             console.error('Error en la búsqueda:', error);
