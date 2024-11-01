@@ -1,19 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700&display=swap');
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Open Sans', sans-serif; /* Usar la misma fuente que en agenda.css */
     margin: 0;
     background-color: #f0f4f8;
     color: #333;
 }
 
-.main {
+.container-fluid {
+    padding: 0;
+}
+
+.row {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
+    justify-content: center;
+}
+
+.bg-light {
+    background-color: rgba(248, 249, 250, 0.9);
+    margin: 15px; /* Consistente con agenda */
 }
 
 .card {
@@ -67,6 +73,7 @@ body {
 .bg-warning {
     background-color: #ffc107;
 }
+
 /* Estilo del boton HCE */
 .btn-hce {
     background-color: #7c09f0; /* Color de fondo */
@@ -89,6 +96,14 @@ body {
 .btn-hce:focus {
     color: white !important; /* Mantener el color del texto en blanco */
     text-decoration: none !important; /* Asegúrate de que no haya subrayado */
+}
+
+h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    color: #555;
+    text-align: center;
+    margin: 20px 0;
 }
 
 @media (max-width: 1176px) {

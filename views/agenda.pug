@@ -15,17 +15,19 @@ html
           include sidebar.pug
 
         .col-md-9
-          .bg-light.p-4.rounded(style="margin-bottom: 20px; margin: 0 15px; opacity: 0.85;")
+          .bg-light.p-4.rounded(style="margin-bottom: 20px; margin: 15px; opacity: 0.85;")
             .d-flex.align-items-center
               h3(style="margin: 0;") Agenda
               .mx-auto
                 .d-flex.justify-content-center
                   .d-flex.align-items-center
-                    select#dia.form-select(style="width: 100px;")
+                    // Texto de indicación
+                    span.text-muted(style="margin-right: 20px;") Seleccione una fecha
+                    select#dia.form-select(style="width: 100px; margin-right: 10px;")
                       option(value="") Selecciona día
                       each i in Array(31).fill().map((_, index) => index + 1)
                         option(value=i, selected=(i === new Date().getDate())) #{i}
-                    select#mes.form-select(style="width: 150px;")
+                    select#mes.form-select(style="width: 150px; margin-right: 10px;")
                       option(value="") Selecciona mes
                       option(value="01", selected=(new Date().getMonth() === 0)) Enero
                       option(value="02", selected=(new Date().getMonth() === 1)) Febrero
@@ -39,7 +41,7 @@ html
                       option(value="10", selected=(new Date().getMonth() === 9)) Octubre
                       option(value="11", selected=(new Date().getMonth() === 10)) Noviembre
                       option(value="12", selected=(new Date().getMonth() === 11)) Diciembre
-                    select#anio.form-select(style="width: 100px;")
+                    select#anio.form-select(style="width: 100px; margin-right: 10px;")
                       option(value="") Selecciona año
                       each i in Array(100).fill().map((_, index) => new Date().getFullYear() - index)
                         option(value=i, selected=(i === new Date().getFullYear())) #{i}

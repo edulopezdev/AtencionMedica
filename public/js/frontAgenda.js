@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.turnos && data.turnos.length > 0) {
                     data.turnos.forEach(turno => {
                         const tr = document.createElement('tr');
-                        tr.style.backgroundColor = (turno.numero_turno % 2 === 0) ? '#f8f9fa' : '#e9ecef'; // Tonalidades
+                        tr.classList.add(turno.numero_turno % 2 === 0 ? 'row-even' : 'row-odd'); // Clase según par o impar
                         
                         tr.innerHTML = `
                             <td class="turno-cell">${turno.hora.slice(0, 5)}</td>
