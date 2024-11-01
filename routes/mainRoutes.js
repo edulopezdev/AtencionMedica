@@ -18,6 +18,10 @@ router.get('/hce',   authController.authMiddleware, (req, res) => {
     res.render('hce'); // Renderiza hce
 });
 
+// Ruta para la página de hce
+router.get('/buscarPacientesPorNombre',  authController.authMiddleware,  consultaController.obtenerPacientesPorNombre );
+router.get('/buscarHcePacientePorDni',  authController.authMiddleware,  consultaController.obtenerHcePorDni );
+
 // Ruta para la página de perfil
 router.get('/profile',   authController.authMiddleware,  (req, res) => {
     res.render('profile'); // Renderiza profile

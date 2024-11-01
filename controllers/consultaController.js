@@ -1,6 +1,6 @@
 // controllers/consultaController.js
 const { turnosHoyMatricula, datosTurno , turnosXFechaYMatricula, listarTemplates, listarMedicamentos } = require('../services/agendaService');
-const { ultimaConsultaPorNumeroDni, guardarConsultaCompleta } = require('../services/pacienteService');
+const { ultimaConsultaPorNumeroDni, guardarConsultaCompleta, listarPacientes, hceXDni } = require('../services/pacienteService');
 
 // Controlador para la ruta "/getMain" renderizo vista index
 const getMain = (req, res) => {
@@ -114,7 +114,58 @@ const guardarConsulta = (req, res) => {
         });
 };
 
+//usada para cargar pacientes en busqueda de hce en vista hce
+const obtenerPacientesPorNombre = async (req, res) => {
+    try {
+        // Ejecuta el servicio `listarPacientesPorDni`
+        const query = req.query.query;
+        
+        if (!query) {
+            return res.status(400).json({ error: 'Falla 404' });
+        }
+        
+        const pacientes = await listarPacientes( query );
+        
+        if (pacientes.length === 0) {
+            return res.status(404).json({ mensaje: 'No se encontraron pacientes con ese Nombre' });
+        }
+        
+        // Enviar la lista de pacientes como respuesta
+        res.status(200).json( pacientes );
+    } catch (error) {
+        console.error('Error al obtener pacientes por DNI:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
 
+const obtenerHcePorDni = async (req, res) => {
+    try {
+        // Ejecuta el servicio `listarPacientesPorDni`
+        const dni = req.query.dni;
+        // console.log(dni);
+        
+        // Verifica si se proporcionó el DNI
+        if (!dni) {
+            return res.status(400).json({ error: 'DNI no proporcionado' });
+        }
+        
+        // Llama a la función para obtener el paciente por DNI
+        const paciente = await hceXDni(dni);
+        
+        // Verifica si se encontró el paciente
+        if (paciente.length === 0) {
+            return res.status(404).json({ mensaje: 'No se encontró paciente con ese DNI' });
+        }
+        
+        console.log(paciente); // Asegúrate de utilizar la variable correcta
+        
+        // Enviar el paciente como respuesta
+        res.status(200).json(paciente);
+    } catch (error) {
+        console.error('Error al obtener paciente por DNI:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
 
 
 module.exports = {
@@ -123,4 +174,7 @@ module.exports = {
     obtenerTurnosPorFecha,
     iniciarConsultaPorNumeroTurno,
     guardarConsulta,
+    obtenerPacientesPorNombre,
+    obtenerHcePorDni,
+
 };
