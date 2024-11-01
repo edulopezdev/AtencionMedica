@@ -6,13 +6,21 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 70px; /* Ancho mínimo del sidebar */
-    min-width: 70px;
+    width: 200px; /* Ancho fijo del sidebar */
     z-index: 1000;
-    transition: width 0.25s ease-in-out, background-color 0.25s ease-in-out;
+    transition: background-color 0.25s ease-in-out;
     background-color: rgba(52, 6, 91, 0.817);
     box-shadow: 2px 0 10px rgba(50, 49, 49, 0.265);
 }
+
+.sidebar-logo {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el logo */
+    align-items: center; /* Centra verticalmente el logo */
+    margin-top: 5px; /* Ajusta el margen superior aquí */
+    margin-left: 10px; /* Ajusta el margen izquierdo para mover a la derecha */
+}
+
 
 /* Estilos del botón de toggle */
 .toggle-btn {
@@ -32,15 +40,6 @@
 .logo {
     width: 150px; /* Ajusta el ancho según lo necesites */
     height: auto; /* Mantiene la proporción */
-}
-
-/* Logo del sidebar */
-.sidebar-logo {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente el logo */
-    align-items: center; /* Centra verticalmente el logo */
-    margin: 10px 0; /* Ajusta el margen superior e inferior */
-    width: 100%; /* Asegúrate de que ocupe todo el ancho del sidebar */
 }
 
 /* Navegación del sidebar */
@@ -79,36 +78,27 @@ a.sidebar-link:hover {
     border-left: 3px solid #3b7ddd;
 }
 
-/* Ocultar texto de los enlaces si no está expandido */
-#sidebar:not(.expand) .sidebar-logo,
-#sidebar:not(.expand) a.sidebar-link span {
-    display: none;
-}
-
-/* Mostrar texto en estado expandido */
-#sidebar.expand .sidebar-logo,
-#sidebar.expand a.sidebar-link span {
-    display: block;
-}
-
-/* Cambia el comportamiento del sidebar al hacer hover */
-#sidebar:hover {
-    width: 200px; /* Ancho expandido al hacer hover */
-}
-
-#sidebar:hover .sidebar-logo,
-#sidebar:hover a.sidebar-link span {
-    display: block;
-}
-
 /* Estilos del pie de página */
 .sidebar-footer {
     margin-top: auto; /* Empuja el pie de página hacia el fondo del sidebar */
 }
 
-/* Ajustes adicionales */
-.sidebar-logo {
-    display: flex; /* Asegura que se mantenga como flexbox */
-    margin-left: 50px;
-}
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+    #sidebar {
+        width: 70px; /* Ancho reducido en pantallas pequeñas */
+    }
 
+    #sidebar .sidebar-logo,
+    #sidebar a.sidebar-link span {
+        display: none; /* Oculta textos en pantallas pequeñas */
+    }
+
+    #sidebar a.sidebar-link {
+        justify-content: center; /* Centra el contenido */
+    }
+
+    #sidebar:hover {
+        width: 70px; /* Mantiene el ancho reducido en hover */
+    }
+}

@@ -11,10 +11,8 @@ html(lang="es")
     body
         .sidebar(id="sidebar")
             .d-flex.flex-column.align-items-center
-                button.toggle-btn.btn(type="button")
-                    i.bi.bi-three-dots-vertical(id="toggleIcon")
-                .sidebar-logo(style="display: none; margin-top: 10px;")
-                    img(src="images/logo_blanco.png", alt="LM Médical Group Logo", class="logo")
+                .sidebar-logo
+                        img(src="images/logo_blanco.png", alt="LM Médical Group Logo", class="logo")
             ul.sidebar-nav
                 li.sidebar-item
                     a.sidebar-link(href="/getMain", class="menu-item")
@@ -42,7 +40,7 @@ html(lang="es")
                     span Cerrar Sesión
 
         script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js")
-        script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11") // Asegúrate de incluir SweetAlert2
+        script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
         script.
             function logout() {
                 Swal.fire({
@@ -61,23 +59,6 @@ html(lang="es")
                 });
             }
 
-            const sidebar = document.getElementById('sidebar');
-            const toggleIcon = document.getElementById('toggleIcon');
-            const logo = document.querySelector('.sidebar-logo');
-
-            sidebar.addEventListener('mouseenter', function () {
-                this.classList.add('expand');
-                toggleIcon.style.display = 'none'; // Ocultar los tres puntitos
-                logo.style.display = 'block'; // Mostrar el logo
-            });
-
-            sidebar.addEventListener('mouseleave', function () {
-                this.classList.remove('expand');
-                toggleIcon.style.display = 'block'; // Mostrar los tres puntitos
-                logo.style.display = 'none'; // Ocultar el logo
-            });
-
-            // Resaltar la opción seleccionada
             const menuItems = document.querySelectorAll('.menu-item');
 
             menuItems.forEach(item => {
@@ -87,7 +68,6 @@ html(lang="es")
                 });
             });
 
-            // Al cargar la página, resaltar la opción activa según la URL
             const currentPath = window.location.pathname;
             menuItems.forEach(item => {
                 if (item.getAttribute('href') === currentPath) {
