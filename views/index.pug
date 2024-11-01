@@ -9,12 +9,12 @@ html
     script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
     script(src="/js/frontMain.js") 
   body
-    .container-fluid(style="background-image: url('images/background_modulos.png'); background-size: cover; background-attachment: fixed; min-height: 100vh;")
-      .row.m-0
+    .container-fluid(style="background-image: url('images/background_modulos.png'); background-size: cover; background-attachment: fixed; min-height: 100vh; padding-top: 20px;")
+      .row.justify-content-center
         .col-md-2(style="width: 200px;")
           include sidebar.pug
-        .col-md-10.d-flex.justify-content-center
-          .main.p-3
+        .col-md-9
+          .bg-light.p-4.rounded(style="margin-bottom: 20px; margin: 15px; opacity: 0.85;")
             .content-wrapper.d-flex.flex-column.align-items-center
               if medico
                 h3 #{"Bienvenido Doctor: " + medico.nombre + " " + medico.apellido}
@@ -25,15 +25,14 @@ html
               - var opcionesFecha = { weekday: 'long', day: 'numeric', month: 'long' };
               - var fechaCompleta = fechaActual.toLocaleDateString('es-ES', opcionesFecha);
 
-              h1.text-center Estos son los turnos para este #{fechaCompleta}
+              h3(style="font-family: 'Open Sans', sans-serif; font-weight: 300; color: #555; text-align: left; margin-top: 20px;") Estos son los turnos para este #{fechaCompleta}
 
               #resultadosContainer
                 if Object.keys(turnos).length > 0
-                  h2.text-center MAÑANA
                   .row
                     each hora in ['09:00:00', '09:15:00', '09:30:00', '09:45:00', '10:00:00', '10:15:00', '10:30:00', '10:45:00', '11:00:00', '11:15:00', '11:30:00', '11:45:00', '12:00:00', '12:15:00', '12:30:00', '12:45:00']
-                      .col-md-3
-                        .card
+                      .col-md-3(style="padding: 15px;")
+                        .card(style="background-color: #e9ecef;")
                           h5.card-title.text-left #{hora}
                           if turnos[hora]
                             p.card-text Paciente: #{turnos[hora].nombre} #{turnos[hora].apellido}
@@ -47,11 +46,15 @@ html
                             p.card-text.text-center No hay turno disponible.
                             .badge.bg-warning.text-center(style="width: 60%; padding: 5px; margin: 5px auto;") Turno Libre
 
-                  h2.text-center TARDE
+                  // Línea divisoria
+                  .text-center
+                    hr(style="border: 1px solid #ccc; width: 50%; margin: 20px auto;")
+
+                  // Turnos de la tarde
                   .row
                     each hora in ['17:00:00', '17:15:00', '17:30:00', '17:45:00', '18:00:00', '18:15:00', '18:30:00', '18:45:00', '19:00:00', '19:15:00', '19:30:00', '19:45:00', '20:00:00', '20:15:00', '20:30:00', '20:45:00']
-                      .col-md-3
-                        .card
+                      .col-md-3(style="padding: 15px;")
+                        .card(style="background-color: #e9ecef;")
                           h5.card-title.text-left #{hora}
                           if turnos[hora]
                             p.card-text Paciente: #{turnos[hora].nombre} #{turnos[hora].apellido}

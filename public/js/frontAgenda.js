@@ -1,64 +1,66 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const resultadosContainer = document.getElementById('resultadosContainer');
-
-  // Inicializar Flatpickr
-  flatpickr('#calendario', {
-      inline: true, // Muestra el calendario abierto
-      onChange: function(selectedDates) {
-          const fecha = selectedDates[0];
-          if (fecha) {
-              const fechaString = fecha.toISOString().split('T')[0]; // Formato YYYY-MM-DD
-              fetchTurnos(fechaString);
-          }
-      }
-  });
-
-  const fetchTurnos = (fecha) => {
-      // Verificamos si se seleccionó una fecha válida
-      if (!fecha) {
-          resultadosContainer.innerHTML = '<div class="alert alert-warning">Por favor, seleccione una fecha válida.</div>';
-          return;
-      }
-
-      // Realizamos la petición fetch
-      fetch(`/turnos/${fecha}`)
-          .then(response => {
-              if (!response.ok) {
-                  throw new Error('Error en la respuesta de la red');
-              }
-              return response.json();
-          })
-          .then(data => {
-              const turnos = data.turnos;
-              resultadosContainer.innerHTML = ''; // Limpiar resultados anteriores
-
-              // Verificamos si hay turnos disponibles
-              if (turnos && turnos.length > 0) {
-                  turnos.forEach(turno => {
-                      // Crear el elemento directamente sin ul
-                      const li = document.createElement('div');
-                      li.className = 'list-group-item d-flex justify-content-between align-items-center';
-                      li.setAttribute('data-id', turno.numero_turno);
-                      li.setAttribute('data-nombre', `${turno.nombre} ${turno.apellido}`);
-
-                      // Agregar contenido al turno
-                      li.innerHTML = `
-                          <span style="width: 100%;">
-                              <strong>Hora:</strong> ${turno.hora.slice(0, 5)} | 
-                              <strong>Paciente:</strong> ${turno.nombre} ${turno.apellido} | 
-                              <strong>Motivo:</strong> ${turno.motivo_consulta}
-                          </span>
-                      `;
-
-                      resultadosContainer.appendChild(li); // Agregar el turno directamente al contenedor
-                  });
-              } else {
-                  resultadosContainer.innerHTML = '<div class="alert alert-warning">No se encontraron turnos para esta fecha.</div>';
-              }
-          })
-          .catch(error => {
-              console.error('Error al solicitar los turnos:', error);
-              resultadosContainer.innerHTML = '<div class="alert alert-danger">Ocurrió un error al solicitar los turnos.</div>';
-          });
-  };
+    const resultadosContainer = document.getElementById('tbodyResultados');
+    const diaSelect = document.getElementById('dia');
+    const mesSelect = document.getElementById('mes');
+    const anioSelect = document.getElementById('anio');
+    const loadingIndicator = document.createElement('tr');
+    loadingIndicator.innerHTML = '<td colspan="4" class="text-center"><i class="bi bi-arrow-clockwise spinner-border" role="status"></i> Cargando turnos...</td>';
+    
+    // Inicializar la fecha actual
+    const today = new Date();
+    diaSelect.value = today.getDate();
+    mesSelect.value = String(today.getMonth() + 1).padStart(2, '0');
+    anioSelect.value = today.getFullYear();
+  
+    const fetchTurnos = (fecha) => {
+        resultadosContainer.innerHTML = ''; // Limpiar resultados anteriores
+        resultadosContainer.appendChild(loadingIndicator); // Mostrar loading
+        
+        fetch(`/turnos/${fecha}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de la red');
+                }
+                return response.json();
+            })
+            .then(data => {
+                resultadosContainer.innerHTML = ''; // Limpiar resultados anteriores
+                loadingIndicator.remove(); // Remover loading
+                
+                if (data.turnos && data.turnos.length > 0) {
+                    data.turnos.forEach(turno => {
+                        const tr = document.createElement('tr');
+                        tr.classList.add(turno.numero_turno % 2 === 0 ? 'row-even' : 'row-odd'); // Clase según par o impar
+                        
+                        tr.innerHTML = `
+                            <td class="turno-cell">${turno.hora.slice(0, 5)}</td>
+                            <td class="turno-cell">${turno.nombre} ${turno.apellido}</td>
+                            <td class="turno-cell">${turno.motivo_consulta}</td>
+                            <td>
+                                <a href="/hce/${turno.numero_turno}" class="btn-hce">
+                                    <i class="bi bi-heart-pulse-fill turno-icon" title="Ir a HCE del paciente"></i>
+                                </a>
+                            </td>
+                        `;
+                        resultadosContainer.appendChild(tr);
+                    });
+                } else {
+                    resultadosContainer.innerHTML = '<tr><td colspan="4" class="text-center alert alert-warning">No se encontraron turnos para esta fecha.</td></tr>';
+                }
+            })
+            .catch(error => {
+                console.error('Error al solicitar los turnos:', error);
+                resultadosContainer.innerHTML = '<tr><td colspan="4" class="text-center alert alert-danger">Ocurrió un error al solicitar los turnos.</td></tr>';
+            });
+    };
+  
+    document.getElementById('buscarTurnos').addEventListener('click', () => {
+        const dia = diaSelect.value.padStart(2, '0');
+        const mes = mesSelect.value;
+        const anio = anioSelect.value;
+        const fecha = `${anio}-${mes}-${dia}`;
+        fetchTurnos(fecha);
+    });
+  
+    fetchTurnos(`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`); // Llamar al cargar
 });
