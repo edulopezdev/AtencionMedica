@@ -157,10 +157,10 @@ const obtenerHcePorDni = async (req, res) => {
             return res.status(404).json({ mensaje: 'No se encontró paciente con ese DNI' });
         }
         
-        console.log(paciente); // Asegúrate de utilizar la variable correcta
+        // console.log(paciente); // Asegúrate de utilizar la variable correcta
         
         // Enviar el paciente como respuesta
-        res.status(200).json(paciente);
+        res.status(200).json( paciente );
     } catch (error) {
         console.error('Error al obtener paciente por DNI:', error);
         res.status(500).json({ error: 'Error interno del servidor' });

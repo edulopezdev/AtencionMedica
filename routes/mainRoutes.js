@@ -15,7 +15,7 @@ router.get('/agenda',  authController.authMiddleware,  (req, res) => {
 
 // Ruta para la página de hce
 router.get('/hce',   authController.authMiddleware, (req, res) => {
-    res.render('hce'); // Renderiza hce
+    res.render('hce', { matricula: req.session.matricula }); // Renderiza hce
 });
 
 // Ruta para la página de hce

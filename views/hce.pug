@@ -35,3 +35,6 @@ html
               #resultados.table.table-striped.table-bordered
                 
     script(src='/js/frontHce.js')
+    script.
+      window.matricula = !{JSON.stringify(matricula)}; 
+      console.log('Datos de turnos iniciales:', window.matricula); 
