@@ -3,9 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const buscarButton = document.getElementById('buscarHCE');
     // const resultadosTabla = document.getElementById('tablaResultados');
     let datosPacienteSeleccionado = null;
-
+    const matricula = window.matricula;
     const tablaResultados = document.getElementById('lala');
-    console.log(tablaResultados + 'tabla resultados ');
+    // console.log(tablaResultados + 'tabla resultados ');
+    console.log(matricula)
 
     const mostrarResultadosEnDesplegable = (turnos) => {
         // Limpiar resultados anteriores
@@ -67,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const mostrarTurnosHce = (turnosHistoria) => {
         // Verifica que el elemento con ID 'resultados' no sea null antes de continuar
         const tablaResultados = document.getElementById('resultados');
+
         if (!tablaResultados) {
             console.error("Elemento con ID 'resultados' no encontrado en el DOM");
             return;
@@ -79,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const thead = `
             <tr>
                 <th>Fecha</th>
-                <th>DNI Paciente</th>
+                <th>Profesional</th>
                 <th>Alergia</th>
                 <th>Antecedente</th>
                 <th>Diagnóstico</th>
@@ -91,21 +93,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Crea el tbody
         const tbody = document.createElement('tbody');
-        tbody.id = 'lala'; // Asignamos un ID si es necesario
 
         // Recorre los turnos y crea filas para la tabla
         turnosHistoria.forEach(turno => {
             const fila = document.createElement('tr');
+            // console.log( turno.matricula_medico + 'matricula peidod')
+            // Verifica si la matrícula del turno coincide con la matrícula actual
+            const esMismoMedico = turno.matricula_medico == matricula;
 
-            // Crea las celdas (td)
+            // Crea las celdas (td) con los datos correspondientes o "Privado" si no es el mismo médico
             fila.innerHTML = `
-                <td>${turno.fecha}</td>
-                <td>${turno.dni_paciente}</td>
-                <td>${turno.nombre_alergia || 'N/A'}</td>
-                <td>${turno.descripcion_antecedente || 'N/A'}</td>
-                <td>${turno.resumen_diagnostico || 'N/A'}</td>
-                <td>${turno.resumen_evolucion || 'N/A'}</td>
-                <td>${turno.descripcion_habito || 'N/A'}</td>
+                <td>${ turno.fecha }</td>
+                <td>${ turno.profesional }</td>
+                <td>${ turno.motivo_consulta }</td>
+                <td>${esMismoMedico ? (turno.nombre_alergia || 'N/A') : 'Privado'}</td>
+                <td>${esMismoMedico ? (turno.descripcion_antecedente || 'N/A') : 'Privado'}</td>
+                <td>${ turno.resumen_diagnostico }</td>
+                <td>${esMismoMedico ? (turno.resumen_evolucion || 'N/A') : 'Privado'}</td>
+                <td>${esMismoMedico ? (turno.descripcion_habito || 'N/A') : 'Privado'}</td>
             `;
 
             // Añade la fila al tbody
@@ -115,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Añade el tbody a la tablaResultados
         tablaResultados.appendChild(tbody);
     }
+
 
 
 
