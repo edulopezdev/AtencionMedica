@@ -5,7 +5,7 @@ const authController = require('../controllers/authController'); // Importamos e
 
 // Ruta para la página de inicio
 router.get('/index', authController.authMiddleware,  (req, res) => {
-    res.render('index');
+    res.render('index', { nombre: req.session.nombre });
 });
 
 // Ruta para la página de agenda

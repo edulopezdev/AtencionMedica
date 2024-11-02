@@ -19,7 +19,7 @@ html
               if medico
                 h3 #{"Bienvenido Doctor: " + medico.nombre + " " + medico.apellido}
               else
-                h3 Bienvenido Doctor: Información no disponible.
+                h3 Bienvenido Doctor: #{nombre}
 
               - var fechaActual = new Date();
               - var opcionesFecha = { weekday: 'long', day: 'numeric', month: 'long' };
