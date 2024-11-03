@@ -9,7 +9,7 @@ html
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
     script(src="/js/frontHCE.js")
   body
-    .container-fluid(style="background-image: url('images/background_modulos.png'); background-size: cover; background-attachment: fixed; min-height: 100vh;")
+    .container-fluid(style="background-image: url('images/background_modulos.png'); background-size: cover; background-attachment: fixed; min-height: 100vh; padding-top: 20px;")
       .row.justify-content-center
         .col-md-2(style="width: 200px;")
           include sidebar.pug
@@ -18,13 +18,11 @@ html
             .d-flex.align-items-center
               h3(style="margin: 0;") HCE
               .mx-auto
-                .d-flex.justify-center
+                .d-flex.justify-content-center
                   // Texto de indicación
-                  input#search.form-control(type="text" placeholder="Buscar por nombre o DNI" list="pacientes" style="width: 300px;")
-
+                  input#search.form-control(type="text" placeholder="Buscar por nombre o DNI" list="pacientes" style="width: 300px; margin-right: 10px;")
                   // Datalist para sugerencias
                   datalist#pacientes
-
                   // Botón para buscar HCE
                   button#buscarHCE.btn.btn-primary.btn-buscar(type="button") Buscar
 
@@ -41,4 +39,4 @@ html
 
               tbody#resultados
     script.
-      window.matricula = !{JSON.stringify(matricula)};
+      window.matricula = !{JSON.stringify(matricula)}
