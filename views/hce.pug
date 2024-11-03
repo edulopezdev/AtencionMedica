@@ -38,5 +38,25 @@ html
                   th(style="color: white;") Hábito
 
               tbody#resultados
+                if paciente 
+                  each turno in paciente
+                    tr
+                      td= turno.fecha
+                      td= turno.profesional
+                      if turno.matricula_medico == matricula
+                        td= turno.nombre_alergia || 'N/A'
+                        td= turno.descripcion_antecedente || 'N/A'
+                        td= turno.resumen_diagnostico
+                        td= turno.resumen_evolucion || 'N/A'
+                        td= turno.descripcion_habito || 'N/A'
+                      else
+                        td Privado
+                        td Privado
+                        td= turno.resumen_diagnostico
+                        td Privado
+                        td Privado
+                else
+                  tr
+                    td(colspan="7") No se encontraron datos para el paciente
     script.
       window.matricula = !{JSON.stringify(matricula)}

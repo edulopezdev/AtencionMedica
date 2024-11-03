@@ -18,9 +18,11 @@ router.get('/hce',   authController.authMiddleware, (req, res) => {
     res.render('hce', { matricula: req.session.matricula }); // Renderiza hce
 });
 
+
 // Ruta para la página de hce
 router.get('/buscarPacientesPorNombre',  authController.authMiddleware,  consultaController.obtenerPacientesPorNombre );
 router.get('/buscarHcePacientePorDni',  authController.authMiddleware,  consultaController.obtenerHcePorDni );
+router.get('/buscarHcePacientePorDniEspecifico',  authController.authMiddleware,  consultaController.obtenerHcePorDniEspecifico );
 
 // Ruta para la página de perfil
 router.get('/profile',   authController.authMiddleware,  (req, res) => {

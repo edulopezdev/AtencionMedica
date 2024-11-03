@@ -167,6 +167,33 @@ const obtenerHcePorDni = async (req, res) => {
     }
 };
 
+const obtenerHcePorDniEspecifico = async (req, res) => {
+    const matricula = req.session.matricula;
+    try {
+        // Obtiene el DNI del parámetro de consulta
+        const dni = req.query.dni;
+        
+        // Verifica si se proporcionó el DNI
+        if (!dni) {
+            return res.status(400).json({ error: 'DNI no proporcionado' });
+        }
+        
+        // Llama a la función para obtener el paciente por DNI
+        const paciente = await hceXDni(dni);
+        
+        // Verifica si se encontró el paciente
+        if (paciente.length === 0) {
+            return res.status(404).json({ mensaje: 'No se encontró paciente con ese DNI' });
+        }
+        console.log( paciente );
+        // Renderiza el archivo Pug y envía los datos del paciente
+        res.render('hce', { paciente, matricula }); 
+    } catch (error) {
+        console.error('Error al obtener paciente por DNI:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
+
 
 module.exports = {
     getMain,
@@ -176,5 +203,6 @@ module.exports = {
     guardarConsulta,
     obtenerPacientesPorNombre,
     obtenerHcePorDni,
+    obtenerHcePorDniEspecifico,
 
 };

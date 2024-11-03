@@ -47,7 +47,7 @@ const hceXDni = ( dni ) => { //datos completos de todas las consultas
     (SELECT resumen_diagnostico FROM diagnostico WHERE numero_turno = t.numero_turno LIMIT 1) AS resumen_diagnostico,
     (SELECT resumen_evolucion FROM evolucion WHERE numero_turno = t.numero_turno LIMIT 1) AS resumen_evolucion,
     (SELECT descripcion_habito FROM habito WHERE numero_turno = t.numero_turno LIMIT 1) AS descripcion_habito,
-    (SELECT CONCAT(nombre, ' ', apellido) FROM medico WHERE numero_turno = t.numero_turno LIMIT 1) AS profesional,
+    (SELECT CONCAT(nombre, ' ', apellido) FROM medico WHERE matricula_medico = t.numero_turno LIMIT 1) AS profesional,
     t.fecha,
     t.dni_paciente,
     t.matricula_medico,
@@ -55,7 +55,7 @@ const hceXDni = ( dni ) => { //datos completos de todas las consultas
 FROM 
     turno t
 WHERE 
-    t.dni_paciente = ? 
+    t.dni_paciente = ?
     AND t.estado LIKE 'Atendido' 
 ORDER BY 
     t.fecha DESC;

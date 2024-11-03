@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 if (data.turnos && data.turnos.length > 0) {
                     data.turnos.forEach(turno => {
+                        console.log(JSON.stringify(turno) + 'dniiiiiiiii');
                         const tr = document.createElement('tr');
                         tr.classList.add(turno.numero_turno % 2 === 0 ? 'row-even' : 'row-odd'); // Clase según par o impar
                         
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <td class="turno-cell">${turno.nombre} ${turno.apellido}</td>
                             <td class="turno-cell">${turno.motivo_consulta}</td>
                             <td>
-                                <a href="/hce/${turno.numero_turno}" class="btn-hce">
+                                <a href="/buscarHcePacientePorDniEspecifico?dni=${turno.dni_paciente}" class="btn-hce">
                                     <i class="bi bi-heart-pulse-fill turno-icon" title="Ir a HCE del paciente"></i>
                                 </a>
                             </td>
