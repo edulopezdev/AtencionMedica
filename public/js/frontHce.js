@@ -1,172 +1,115 @@
 document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('search');
     const buscarButton = document.getElementById('buscarHCE');
-    // const resultadosTabla = document.getElementById('tablaResultados');
+    const resultadosContainer = document.getElementById('resultados'); // Asegúrate que el ID sea correcto
     let datosPacienteSeleccionado = null;
-    const matricula = window.matricula;
-    const tablaResultados = document.getElementById('lala');
-    // console.log(tablaResultados + 'tabla resultados ');
-    console.log(matricula)
+    const matricula = window.matricula; // Verifica que matricula esté definida
 
     const mostrarResultadosEnDesplegable = (turnos) => {
-        // Limpiar resultados anteriores
         const datalist = document.getElementById('pacientes');
-        datalist.innerHTML = ''; // Limpiar el datalist
+        datalist.innerHTML = '';
 
         if (turnos.length === 0) {
-            return; // No mostrar nada si no hay resultados
+            return;
         }
 
-        // Crear opciones dinámicamente
         turnos.forEach(turno => {
             const option = document.createElement('option');
-            option.value = `${turno.apellido} ${turno.nombre} dni: ${turno.dni_paciente}`;
+            option.value = `${turno.apellido} ${turno.nombre} DNI: ${turno.dni_paciente}`;
             datalist.appendChild(option);
         });
     }
 
-    // Función para realizar la búsqueda en tiempo real
     const buscarPacienteInput = async (query) => {
         try {
             const response = await fetch(`/buscarPacientesPorNombre?query=${encodeURIComponent(query)}`);
             if (response.ok) {
                 const turnos = await response.json();
-
-                // Mostrar resultados en el datalist
                 mostrarResultadosEnDesplegable(turnos);
-
-                // Guardar el paciente en variable si es único
                 if (turnos.length === 1) {
                     datosPacienteSeleccionado = turnos[0];
-                    console.log("Datos del paciente único:", datosPacienteSeleccionado);
                 }
             } else {
                 console.error('Error en la respuesta:', response.statusText);
             }
         } catch (error) {
             console.error('Error en la búsqueda:', error);
-            alert('Hubo un problema al buscar los datos. Inténtalo nuevamenteee.');
+            alert('Hubo un problema al buscar los datos. Inténtalo nuevamente.');
         }
     }
 
-    // Evento para el campo de búsqueda (búsqueda en tiempo real)
     searchInput.addEventListener('input', () => {
         const query = searchInput.value;
         if (query.length > 0) {
             buscarPacienteInput(query);
         } else {
-            resultadosTabla.innerHTML = ''; // Limpiar tabla si no hay búsqueda
+            resultadosContainer.innerHTML = ''; // Limpiar tabla si no hay búsqueda
         }
     });
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses son 0-indexados
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    };
 
-    //============================================== evento boton ========================
-
-
-
-    //Buscar turnos de un paciente para pintar en tabla
     const mostrarTurnosHce = (turnosHistoria) => {
-        // Verifica que el elemento con ID 'resultados' no sea null antes de continuar
-        const tablaResultados = document.getElementById('resultados');
+        resultadosContainer.innerHTML = '';
 
-        if (!tablaResultados) {
-            console.error("Elemento con ID 'resultados' no encontrado en el DOM");
+        if (!turnosHistoria || turnosHistoria.length === 0) {
+            resultadosContainer.innerHTML = '<tr><td colspan="7" class="text-center alert alert-warning">No se encontraron turnos para este paciente.</td></tr>';
             return;
         }
 
-        // Limpia el contenido previo de la tabla antes de agregar nuevos resultados
-        tablaResultados.innerHTML = '';
-
-        // Crea el thead de la tabla
-        const thead = `
-            <tr>
-                <th>Fecha</th>
-                <th>Profesional</th>
-                <th>Alergia</th>
-                <th>Antecedente</th>
-                <th>Diagnóstico</th>
-                <th>Evolución</th>
-                <th>Hábito</th>
-            </tr>
-        `;
-        tablaResultados.innerHTML = `<thead>${thead}</thead>`;
-
-        // Crea el tbody
-        const tbody = document.createElement('tbody');
-
-        // Recorre los turnos y crea filas para la tabla
         turnosHistoria.forEach(turno => {
-            const fila = document.createElement('tr');
-            // console.log( turno.matricula_medico + 'matricula peidod')
-            // Verifica si la matrícula del turno coincide con la matrícula actual
+            const tr = document.createElement('tr');
             const esMismoMedico = turno.matricula_medico == matricula;
-
-            // Crea las celdas (td) con los datos correspondientes o "Privado" si no es el mismo médico
-            fila.innerHTML = `
-                <td>${ turno.fecha }</td>
-                <td>${ turno.profesional }</td>
-                <td>${ turno.motivo_consulta }</td>
-                <td>${esMismoMedico ? (turno.nombre_alergia || 'N/A') : 'Privado'}</td>
-                <td>${esMismoMedico ? (turno.descripcion_antecedente || 'N/A') : 'Privado'}</td>
-                <td>${ turno.resumen_diagnostico }</td>
-                <td>${esMismoMedico ? (turno.resumen_evolucion || 'N/A') : 'Privado'}</td>
-                <td>${esMismoMedico ? (turno.descripcion_habito || 'N/A') : 'Privado'}</td>
+            console.log(turno.matricula_medico);
+            console.log(matricula);
+            tr.innerHTML = `
+                <td class="turno-cell">${formatDate(turno.fecha)}</td> <!-- Modificar aquí -->
+                <td class="turno-cell">${turno.profesional}</td>
+                <td class="turno-cell">${esMismoMedico ? (turno.nombre_alergia || 'N/A') : 'Privado'}</td>
+                <td class="turno-cell">${esMismoMedico ? (turno.descripcion_antecedente || 'N/A') : 'Privado'}</td>
+                <td class="turno-cell">${turno.resumen_diagnostico}</td>
+                <td class="turno-cell">${esMismoMedico ? (turno.resumen_evolucion || 'N/A') : 'Privado'}</td>
+                <td class="turno-cell">${esMismoMedico ? (turno.descripcion_habito || 'N/A') : 'Privado'}</td>
             `;
-
-            // Añade la fila al tbody
-            tbody.appendChild(fila);
+            resultadosContainer.appendChild(tr);
         });
-
-        // Añade el tbody a la tablaResultados
-        tablaResultados.appendChild(tbody);
     }
 
-
-
-
-
-    //Evento del boton de busqueda de HCE, todos los turnos del paciente por dni
     buscarButton.addEventListener('click', async () => {
-        const dni = searchInput.value.substring(searchInput.value.length - 8, searchInput.value.length) * 1;
-        console.log(dni)
+        const dni = searchInput.value.match(/\d{8}$/); // Asegúrate de que el DNI sea correcto
+        if (!dni) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Por favor, ingresa un Nombre o DNI válido',
+                icon: 'warning',
+                confirmButtonText: 'Aceptar'
+            });
+            return;
+        }        
 
-        const tablaResultados = document.getElementById('resultados');
-        tablaResultados.innerHTML = ''; // Limpia el contenido de la tabla
+        resultadosContainer.innerHTML = ''; // Limpiar resultados anteriores
+        const loadingIndicator = document.createElement('tr');
+        loadingIndicator.innerHTML = '<td colspan="7" class="text-center"><i class="bi bi-arrow-clockwise spinner-border" role="status"></i> Cargando turnos...</td>';
+        resultadosContainer.appendChild(loadingIndicator);
 
         try {
-            const response = await fetch(`/buscarHcePacientePorDni?dni=${dni}`);
-
+            const response = await fetch(`/buscarHcePacientePorDni?dni=${dni[0]}`);
             if (response.ok) {
                 const turnos = await response.json();
-                console.log(turnos);  // Puedes usar esta línea para verificar los turnos obtenidos
-
                 mostrarTurnosHce(turnos);
             } else {
-                console.error('Error en la respuesta: ', response.statusText);
+                console.error('Error en la respuesta:', response.statusText);
+                resultadosContainer.innerHTML = '<tr><td colspan="7" class="text-center alert alert-danger">No se pudo obtener la información del paciente.</td></tr>';
             }
         } catch (error) {
             console.error('Error en la búsqueda:', error);
-            alert('Hubo un problema al buscar los datos. Inténtalo nuevamente.');
+            resultadosContainer.innerHTML = '<tr><td colspan="7" class="text-center alert alert-danger">Ocurrió un error al buscar los datos.</td></tr>';
         }
     });
-
 });
-
-
-// Función para realizar la búsqueda específica con el botón "Buscar HCE"
-// const buscarHCE = async( dniPaciente ) => {
-//     console.log(dniPaciente + ' buscar hce');
-//     try {
-//         const response = await fetch(`/buscarHcePacientePorDni?dni=${encodeURIComponent(dniPaciente)}`);
-//         if (response.ok) {
-//             const turnosHistoria = await response.json();
-//             console.log(turnosHistoria);
-//             mostrarTurnosHce( turnosHistoria );
-//         } else {
-//             console.error('Error en la respuesta:', response.statusText);
-//         }
-//     } catch (error) {
-//         console.error('Error al buscar HCE:', error);
-//         alert('Hubo un problema al buscar los datos. Inténtalo nuevamente.');
-//     }
-// }
