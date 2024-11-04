@@ -42,6 +42,7 @@ const hceXDni = (dni) => { //datos completos de todas las consultas
     return new Promise((resolve, reject) => {
         const query = `
             SELECT 
+    (SELECT CONCAT(nombre, ' ', apellido) FROM paciente WHERE dni_paciente = t.dni_paciente LIMIT 1) AS nombre_paciente,
     (SELECT nombre_alergia FROM alergia WHERE numero_turno = t.numero_turno LIMIT 1) AS nombre_alergia,
     (SELECT descripcion_antecedente FROM antecedente WHERE numero_turno = t.numero_turno LIMIT 1) AS descripcion_antecedente,
     (SELECT resumen_diagnostico FROM diagnostico WHERE numero_turno = t.numero_turno LIMIT 1) AS resumen_diagnostico,

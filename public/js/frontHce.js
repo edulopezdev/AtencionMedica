@@ -63,6 +63,12 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // Mostrar el nombre del paciente antes del bucle, si hay turnos
+        const nombrePaciente = turnosHistoria[0].nombre_paciente || 'Nombre del Paciente No Disponible';
+        const trNombrePaciente = document.createElement('tr');
+        trNombrePaciente.innerHTML = `<td colspan="7" style="background-color: #E6E6FA; text-align: center; font-weight: bold;">${nombrePaciente}</td>`;
+        resultadosContainer.appendChild(trNombrePaciente);
+
         turnosHistoria.forEach(turno => {
             const tr = document.createElement('tr');
             const esMismoMedico = turno.matricula_medico == matricula;
@@ -91,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 confirmButtonText: 'Aceptar'
             });
             return;
-        }        
+        }
 
         resultadosContainer.innerHTML = ''; // Limpiar resultados anteriores
         const loadingIndicator = document.createElement('tr');

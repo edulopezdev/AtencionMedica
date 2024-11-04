@@ -36,7 +36,7 @@ router.get('/settings',   authController.authMiddleware,  (req, res) => {
 
 // Ruta para la página de consultas
 router.get('/consulta',   authController.authMiddleware, (req, res) => {
-    res.render('consulta');
+    res.render('consulta', { medico: req.session.nombre }); // Renderiza consultas
 });
 
 // Ruta para cerrar sesión

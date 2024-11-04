@@ -39,6 +39,8 @@ html
 
               tbody#resultados
                 if paciente 
+                  tr(style="background-color: #E6E6FA;")
+                    td(colspan="7")= paciente[0].nombre_paciente || 'Nombre del Paciente No Disponible'
                   each turno in paciente
                     tr
                       td= turno.fecha

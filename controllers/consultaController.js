@@ -48,6 +48,7 @@ const obtenerTurnosPorFecha = async (req, res) => {
 // Trae los datos ultima consulta y turno, y renderizo vista consulta
 const iniciarConsultaPorNumeroTurno = (req, res) => {
     const { numero_turno } = req.query;
+    const medico = req.session.nombre;
 
     datosTurno( numero_turno )
         .then((resultado) => {
@@ -70,7 +71,7 @@ const iniciarConsultaPorNumeroTurno = (req, res) => {
             const ultimoTurno = consultaUltima[0];
             // console.log( templates);
             // console.log( ultimoTurno );
-            res.render('consulta', { turno, ultimoTurno, templates, medicamentos });
+            res.render('consulta', { turno, ultimoTurno, templates, medicamentos, medico });
         })
         .catch((error) => {
             console.error('Error en las consultas:', error);
