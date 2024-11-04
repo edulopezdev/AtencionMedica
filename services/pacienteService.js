@@ -38,7 +38,7 @@ ORDER BY
 };
 
 //Todas las consultas de un paciente HCE
-const hceXDni = ( dni ) => { //datos completos de todas las consultas
+const hceXDni = (dni) => { //datos completos de todas las consultas
     return new Promise((resolve, reject) => {
         const query = `
             SELECT 
@@ -66,14 +66,14 @@ ORDER BY
             if (error) {
                 return reject(error);  // En caso de error, se rechaza la promesa
             }
-            console.log( 'metodo ' + resultado)
+            console.log('metodo ' + resultado)
             resolve(resultado);  // En caso de éxito, se resuelven los datos del paciente
         });
     });
 };
 
 //Consultas de un paciente con otros profesionales
-const consultasPacienteConOtrosMedicos = ( dni ) => { 
+const consultasPacienteConOtrosMedicos = (dni) => {
     return new Promise((resolve, reject) => {
         const query = `
             SELECT 
@@ -97,7 +97,7 @@ ORDER BY
                 return reject(error);  // En caso de error, se rechaza la promesa
             }
             //console.log( 'metodo ' + resultado)
-            resolve(resultado);  
+            resolve(resultado);
         });
     });
 };
@@ -115,23 +115,28 @@ const guardarConsultaCompleta = (datos) => {
                 UPDATE turno
                 SET estado = 'Atendido'
                 WHERE numero_turno = ?
-                `;
+            `;
             const paramsActualizarTurno = [datos.numero_turno];
 
             conexion.query(queryActualizarTurno, paramsActualizarTurno, (error) => {
                 if (error) return conexion.rollback(() => reject(error));
             });
-            // Inserta en la tabla alergia
-            const queryAlergia = `
-                INSERT INTO alergia (nombre_alergia, importancia, fecha_desde, fecha_hasta, numero_turno)
-                VALUES (?, ?, ?, ?, ?)
-            `;
-            const paramsAlergia = [datos.nombre_alergia, datos.importancia_alergia, datos.fecha_desde_alergia, datos.fecha_hasta_alergia, datos.numero_turno];
 
-            conexion.query(queryAlergia, paramsAlergia, (error) => {
-                if (error) return conexion.rollback(() => reject(error));
+            // Inserta en la tabla alergia si los datos están presentes
+            if (datos.nombre_alergia && datos.importancia_alergia && datos.fecha_desde_alergia && datos.fecha_hasta_alergia) {
+                const queryAlergia = `
+                    INSERT INTO alergia (nombre_alergia, importancia, fecha_desde, fecha_hasta, numero_turno)
+                    VALUES (?, ?, ?, ?, ?)
+                `;
+                const paramsAlergia = [datos.nombre_alergia, datos.importancia_alergia, datos.fecha_desde_alergia, datos.fecha_hasta_alergia, datos.numero_turno];
 
-                // Inserta en la tabla antecedente
+                conexion.query(queryAlergia, paramsAlergia, (error) => {
+                    if (error) return conexion.rollback(() => reject(error));
+                });
+            }
+
+            // Inserta en la tabla antecedente si los datos están presentes
+            if (datos.descripcion_antecedente && datos.fecha_desde_antecedente && datos.fecha_hasta_antecedente) {
                 const queryAntecedente = `
                     INSERT INTO antecedente (descripcion_antecedente, fecha_desde, fecha_hasta, numero_turno)
                     VALUES (?, ?, ?, ?)
@@ -140,67 +145,82 @@ const guardarConsultaCompleta = (datos) => {
 
                 conexion.query(queryAntecedente, paramsAntecedente, (error) => {
                     if (error) return conexion.rollback(() => reject(error));
+                });
+            }
 
-                    // Inserta en la tabla diagnostico
-                    const queryDiagnostico = `
-                        INSERT INTO diagnostico (resumen_diagnostico, estado, numero_turno)
-                        VALUES (?, ?, ?)
+            // Inserta múltiples registros en la tabla diagnostico si existen en el array
+            datos.diagnosticosArray.forEach(diagnostico => {
+                const queryDiagnostico = `
+                    INSERT INTO diagnostico (resumen_diagnostico, estado, numero_turno)
+                    VALUES (?, ?, ?)
+                `;
+                const paramsDiagnostico = [diagnostico.diagnostico, diagnostico.estado, datos.numero_turno];
+
+                conexion.query(queryDiagnostico, paramsDiagnostico, (error) => {
+                    if (error) return conexion.rollback(() => reject(error));
+                });
+            });
+
+            // Inserta en la tabla evolucion
+            const queryEvolucion = `
+                INSERT INTO evolucion (resumen_evolucion, numero_turno)
+                VALUES (?, ?)
+            `;
+            const paramsEvolucion = [datos.resumen_evolucion, datos.numero_turno];
+
+            conexion.query(queryEvolucion, paramsEvolucion, (error) => {
+                if (error) return conexion.rollback(() => reject(error));
+
+                // Inserta en la tabla habito si los datos están presentes
+                if (datos.descripcion_habito && datos.fecha_desde_habito && datos.fecha_hasta_habito) {
+                    const queryHabito = `
+                        INSERT INTO habito (descripcion_habito, fecha_desde, fecha_hasta, numero_turno)
+                        VALUES (?, ?, ?, ?)
                     `;
-                    const paramsDiagnostico = [datos.resumen_diagnostico, datos.estado_diagnostico, datos.numero_turno];
+                    const paramsHabito = [datos.descripcion_habito, datos.fecha_desde_habito, datos.fecha_hasta_habito, datos.numero_turno];
 
-                    conexion.query(queryDiagnostico, paramsDiagnostico, (error) => {
+                    conexion.query(queryHabito, paramsHabito, (error) => {
+                        if (error) return conexion.rollback(() => reject(error));
+                    });
+                }
+
+                // Inserta en la tabla receta si hay un medicamento seleccionado
+                if (datos.id_medicamento) {
+                    const queryReceta = `
+                        INSERT INTO receta (id_medicamento, numero_turno)
+                        VALUES (?, ?)
+                    `;
+                    const paramsReceta = [datos.id_medicamento, datos.numero_turno];
+
+                    conexion.query(queryReceta, paramsReceta, (error) => {
                         if (error) return conexion.rollback(() => reject(error));
 
-                        // Inserta en la tabla evolucion
-                        const queryEvolucion = `
-                            INSERT INTO evolucion (resumen_evolucion, numero_turno)
-                            VALUES (?, ?)
-                        `;
-                        const paramsEvolucion = [datos.resumen_evolucion, datos.numero_turno];
-
-                        conexion.query(queryEvolucion, paramsEvolucion, (error) => {
-                            if (error) return conexion.rollback(() => reject(error));
-
-                            // Inserta en la tabla habito
-                            const queryHabito = `
-                                INSERT INTO habito (descripcion_habito, fecha_desde, fecha_hasta, numero_turno)
-                                VALUES (?, ?, ?, ?)
-                            `;
-                            const paramsHabito = [datos.descripcion_habito, datos.fecha_desde_habito, datos.fecha_hasta_habito, datos.numero_turno];
-
-                            conexion.query(queryHabito, paramsHabito, (error) => {
-                                if (error) return conexion.rollback(() => reject(error));
-
-                                // Inserta en la tabla receta
-                                const queryReceta = `
-                                    INSERT INTO receta (id_medicamento, numero_turno)
-                                    VALUES (?, ?)
-                                `;
-                                const paramsReceta = [datos.id_medicamento, datos.numero_turno];
-
-                                conexion.query(queryReceta, paramsReceta, (error) => {
-                                    if (error) return conexion.rollback(() => reject(error));
-
-                                    // Si todo ha ido bien, confirma la transacción
-                                    conexion.commit((err) => {
-                                        if (err) return conexion.rollback(() => reject(err));
-                                        resolve('Datos actualizados correctamente');
-                                    });
-                                });
-                            });
+                        // Si todo ha ido bien, confirma la transacción
+                        conexion.commit((err) => {
+                            if (err) return conexion.rollback(() => reject(err));
+                            resolve('Datos actualizados correctamente');
                         });
                     });
-                });
+                } else {
+                    // Si no hay medicamento, confirma la transacción sin insertar en receta
+                    conexion.commit((err) => {
+                        if (err) return conexion.rollback(() => reject(err));
+                        resolve('Datos actualizados correctamente');
+                    });
+                }
             });
         });
     });
+};
 
-}
+
+
+
 
 //Listar pacientes
 const listarPacientes = () => {
     return new Promise((resolve, reject) => {
-        const queryPacientes = 'SELECT * FROM paciente'; 
+        const queryPacientes = 'SELECT * FROM paciente';
         conexion.query(queryPacientes, (error, resultados) => {
             if (error) return reject(error);
             resolve(resultados);
@@ -209,7 +229,7 @@ const listarPacientes = () => {
 };
 
 //buscar paciente por nombre
-const obtenerPacienteXNombre = ( nombre ) => {
+const obtenerPacienteXNombre = (nombre) => {
     return new Promise((resolve, reject) => {
         const queryPacientePorNombre = 'SELECT * FROM paciente WHERE nombre like "%?%" or apellido like "%?%"'; // Reemplaza 'paciente' y 'nombre' según el nombre de tu tabla y columna
         conexion.query(queryPacientePorNombre, [nombre], (error, resultados) => {
@@ -220,13 +240,13 @@ const obtenerPacienteXNombre = ( nombre ) => {
 };
 
 
-    // Exporta las funciones
-    module.exports = { 
-        ultimaConsultaPorNumeroDni,
-        hceXDni,
-        consultasPacienteConOtrosMedicos,
-        guardarConsultaCompleta,
-        listarPacientes,
-        obtenerPacienteXNombre,
-        
-    };
+// Exporta las funciones
+module.exports = {
+    ultimaConsultaPorNumeroDni,
+    hceXDni,
+    consultasPacienteConOtrosMedicos,
+    guardarConsultaCompleta,
+    listarPacientes,
+    obtenerPacienteXNombre,
+
+};

@@ -81,7 +81,7 @@ const iniciarConsultaPorNumeroTurno = (req, res) => {
 
 const guardarConsulta = (req, res) => {
     // Extraer los datos del formulario desde `req.body`
-    const { numero_turno, evolucion, diagnostico, alergia, antecedentes, habitos, medicamento } = req.body;
+    const { numero_turno, evolucion, diagnosticosArray, alergia, antecedentes, habitos, medicamento } = req.body;
 
     // Construir el objeto de datos para guardar en la base de datos
     const datos = {
@@ -94,8 +94,7 @@ const guardarConsulta = (req, res) => {
         descripcion_antecedente: antecedentes.antecedentes, // igual que arriba
         fecha_desde_antecedente: antecedentes.inicioAntecedentes,
         fecha_hasta_antecedente: antecedentes.finAntecedentes,
-        resumen_diagnostico: diagnostico.texto,
-        estado_diagnostico: diagnostico.estado,
+        diagnosticosArray: diagnosticosArray,
         resumen_evolucion: evolucion,
         descripcion_habito: habitos.habitos,
         fecha_desde_habito: habitos.inicioHabitos,

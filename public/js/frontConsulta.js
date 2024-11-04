@@ -17,6 +17,56 @@ document.addEventListener('DOMContentLoaded', function () {
   // datos del turno
   const turno = window.turno;
   const numero_turno = turno.numero_turno;
+  //Boton add diagnostico
+  const addDiagnosticoButton = document.getElementById('addDiagnosticoButton');
+
+  //Agregar mas de un diagnostico
+  console.log('ejecutando front.....')
+  // Función para agregar un nuevo diagnóstico
+  const addDiagnostico = () => {
+    const diagnosticosContainer = document.getElementById('diagnosticosContainer');
+
+    const nuevoDiagnostico = document.createElement('div');
+    nuevoDiagnostico.classList.add('diagnostico-item', 'mb-3');
+
+    nuevoDiagnostico.innerHTML = `
+    <label for="diagnostico" class="form-label">Diagnóstico:</label>
+    <textarea class="form-control" name="diagnostico" placeholder="Ingresar diagnóstico" rows="3"></textarea>
+
+    <label for="estadoDiagnostico" class="form-label">Estado del Diagnóstico:</label>
+    <select class="form-select" name="estadoDiagnostico">
+      <option value="">Seleccionar</option>
+      <option value="Preliminar">Preliminar</option>
+      <option value="Confirmado">Confirmado</option> 
+    </select>
+  `;
+
+    diagnosticosContainer.appendChild(nuevoDiagnostico);
+  };
+
+  // Función para recoger todos los diagnósticos en un array de objetos
+  const getDiagnosticosArray = () => {
+    const diagnosticos = [];
+
+    // Selecciona todos los elementos de diagnóstico
+    const diagnosticoItems = document.querySelectorAll('.diagnostico-item');
+
+    diagnosticoItems.forEach(item => {
+      const diagnostico = item.querySelector('textarea[name="diagnostico"]').value;
+      const estadoDiagnostico = item.querySelector('select[name="estadoDiagnostico"]').value;
+
+      // Agregar el diagnóstico y estado como un objeto al array
+      diagnosticos.push({
+        diagnostico: diagnostico,
+        estado: estadoDiagnostico
+      });
+    });
+
+    return diagnosticos;
+  };
+
+  addDiagnosticoButton.addEventListener('click', addDiagnostico);
+
 
   // Evolucion
   const llenarEvolucion = () => {
@@ -81,14 +131,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Desestructuramos los valores de antecedentes y hábitos
     const { antecedentes } = obtenerDatosAntecedentes();
     const { habitos } = obtenerDatosHabitos();
+    const diagnosticosArray = getDiagnosticosArray();
 
     // Crear objeto con todos los datos
     const datosFormulario = {
       evolucion: txtEvolucion.value,
-      diagnostico: {
-        texto: txtDiagnostico.value,
-        estado: estadoDiagnosticoSelect
-      },
+      diagnosticosArray,
       alergia: {
         texto: alergiaTextarea.value,
         nivel: estadoAlergiaSelect,
@@ -123,36 +171,36 @@ document.addEventListener('DOMContentLoaded', function () {
           },
           body: JSON.stringify(datosFormulario)
         })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Error en la solicitud: ' + response.statusText);
-          }
-          return response.json(); // Suponiendo que tu backend devuelve un JSON
-        })
-        .then(data => {
-          console.log('Respuesta del servidor:', data);
-          
-          // Mostrar mensaje de éxito
-          Swal.fire({
-            title: 'Éxito',
-            text: 'Consulta guardada correctamente',
-            icon: 'success',
-            confirmButtonText: 'Aceptar'
-          }).then(() => {
-            // Redirigir a otra página si es necesario
-            window.location.href = '/getMain'; // Cambia esto si necesitas otra URL
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error en la solicitud: ' + response.statusText);
+            }
+            return response.json(); // Suponiendo que tu backend devuelve un JSON
+          })
+          .then(data => {
+            console.log('Respuesta del servidor:', data);
+
+            // Mostrar mensaje de éxito
+            Swal.fire({
+              title: 'Éxito',
+              text: 'Consulta guardada correctamente',
+              icon: 'success',
+              confirmButtonText: 'Aceptar'
+            }).then(() => {
+              // Redirigir a otra página si es necesario
+              window.location.href = '/getMain'; // Cambia esto si necesitas otra URL
+            });
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            // Aquí puedes manejar errores, por ejemplo, mostrar un mensaje de error
+            Swal.fire({
+              title: 'Error',
+              text: 'Error al guardar la consulta',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
           });
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          // Aquí puedes manejar errores, por ejemplo, mostrar un mensaje de error
-          Swal.fire({
-            title: 'Error',
-            text: 'Error al guardar la consulta',
-            icon: 'error',
-            confirmButtonText: 'Aceptar'
-          });
-        });
       }
     });
   });
