@@ -1,209 +1,166 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700&display=swap');
-
+/* Estilos Generales */
 body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: #f0f4f8;
-    margin: 0;
-}
-
-.container-fluid {
-    padding: 0;
-}
-
-.row {
-    display: flex;
-    justify-content: center;
-}
-
-#addDiagnosticoButton {
-    margin-top: -10px;  /* Subir el botón */
-    margin-bottom: 20px; /* Separar el botón del siguiente elemento */
-    position: relative;  /* Asegura que los valores de 'top' y 'bottom' se apliquen correctamente */
-    top: -10px;  /* Mueve el botón hacia arriba */
-  }
-  
-
-.fondo {
-    background-image: url('images/background_modulos.png'); /* Asegúrate de que la ruta sea correcta */
-    background-size: cover;
-    background-attachment: fixed;
-    min-height: 100vh;
-    padding-top: 20px;
-}
-
-.bg-light {
-    background-color: rgba(248, 249, 250, 0.9);
-    margin: 15px;
-    opacity: 0.85;
-}
-
-.table {
-    margin-top: 20px;
-    border-radius: 0.5rem;
-}
-
-.table th {
-    background-color: #343a40;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    border: none;
-}
-
-.table td {
-    padding: 10px;
-    font-size: 14px;
-    color: #777;
-    text-align: center;
-    text-transform: uppercase;
-    border: none;
-}
-
-.table td:not(:last-child) {
-    border-right: none;
-}
-
-.btn-consultar {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-consultar:hover {
-    background-color: #0056b3;
-}
-
-/* Estilo del boton HCE */
-.btn-hce {
-    background-color: #7c09f0; /* Color de fondo */
-    color: white; /* Color del texto */
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 5px 10px; /* Espaciado interno */
-    font-size: 16px; /* Tamaño de fuente */
-    cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
-    transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Transición suave para la sombra y el color de fondo */
-    text-decoration: none; /* Asegúrate de que no haya subrayado */
-}
-
-.btn-hce:hover {
-    box-shadow: 0 0 20px rgba(138, 35, 249, 0.8); /* Resplandor al hacer hover */
-    background-color: #7c09d0; /* Cambia a un tono más oscuro o diferente si deseas un cambio sutil en el fondo */
-}
-
-/* Anular estilos de Bootstrap para enlaces */
-.btn-hce:hover,
-.btn-hce:focus {
-    color: white !important; /* Mantener el color del texto en blanco */
-    text-decoration: none !important; /* Asegúrate de que no haya subrayado */
-}
-
-.card {
-    border: none; 
-    border-radius: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-}
-
-.card-title {
-    font-weight: 600;
-    font-size: 1.5rem;
-    margin: 0; 
-}
-
-.card-text {
-    margin: 0; 
-    text-align: center; 
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f9;
 }
 
 h3 {
-    font-weight: 300;
-    color: #555;
-    text-align: center;
-    margin: 20px 0;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-.alert {
-    margin: 20px 0;
+.card-custom {
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
-/* Separación sutil entre los campos */
-.separacion-campos {
-    margin-bottom: 1.5rem; /* Separación sutil entre los campos */
+.card-body {
+  padding: 1.5rem;
 }
 
-/* Separación entre las secciones del formulario */
+.card-body.no-hover {
+  background-color: #f9f9f9;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Campos de formulario */
 .form-section {
-    margin-bottom: 2rem; /* Separación entre secciones (Evolución, Diagnóstico, etc.) */
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-/* Agregar un borde sutil y un fondo claro a las secciones del formulario */
-.form-group {
-    border: 1px solid #ddd; /* Borde sutil */
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 1rem; /* Relleno interno */
-    background-color: #fafafa; /* Fondo ligeramente gris */
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-}
-
-/* Alineación y espaciado de los campos de formulario */
 .form-label {
-    font-weight: 600;
-    margin-bottom: 0.5rem; /* Espacio entre el texto y el campo */
+  font-weight: 600;
+  font-size: 1rem;
 }
 
+.form-select,
 .form-control {
-    margin-bottom: 1rem; /* Espacio debajo de cada campo de entrada */
+  border-radius: 5px;
+  padding: 0.5rem;
+  width: 100%;
 }
 
-/* Para los campos de selección (select) */
-.form-select {
-    margin-bottom: 1rem; /* Espacio debajo de los campos de selección */
-    padding: 0.5rem; /* Añadir un pequeño espaciado interno */
-    border-radius: 5px; /* Bordes redondeados */
+.separacion-campos {
+  margin-bottom: 1.5rem;
 }
 
-/* Ajustar el tamaño de los botones y darles un poco de espacio */
+textarea.form-control {
+  height: 100px;
+}
+
+/* Botones */
 button.btn {
-    margin-top: 1.5rem; /* Separación superior en los botones */
-    margin-bottom: 1rem; /* Separación inferior en los botones */
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
 }
 
-/* Aumentar la separación de los campos de checkboxes */
-.form-check {
-    margin-top: 2rem; /* Separación más grande entre los checkboxes */
+button.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
 }
 
-/* Ajustar la visualización y espaciado del botón "Agregar otro diagnóstico" */
-.d-flex.justify-content-center.mt-3 {
-    margin-top: 2rem;
-    justify-content: center; /* Centrar el botón */
+button.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
 }
 
-/* Ajustar espaciado en la sección de Alergias, Antecedentes, Hábitos, Medicamentos */
+button.btn-primary:hover,
+button.btn-secondary:hover {
+  opacity: 0.8;
+}
+
+button.btn-hce {
+  background-color: #28a745;
+  color: white;
+  border-color: #28a745;
+  padding: 0.4rem 1.5rem;
+  font-size: 1rem;
+}
+
+button.btn-hce:hover {
+  background-color: #218838;
+}
+
+/* Inputs de fecha */
+input[type="date"] {
+  border-radius: 5px;
+  padding: 0.5rem;
+  width: 180px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+/* Contenedor de diagnósticos */
+.diagnostico-item {
+  margin-bottom: 20px;
+}
+
+/* Contenido del contenedor */
+#diagnosticosContainer,
 #alergiasContainer,
 #antecedentesContainer,
-#habitosContainer,
-#medicamentoContainer {
-    margin-top: 2rem; /* Desplazar hacia abajo */
+#habitosContainer {
+  display: block;
 }
 
-.consulta-actual {
-    text-align: center;  /* Centra el texto */
-    width: 100%;  /* Asegura que ocupe todo el ancho del contenedor */
-    margin: 0 auto;  /* Centra el texto dentro del contenedor */
-  }
-  
+/* Contenedor de los botones para agregar diagnósticos */
+button#addDiagnosticoButton {
+  padding: 0.4rem 1rem;
+  font-size: 1rem;
+}
 
-@media (max-width: 1176px) {
-    .table {
-        font-size: 0.9rem; 
-    }
-    
-    .card {
-        padding: 15px; 
-    }
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.row.justify-content-center {
+  display: flex;
+  justify-content: center;
+}
+
+.text-center.mt-3.mb-4 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Estilo de los contenedores adicionales */
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.ms-2 {
+  margin-left: 10px;
+}
+
+.me-2 {
+  margin-right: 10px;
+}
+
+.ms-3 {
+  margin-left: 20px;
 }
