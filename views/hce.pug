@@ -25,6 +25,7 @@ html
                   datalist#pacientes
                   // Botón para buscar HCE
                   button#buscarHCE.btn.btn-primary.btn-buscar(type="button") Buscar
+                  
 
             table.table.table-bordered.table-hover(style="margin-top: 20px; width: 100%;")
               thead.bg-dark
@@ -38,27 +39,8 @@ html
                   th(style="color: white;") Hábito
 
               tbody#resultados
-                if paciente 
-                  tr(style="background-color: #E6E6FA;")
-                    td(colspan="7")= paciente[0].nombre_paciente || 'Nombre del Paciente No Disponible'
-                  each turno in paciente
-                    tr
-                      td= turno.fecha
-                      td= turno.profesional
-                      if turno.matricula_medico == matricula
-                        td= turno.nombre_alergia || 'N/A'
-                        td= turno.descripcion_antecedente || 'N/A'
-                        td= turno.resumen_diagnostico
-                        td= turno.resumen_evolucion || 'N/A'
-                        td= turno.descripcion_habito || 'N/A'
-                      else
-                        td Privado
-                        td Privado
-                        td= turno.resumen_diagnostico
-                        td Privado
-                        td Privado
-                else
-                  tr
-                    td(colspan="7") No se encontraron datos para el paciente
+                
     script.
+      window.dni = !{JSON.stringify(dni)};
       window.matricula = !{JSON.stringify(matricula)}
+      //- console.log("DNI:", window.dni);

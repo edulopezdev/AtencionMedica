@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     const searchInput = document.getElementById('search');
     const buscarButton = document.getElementById('buscarHCE');
     const resultadosContainer = document.getElementById('resultados'); // Asegúrate que el ID sea correcto
@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await fetch(`/buscarPacientesPorNombre?query=${encodeURIComponent(query)}`);
             if (response.ok) {
+                // console.log('respuesta ok');
                 const turnos = await response.json();
+                // console.log('turnos' + turnos);
                 mostrarResultadosEnDesplegable(turnos);
                 if (turnos.length === 1) {
                     datosPacienteSeleccionado = turnos[0];
@@ -46,6 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
             resultadosContainer.innerHTML = ''; // Limpiar tabla si no hay búsqueda
         }
     });
+
+
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -87,6 +91,25 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    //Si llega dni, ejecuto busqueda
+    if (window.dni) {
+        let dni = window.dni;
+        // console.log(dni)
+        try {
+            const response = await fetch(`/buscarHcePacientePorDni?dni=${dni}`);
+            if (response.ok) {
+                const turnos = await response.json();
+                mostrarTurnosHce(turnos);
+            } else {
+                console.error('Error en la respuesta:', response.statusText);
+                resultadosContainer.innerHTML = '<tr><td colspan="7" class="text-center alert alert-danger">No se pudo obtener la información del paciente.</td></tr>';
+            }
+        } catch (error) {
+            console.error('Error en la búsqueda:', error);
+            resultadosContainer.innerHTML = '<tr><td colspan="7" class="text-center alert alert-danger">Ocurrió un error al buscar los datos.</td></tr>';
+        }
+    }
+
     buscarButton.addEventListener('click', async () => {
         const dni = searchInput.value.match(/\d{8}$/); // Asegúrate de que el DNI sea correcto
         if (!dni) {
@@ -118,4 +141,6 @@ document.addEventListener('DOMContentLoaded', function () {
             resultadosContainer.innerHTML = '<tr><td colspan="7" class="text-center alert alert-danger">Ocurrió un error al buscar los datos.</td></tr>';
         }
     });
+
+
 });

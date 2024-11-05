@@ -11,7 +11,7 @@ const getMain = (req, res) => {
 
             // Organiza los turnos por hora
             turnos.forEach(turno => {
-                console.log(turno);
+                // console.log(turno);
                 turnosPorHora[turno.hora] = {
                     nombre: turno.nombre,
                     apellido: turno.apellido,
@@ -35,7 +35,7 @@ const getMain = (req, res) => {
 // Controlador para obtener turnos por fecha
 const obtenerTurnosPorFecha = async (req, res) => {
     const fecha = req.params.fecha;
-    console.log( fecha );
+    // console.log( fecha );
     try {
         const turnos = await turnosXFechaYMatricula( fecha, req.session.matricula);
         res.json({ turnos });
@@ -185,11 +185,36 @@ const obtenerHcePorDniEspecifico = async (req, res) => {
         if (paciente.length === 0) {
             return res.status(404).json({ mensaje: 'No se encontró paciente con ese DNI' });
         }
-        console.log( paciente );
+        // console.log( paciente );
         // Renderiza el archivo Pug y envía los datos del paciente
         res.render('hce', { paciente, matricula }); 
     } catch (error) {
         console.error('Error al obtener paciente por DNI:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
+
+const editarUltimaConsulta = async (req, res) => {
+    const matricula = req.session.matricula;
+    const medico_nombre = req.session.nombre;
+    try {
+        const dni = req.query.dni;
+
+        if (!dni) {
+            return res.status(400).json({ error: 'DNI no proporcionado' });
+        }
+
+        // Llama al método obtenerUltimaConsulta para obtener los datos de la última consulta
+        const ultimaConsulta = await ultimaConsultaPorNumeroDni( dni );
+
+        if (!ultimaConsulta) {
+            return res.status(404).json({ mensaje: 'No se encontró ninguna consulta para el paciente con ese DNI' });
+        }
+
+        // Renderiza el formulario Pug para editar la consulta, pasando los datos de la última consulta
+        res.render('consulta', { ultimaConsulta, matricula, medico_nombre});
+    } catch (error) {
+        console.error('Error al editar la última consulta:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 };
@@ -204,5 +229,6 @@ module.exports = {
     obtenerPacientesPorNombre,
     obtenerHcePorDni,
     obtenerHcePorDniEspecifico,
+    editarUltimaConsulta,
 
 };
