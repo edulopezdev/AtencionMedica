@@ -15,6 +15,14 @@ body {
     justify-content: center;
 }
 
+#addDiagnosticoButton {
+    margin-top: -10px;  /* Subir el botón */
+    margin-bottom: 20px; /* Separar el botón del siguiente elemento */
+    position: relative;  /* Asegura que los valores de 'top' y 'bottom' se apliquen correctamente */
+    top: -10px;  /* Mueve el botón hacia arriba */
+  }
+  
+
 .fondo {
     background-image: url('images/background_modulos.png'); /* Asegúrate de que la ruta sea correcta */
     background-size: cover;
@@ -121,6 +129,74 @@ h3 {
 .alert {
     margin: 20px 0;
 }
+
+/* Separación sutil entre los campos */
+.separacion-campos {
+    margin-bottom: 1.5rem; /* Separación sutil entre los campos */
+}
+
+/* Separación entre las secciones del formulario */
+.form-section {
+    margin-bottom: 2rem; /* Separación entre secciones (Evolución, Diagnóstico, etc.) */
+}
+
+/* Agregar un borde sutil y un fondo claro a las secciones del formulario */
+.form-group {
+    border: 1px solid #ddd; /* Borde sutil */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 1rem; /* Relleno interno */
+    background-color: #fafafa; /* Fondo ligeramente gris */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Alineación y espaciado de los campos de formulario */
+.form-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem; /* Espacio entre el texto y el campo */
+}
+
+.form-control {
+    margin-bottom: 1rem; /* Espacio debajo de cada campo de entrada */
+}
+
+/* Para los campos de selección (select) */
+.form-select {
+    margin-bottom: 1rem; /* Espacio debajo de los campos de selección */
+    padding: 0.5rem; /* Añadir un pequeño espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+/* Ajustar el tamaño de los botones y darles un poco de espacio */
+button.btn {
+    margin-top: 1.5rem; /* Separación superior en los botones */
+    margin-bottom: 1rem; /* Separación inferior en los botones */
+}
+
+/* Aumentar la separación de los campos de checkboxes */
+.form-check {
+    margin-top: 2rem; /* Separación más grande entre los checkboxes */
+}
+
+/* Ajustar la visualización y espaciado del botón "Agregar otro diagnóstico" */
+.d-flex.justify-content-center.mt-3 {
+    margin-top: 2rem;
+    justify-content: center; /* Centrar el botón */
+}
+
+/* Ajustar espaciado en la sección de Alergias, Antecedentes, Hábitos, Medicamentos */
+#alergiasContainer,
+#antecedentesContainer,
+#habitosContainer,
+#medicamentoContainer {
+    margin-top: 2rem; /* Desplazar hacia abajo */
+}
+
+.consulta-actual {
+    text-align: center;  /* Centra el texto */
+    width: 100%;  /* Asegura que ocupe todo el ancho del contenedor */
+    margin: 0 auto;  /* Centra el texto dentro del contenedor */
+  }
+  
 
 @media (max-width: 1176px) {
     .table {

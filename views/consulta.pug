@@ -11,6 +11,15 @@ html
         cursor: default; // Cambia el cursor a default
         margin-top: 20px; // Separación exterior superior
       }
+      .separacion-campos {
+        margin-bottom: 1.5rem; // Separación sutil entre los campos
+      }
+      .centrar-boton {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px; // Espacio superior para separarlo de los otros elementos
+      }
+
   body
     .container-fluid(style="background-image: url('images/background_modulos.png'); background-size: cover; background-attachment: fixed; min-height: 100vh;")
       .row.justify-content-center
@@ -19,14 +28,15 @@ html
 
         .col-md-9
           .bg-light.p-4.rounded(style="margin-bottom: 20px; margin: 15px; opacity: 0.85;")
-            .d-flex.align-items-center
-              h3(style="margin: 0;") Bienvenido perri: #{medico}
-              h3(style="margin: 0;") Consulta actual
-              .mx-auto
+            .d-flex.justify-content-center
+              h3 Consulta actual
+
+
+
 
             // Datos del Paciente
             if turno
-              .card.mb-4.custom-bg.datos-paciente 
+              .card.mb-4.custom-bg.datos-paciente
                 .card-body.no-hover
                   .row
                     .col-md-6
@@ -42,10 +52,10 @@ html
                         if ultimoTurno
                           - var fecha = new Date(ultimoTurno.fecha);
                           - var dia = String(fecha.getDate()).padStart(2, '0');
-                          - var mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses son 0-indexed
+                          - var mes = String(fecha.getMonth() + 1).padStart(2, '0');
                           - var anio = fecha.getFullYear();
                           p Fecha: #{dia}-#{mes}-#{anio}
-                          p Resumen: #{ultimoTurno.resumen_diagnostico}.
+                          p Resumen: #{ultimoTurno.resumen_diagnostico}
                           a.btn-hce.mt-3(href="/hce") Ir a HCE del paciente
                         else
                           p Esta es la primera visita del paciente
@@ -54,124 +64,136 @@ html
 
             // Formulario de Evolución
             .col-md-12.mt-5
-
-              //Evolucion ===============================================================
-              h3.text-center Formulario de Evolución
+              h3.text-center Evolución
               form(action="/submit" method="POST")
-                .mb-3
+                .mb-3.separacion-campos
                   label(for="template", class="form-label") Template evolución:
                   select#template.form-select(name="template")
-                      option(value="") Seleccionar template
-                      each t in templates
-                          option(value=t.id_template data-contenido=t.contenido_template) #{t.nombre_template}
-                .mb-3
+                    option(value="") Seleccionar template
+                    each t in templates
+                      option(value=t.id_template data-contenido=t.contenido_template) #{t.nombre_template}
+
+                .mb-3.separacion-campos
                   label(for="evolucion", class="form-label") Evolución:
-                  textarea#evolucion.form-control(name="evolucion" placeholder="Describir evolución del paciente" rows="3") 
-                
-                //Diagnostico==========================================================
+                  textarea#evolucion.form-control(name="evolucion" placeholder="* Ingrese la evolución del paciente" rows="3")
+
+                // Diagnóstico
                 h3.text-center Diagnóstico
                 div#diagnosticosContainer(class="diagnostico-item", style="display: block;")
-                  .mb-3
+                  .mb-3.separacion-campos
+                    label(for="estadoDiagnostico", class="form-label") Estado del Diagnóstico:
+                    select#estadoDiagnostico.form-select(name="estadoDiagnostico")
+                      option(value="") Seleccionar
+                      option(value="Preliminar") Preliminar
+                      option(value="Confirmado") Confirmado
+
+                  .mb-3.separacion-campos
                     label(for="diagnostico", class="form-label") Diagnóstico:
-                    textarea#diagnostico.form-control(name="diagnostico" placeholder="Ingresar diagnóstico" rows="3")
-  
-                  .mb-3
-                      label(for="estadoDiagnostico", class="form-label") Estado del Diagnóstico:
-                      select#estadoDiagnostico.form-select(name="estadoDiagnostico")
-                          option(value="") Seleccionar
-                          option(value="Preliminar") Preliminar
-                          option(value="Confirmado") Confirmado
-                  // Botón para agregar otro diagnóstico
-                button.btn.btn-secondary.mt-3(type="button", id="addDiagnosticoButton") + Agregar otro diagnóstico
+                    textarea#diagnostico.form-control(name="diagnostico" placeholder="* Ingrese un diagnóstico" rows="3")
+
+                // Botón para agregar otro diagnóstico
+                div(class="text-center mt-3 mb-4")  <!-- Se le da un margen superior y margen inferior -->
+                  button.btn.btn-secondary(type="button", id="addDiagnosticoButton") + Agregar otro diagnóstico
 
 
-                //Alergias ====================================================
-                h3.text-center Alergias
-                button.btn.btn-secondary(type="button" onclick="toggleSection('alergiasContainer')") Mostrar/Ocultar Alergias
+
+                // Alergias
+                .form-check
+                  input#checkboxAlergias.form-check-input(type="checkbox", onclick="toggleFields('alergiasContainer', this)")
+                  label.form-check-label(for="checkboxAlergias") Alergias
                 div#alergiasContainer(style="display: none;")
                   .row.justify-content-center
                     .col-12.col-md-6
                       .d-flex.align-items-center.mb-3.justify-content-center
                         label(for="inicioAlergia", class="form-label me-2") Inicio:
-                        input#inicioAlergia(type="date" name="inicioAlergia" class="form-control" style="width: 180px;")
-                      
+                        input#inicioAlergia(type="date" name="inicioAlergia" class="form-control" style="width: 180px;" disabled)
+
                     .col-12.col-md-6
                       .d-flex.align-items-center.mb-3.justify-content-center
                         label(for="finAlergia", class="form-label me-2") Fin:
-                        input#finAlergia(type="date" name="finAlergia" class="form-control" style="width: 180px;")
+                        input#finAlergia(type="date" name="finAlergia" class="form-control" style="width: 180px;" disabled)
 
-                  .mb-3
+                  .mb-3.separacion-campos
                     label(for="alergia", class="form-label") Alergias:
-                    textarea#alergia.form-control(name="alergia" placeholder="Ingresar alergia" rows="3")
+                    textarea#alergia.form-control(name="alergia" placeholder="Ingresar alergia" rows="3" disabled)
 
-                  .mb-3
-                      label(for="estadoAlergia", class="form-label") Nivel de alergia:
-                      select#estadoAlergia.form-select(name="estadoAlergia")
-                          option(value="") Seleccionar
-                          option(value="Normal") Normal
-                          option(value="Leve") Leve
-                          option(value="Alta") Alta
-                // Antecedentes ===============================================
-                h3.text-center Antecedentes Patológicos
-                button.btn.btn-secondary(type="button" onclick="toggleSection('antecedentesContainer')") Mostrar/Ocultar Antecedentes
+                  .mb-3.separacion-campos
+                    label(for="estadoAlergia", class="form-label") Nivel de alergia:
+                    select#estadoAlergia.form-select(name="estadoAlergia", disabled)
+                      option(value="") Seleccionar
+                      option(value="Normal") Normal
+                      option(value="Leve") Leve
+                      option(value="Alta") Alta
+
+                // Antecedentes
+                .form-check
+                  input#checkboxAntecedentes.form-check-input(type="checkbox", onclick="toggleFields('antecedentesContainer', this)")
+                  label.form-check-label(for="checkboxAntecedentes") Antecedentes Patológicos
                 div#antecedentesContainer(style="display: none;")
                   .row.justify-content-center
                     .col-12.col-md-6
                       .d-flex.align-items-center.mb-3.justify-content-center
                         label(for="inicioAntecedentes", class="form-label me-2") Inicio:
-                        input#inicioAntecedentes(type="date" name="inicioAntecedentes" class="form-control" style="width: 180px;")
-                    
+                        input#inicioAntecedentes(type="date" name="inicioAntecedentes" class="form-control" style="width: 180px;" disabled)
+
                     .col-12.col-md-6
                       .d-flex.align-items-center.mb-3.justify-content-center
                         label(for="finAntecedentes", class="form-label me-2") Fin:
-                        input#finAntecedentes(type="date" name="finAntecedentes" class="form-control" style="width: 180px;")
-                    
-                  .mb-3
-                    input#antecedentes.form-control(type="text" name="antecedentes" placeholder="Ingresar antecedentes")
+                        input#finAntecedentes(type="date" name="finAntecedentes" class="form-control" style="width: 180px;" disabled)
 
-                // Habitos ===============================================
-                h3.text-center Hábitos
-                button.btn.btn-secondary(type="button" onclick="toggleSection('habitosContainer')") Mostrar/Ocultar Hábitos
+                  .mb-3.separacion-campos
+                    input#antecedentes.form-control(type="text" name="antecedentes" placeholder="Ingresar antecedentes" disabled)
+
+                // Hábitos
+                .form-check
+                  input#checkboxHabitos.form-check-input(type="checkbox", onclick="toggleFields('habitosContainer', this)")
+                  label.form-check-label(for="checkboxHabitos") Hábitos
                 div#habitosContainer(style="display: none;")
                   .row.justify-content-center
                     .col-12.col-md-6
                       .d-flex.align-items-center.mb-3.justify-content-center
                         label(for="inicioHabitos", class="form-label me-2") Inicio:
-                        input#inicioHabitos(type="date" name="inicioHabitos" class="form-control" style="width: 180px;")
-                    
+                        input#inicioHabitos(type="date" name="inicioHabitos" class="form-control" style="width: 180px;" disabled)
+
                     .col-12.col-md-6
                       .d-flex.align-items-center.mb-3.justify-content-center
                         label(for="finHabitos", class="form-label me-2") Fin:
-                        input#finHabitos(type="date" name="finHabitos" class="form-control" style="width: 180px;")
-                    
-                  .mb-3
-                    input#habitos.form-control(type="text" name="habitos" placeholder="Ingresar hábitos")
+                        input#finHabitos(type="date" name="finHabitos" class="form-control" style="width: 180px;" disabled)
 
-                // Medicamentos ===============================================
-                h3.text-center Medicamentos
-                button.btn.btn-secondary(type="button" onclick="toggleSection('medicamentoContainer')") Mostrar/Ocultar Medicamentos
+                  .mb-3.separacion-campos
+                    input#habitos.form-control(type="text" name="habitos" placeholder="Ingresar hábitos" disabled)
+
+                // Medicamentos
+                .form-check
+                  input#checkboxMedicamentos.form-check-input(type="checkbox", onclick="toggleFields('medicamentoContainer', this)")
+                  label.form-check-label(for="checkboxMedicamentos") Medicamentos
                 div#medicamentoContainer(style="display: none;")
-                  .mb-3
+                  .mb-3.separacion-campos
                     label(for="medicamento", class="form-label") Seleccionar medicamento:
-                    select#medicamento.form-select(name="medicamento")
+                    select#medicamento.form-select(name="medicamento", disabled)
                       option(value="") Seleccionar medicamento
                       each m in medicamentos
                         option(value=m.id_medicamento) #{m.nombre_medicamento}
 
-                button#guardarBoton(type="submit", class="btn btn-primary") Guardar
+                // Botón Procesar
+                div.text-end.mt-4
+                  button#guardarBoton(type="submit", class="btn btn-primary") Procesar
 
-                
-                script.
-                  window.turno = !{JSON.stringify(turno)}; 
-                  console.log('Datos de turnos iniciales:', window.turno);
+              script.
+                window.turno = !{JSON.stringify(turno)}; 
+                console.log('Datos de turnos iniciales:', window.turno);
 
-                //Este script es para togglea entre las secciones que se ocultan
-                script.
-                  function toggleSection(id) {
-                    const section = document.getElementById(id);
-                    if (section.style.display === "none" || section.style.display === "") {
-                        section.style.display = "block";
-                    } else {
-                        section.style.display = "none";
-                    }
+              // Este script es para togglea entre las secciones que se ocultan
+              script.
+                function toggleFields(sectionId, checkbox) {
+                  const section = document.getElementById(sectionId);
+                  const inputs = section.querySelectorAll('input, select, textarea');
+                  
+                  if (checkbox.checked) {
+                    section.style.display = "block";
+                    inputs.forEach(input => input.disabled = false);
+                  } else {
+                    section.style.display = "none";
+                    inputs.forEach(input => input.disabled = true);
                   }
+                }

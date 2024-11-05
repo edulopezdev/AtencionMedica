@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Aquí puedes manejar errores, por ejemplo, mostrar un mensaje de error
             Swal.fire({
               title: 'Error',
-              text: 'Error al guardar la consulta',
+              text: 'Debe completar los campos obligatorios',
               icon: 'error',
               confirmButtonText: 'Aceptar'
             });
