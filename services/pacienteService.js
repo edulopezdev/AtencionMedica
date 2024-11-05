@@ -5,13 +5,12 @@ const ultimaConsultaPorNumeroDni = (dni) => { //datos completos del ultimo turno
     return new Promise((resolve, reject) => {
         const query = `
             SELECT 
-    a.nombre_alergia,
-    an.descripcion_antecedente,
-    d.resumen_diagnostico,
-    e.resumen_evolucion,
-    h.descripcion_habito,
-    t.fecha,
-    t.dni_paciente
+    a.*,
+    an.*,
+    d.*,
+    e.*,
+    h.*,
+    t.*
 FROM 
     turno t
 LEFT JOIN alergia a ON t.numero_turno = a.numero_turno
@@ -52,7 +51,8 @@ const hceXDni = (dni) => { //datos completos de todas las consultas
     t.fecha,
     t.dni_paciente,
     t.matricula_medico,
-    t.motivo_consulta
+    t.motivo_consulta,
+    t.numero_turno
 FROM 
     turno t
 WHERE 
@@ -67,7 +67,7 @@ ORDER BY
             if (error) {
                 return reject(error);  // En caso de error, se rechaza la promesa
             }
-            console.log('metodo ' + resultado)
+            // console.log('metodo ' + resultado)
             resolve(resultado);  // En caso de éxito, se resuelven los datos del paciente
         });
     });

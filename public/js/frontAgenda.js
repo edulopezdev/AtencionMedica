@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <td class="turno-cell">${turno.nombre} ${turno.apellido}</td>
                             <td class="turno-cell">${turno.motivo_consulta}</td>
                             <td>
-                                <a href="/buscarHcePacientePorDniEspecifico?dni=${turno.dni_paciente}" class="btn-hce">
+                                <a href="/cargarHceDni?dni=${turno.dni_paciente}" class="btn-hce">
                                     <i class="bi bi-heart-pulse-fill turno-icon" title="Ir a HCE del paciente"></i>
                                 </a>
                             </td>
