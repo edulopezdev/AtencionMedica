@@ -67,8 +67,7 @@ html
                     .col-md-6
                       h2.text-center Datos del Paciente
                       .text-center
-                        p Nombre: #{turno.nombre}
-                        p Apellido: #{turno.apellido}
+                        p Paciente: #{turno.paciente_nombre}
                         p DNI: #{turno.dni_paciente}
                         p Motivo consulta: #{turno.motivo_consulta}
                     .col-md-6
@@ -148,13 +147,13 @@ html
                                 label(for="checkboxDisableFinAlergia", class="me-2") Vigente:
                                 input#checkboxDisableFinAlergia.form-check-input(type="checkbox", onclick="disableDateField('finAlergia', this)")
 
-                        .mb-3.separacion-campos
-                          label(for="estadoAlergia", class="form-label") Nivel de alergia:
-                          select#estadoAlergia.form-select(name="estadoAlergia", disabled, style="width: 150px;") 
-                            option(value="") Seleccionar
-                            option(value="Normal") Normal
-                            option(value="Leve") Leve
-                            option(value="Alta") Alta
+                  .mb-3.separacion-campos
+                    label(for="estadoAlergia", class="form-label") Nivel de alergia:
+                    select#estadoAlergia.form-select(name="estadoAlergia", disabled, style="width: 150px;")
+                      option(value="") Seleccionar
+                      option(value="Normal") Normal
+                      option(value="Leve") Leve
+                      option(value="Alta") Alta
 
                         .mb-3.separacion-campos
                           label(for="alergia", class="form-label") Alergias:
@@ -231,7 +230,8 @@ html
 
               script.
                 window.turno = !{JSON.stringify(turno)}; 
-                console.log('Datos de turnos iniciales:', window.turno);
+                window.estado = !{JSON.stringify(estado)}; 
+                //- console.log('Datos de turnos iniciales:', window.turno);
 
               // Este script es para togglea entre las secciones que se ocultan
               script.

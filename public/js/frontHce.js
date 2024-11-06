@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const mostrarTurnosHce = (turnosHistoria) => {
         resultadosContainer.innerHTML = '';
+        let ultimoTurnoMarcado = false;
 
         if (!turnosHistoria || turnosHistoria.length === 0) {
             resultadosContainer.innerHTML = '<tr><td colspan="7" class="text-center alert alert-warning">No se encontraron turnos para este paciente.</td></tr>';
@@ -76,8 +77,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         turnosHistoria.forEach(turno => {
             const tr = document.createElement('tr');
             const esMismoMedico = turno.matricula_medico == matricula;
-            console.log(turno.matricula_medico);
-            console.log(matricula);
+            // console.log(turno.matricula_medico);
+            // console.log(matricula);
             tr.innerHTML = `
                 <td class="turno-cell">${formatDate(turno.fecha)}</td> <!-- Modificar aquí -->
                 <td class="turno-cell">${turno.profesional}</td>
@@ -87,6 +88,21 @@ document.addEventListener('DOMContentLoaded', async function () {
                 <td class="turno-cell">${esMismoMedico ? (turno.resumen_evolucion || 'N/A') : 'Privado'}</td>
                 <td class="turno-cell">${esMismoMedico ? (turno.descripcion_habito || 'N/A') : 'Privado'}</td>
             `;
+            // Verificar si es el primer turno del mismo médico
+            if (esMismoMedico && !ultimoTurnoMarcado) {
+                tr.addEventListener('click', () => {
+                    // Redirigir a otra página con el número de turno, por ejemplo:
+                    window.location.href = `/editarConsulta?numero_turno=${turno.numero_turno}&editar=true`;
+                });
+                ultimoTurnoMarcado = true; // Marcar que ya se ha pintado el primer turno
+                console.log('marco el primero')
+            } else if (esMismoMedico && ultimoTurnoMarcado) {
+                tr.addEventListener('click', () => {
+                    // Redirigir a otra página con el número de turno, por ejemplo:
+                    window.location.href = `/ampliarConsulta?numero_turno=${turno.numero_turno}`;
+                });
+            }
+
             resultadosContainer.appendChild(tr);
         });
     }
@@ -94,12 +110,13 @@ document.addEventListener('DOMContentLoaded', async function () {
     //Si llega dni, ejecuto busqueda
     if (window.dni) {
         let dni = window.dni;
-        // console.log(dni)
         try {
             const response = await fetch(`/buscarHcePacientePorDni?dni=${dni}`);
             if (response.ok) {
+                console.log(dni)
                 const turnos = await response.json();
                 mostrarTurnosHce(turnos);
+                console.log(turnos)
             } else {
                 console.error('Error en la respuesta:', response.statusText);
                 resultadosContainer.innerHTML = '<tr><td colspan="7" class="text-center alert alert-danger">No se pudo obtener la información del paciente.</td></tr>';

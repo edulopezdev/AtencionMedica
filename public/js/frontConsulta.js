@@ -17,11 +17,132 @@ document.addEventListener('DOMContentLoaded', function () {
   // datos del turno
   const turno = window.turno;
   const numero_turno = turno.numero_turno;
+  const estado = window.estado;
   //Boton add diagnostico
   const addDiagnosticoButton = document.getElementById('addDiagnosticoButton');
 
+  //=====================================Estado del turno condiciona el llenado del pug
+  // Método para llenar los campos cuando el estado es "atendido"
+  const llenarCamposAtendido = (turno) => {
+    templateSelect.disabled = true;
+    estadoAlergiaSelect.disabled = true;
+    medicamentoSelect.disabled = true;
+
+    txtEvolucion.value = turno.resumen_evolucion || '';
+    txtEvolucion.readOnly = true;
+
+    txtDiagnostico.value = turno.resumen_diagnostico || '';
+    txtDiagnostico.readOnly = true;
+
+    estadoDiagnosticoSelect.value = turno.diag_estado || '';
+    estadoDiagnosticoSelect.disabled = true;
+
+    alergiaTextarea.value = turno.nombre_alergia || '';
+    alergiaTextarea.readOnly = true;
+
+    estadoAlergiaSelect.value = turno.importancia || '';
+    estadoAlergiaSelect.disabled = true;
+
+    medicamentoSelect.value = turno.id_medicamento || '';
+    medicamentoSelect.disabled = true;
+
+    botonGuardar.disabled = true;
+
+    // Llenar otros campos adicionales y establecerlos como solo lectura
+    const estadoAlergia = document.getElementById('estadoAlergia');
+    estadoAlergia.value = turno.importancia || '';
+    estadoAlergia.readOnly = true;
+
+    const inicioAlergia = document.getElementById('inicioAlergia');
+    inicioAlergia.value = (turno.aler_desde).substring(10) || '';
+    inicioAlergia.readOnly = true;
+
+    const finAlergia = document.getElementById('finAlergia');
+    finAlergia.value = turno.aler_hasta || '';
+    finAlergia.readOnly = true;
+
+    const inicioAntecedentes = document.getElementById('inicioAntecedentes');
+    inicioAntecedentes.value = turno.ant_desde || '';
+    inicioAntecedentes.readOnly = true;
+
+    const finAntecedentes = document.getElementById('finAntecedentes');
+    finAntecedentes.value = turno.ant_hasta || '';
+    finAntecedentes.readOnly = true;
+
+    const antecedentes = document.getElementById('antecedentes');
+    antecedentes.value = turno.descripcion_antecedente || '';
+    antecedentes.readOnly = true;
+
+    const inicioHabitos = document.getElementById('inicioHabitos');
+    inicioHabitos.value = turno.hab_desde || '';
+    inicioHabitos.readOnly = true;
+
+    const finHabitos = document.getElementById('finHabitos');
+    finHabitos.value = turno.hab_hasta || '';
+    finHabitos.readOnly = true;
+
+    const habitos = document.getElementById('habitos');
+    habitos.value = turno.descripcion_habito || '';
+    habitos.readOnly = true;
+  };
+
+
+  // Método para llenar los campos cuando el estado es "editar"
+  const llenarCamposEditar = (turno) => {
+
+    txtEvolucion.value = turno.resumen_evolucion || '';
+
+    txtDiagnostico.value = turno.resumen_diagnostico || '';
+
+    estadoDiagnosticoSelect.value = turno.diag_estado || '';
+
+    alergiaTextarea.value = turno.nombre_alergia || '';
+
+    estadoAlergiaSelect.value = turno.importancia || '';
+
+    medicamentoSelect.value = turno.id_medicamento || '';
+
+
+    // Llenar otros campos adicionales y establecerlos como solo lectura
+    const estadoAlergia = document.getElementById('estadoAlergia');
+    estadoAlergia.value = turno.importancia || '';
+
+    const inicioAlergia = document.getElementById('inicioAlergia');
+    inicioAlergia.value = (turno.aler_desde) || '';
+
+    const finAlergia = document.getElementById('finAlergia');
+    finAlergia.value = turno.aler_hasta || '';
+
+    const inicioAntecedentes = document.getElementById('inicioAntecedentes');
+    inicioAntecedentes.value = turno.ant_desde || '';
+
+    const finAntecedentes = document.getElementById('finAntecedentes');
+    finAntecedentes.value = turno.ant_hasta || '';
+
+    const antecedentes = document.getElementById('antecedentes');
+    antecedentes.value = turno.descripcion_antecedente || '';
+
+    const inicioHabitos = document.getElementById('inicioHabitos');
+    inicioHabitos.value = turno.hab_desde || '';
+
+    const finHabitos = document.getElementById('finHabitos');
+    finHabitos.value = turno.hab_hasta || '';
+
+    const habitos = document.getElementById('habitos');
+    habitos.value = turno.descripcion_habito || '';
+  }
+
+  console.log(turno);
+  if (estado === 'Atendido') {
+    console.log('atendido entro');
+    llenarCamposAtendido(turno);
+  } else if (estado === 'Editar') {
+    console.log('editar entro');
+    llenarCamposEditar(turno);
+  }
+
   //Agregar mas de un diagnostico
-  console.log('ejecutando front.....')
+  // console.log('ejecutando front.....')
   // Función para agregar un nuevo diagnóstico
   const addDiagnostico = () => {
     const diagnosticosContainer = document.getElementById('diagnosticosContainer');
@@ -68,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
   addDiagnosticoButton.addEventListener('click', addDiagnostico);
 
 
-  // Evolucion
+  // Evolucion ================================================
   const llenarEvolucion = () => {
     const selectedOption = templateSelect.options[templateSelect.selectedIndex];
     const contenidoTemplate = selectedOption.getAttribute('data-contenido');
@@ -77,17 +198,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   templateSelect.addEventListener('change', llenarEvolucion);
 
-  // Diagnostico -> Escucha el cambio en el desplegable y lo guarda
+  // Diagnostico -> Escucha el cambio en el desplegable y lo guarda=========================
   estadoDiagnosticoSelect.addEventListener('change', (event) => {
     estadoDiagnosticoSelect = event.target.value;
   });
 
-  // Alergias
+  // Alergias ===============================================
   estadoAlergiaSelect.addEventListener('change', (event) => {
     estadoAlergiaSelect = event.target.value;
   });
 
-  // Antecedentes
+  // Antecedentes =====================================================
   const obtenerDatosAntecedentes = () => {
     const inicioAntecedentes = document.getElementById('inicioAntecedentes').value;
     const finAntecedentes = document.getElementById('finAntecedentes').value;
@@ -102,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   }
 
-  // Habitos
+  // Habitos =============================================
   const obtenerDatosHabitos = () => {
     const inicioHabitos = document.getElementById('inicioHabitos').value;
     const finHabitos = document.getElementById('finHabitos').value;
@@ -117,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   }
 
-  // Medicamentos
+  // Medicamentos ===========================================
   const llenarDetallesMedicamento = () => {
     const selectedOption = medicamentoSelect.options[medicamentoSelect.selectedIndex];
   };
@@ -128,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function () {
   botonGuardar.addEventListener('click', (event) => {
     event.preventDefault(); // Evita el envío del formulario
 
-    // Desestructuramos los valores de antecedentes y hábitos
+    // Desestructuramos los valores de antecedentes y hábitos ===========================
     const { antecedentes } = obtenerDatosAntecedentes();
     const { habitos } = obtenerDatosHabitos();
     const diagnosticosArray = getDiagnosticosArray();

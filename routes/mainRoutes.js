@@ -34,7 +34,8 @@ router.get('/consulta',   authController.authMiddleware, (req, res) => {
     res.render('consulta', { medico: req.session.nombre }); // Renderiza consultas
 });
 router.get('/getConsulta',   authController.authMiddleware, consultaController.iniciarConsultaPorNumeroTurno);
-router.get('/modificarUltimaConsulta',  authController.authMiddleware,  consultaController.iniciarConsultaPorNumeroTurno );
+router.get('/ampliarConsulta',  authController.authMiddleware,  consultaController.iniciarConsultaPorNumeroTurno );
+router.get('/editarConsulta',  authController.authMiddleware,  consultaController.iniciarConsultaPorNumeroTurno );
 
 
 // Ruta para la página de perfil =========================================================
