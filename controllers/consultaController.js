@@ -1,6 +1,6 @@
 // controllers/consultaController.js
-const { turnosHoyMatricula, datosTurno , turnosXFechaYMatricula, listarTemplates, listarMedicamentos } = require('../services/agendaService');
-const { ultimaConsultaPorNumeroDni, guardarConsultaCompleta, listarPacientes, hceXDni } = require('../services/pacienteService');
+const { turnosHoyMatricula, datosTurno, turnosXFechaYMatricula, listarTemplates, listarMedicamentos } = require('../services/agendaService');
+const { ultimaConsultaPorNumeroDni, guardarConsultaCompleta, listarPacientes, hceXDni, consultaPorNumeroTurno } = require('../services/pacienteService');
 
 // Controlador para la ruta "/getMain" renderizo vista index
 const getMain = (req, res) => {
@@ -15,7 +15,7 @@ const getMain = (req, res) => {
                 turnosPorHora[turno.hora] = {
                     nombre: turno.nombre,
                     apellido: turno.apellido,
-                    numero:  turno.numero_turno,
+                    numero: turno.numero_turno,
                     estado: turno.estado,
                     motivo_consulta: turno.motivo_consulta || 'Consulta general',
                 };
@@ -37,7 +37,7 @@ const obtenerTurnosPorFecha = async (req, res) => {
     const fecha = req.params.fecha;
     // console.log( fecha );
     try {
-        const turnos = await turnosXFechaYMatricula( fecha, req.session.matricula);
+        const turnos = await turnosXFechaYMatricula(fecha, req.session.matricula);
         res.json({ turnos });
     } catch (error) {
         console.error('Error al obtener turnos:', error);
@@ -48,30 +48,47 @@ const obtenerTurnosPorFecha = async (req, res) => {
 // Trae los datos ultima consulta y turno, y renderizo vista consulta
 const iniciarConsultaPorNumeroTurno = (req, res) => {
     const { numero_turno } = req.query;
+    const { editar } = req.query;
     const medico = req.session.nombre;
 
-    datosTurno( numero_turno )
+    let estado = "nuevo";
+
+    if ( editar === 'true') {
+        estado = 'Editar';
+    }
+
+    console.log(estado + 'estado al inicio despues de recibir primer parametro');
+
+    // datosTurno(numero_turno)
+    consultaPorNumeroTurno( numero_turno )
         .then((resultado) => {
             if (resultado.length === 0) {
                 return res.status(404).send('Turno no encontrado');
             }
 
+            // console.log(resultado[0] + 'en back controller')
             const turno = resultado[0];
             const dni_paciente = turno.dni_paciente;
 
             // Llama a `ultimaConsultaPorNumeroDni` usando el DNI obtenido
             return Promise.all([
-                Promise.resolve( turno ),
-                ultimaConsultaPorNumeroDni( dni_paciente ),
+                Promise.resolve(turno),
+                ultimaConsultaPorNumeroDni(turno.dni_paciente),
                 listarTemplates(),
                 listarMedicamentos(),
             ]);
         })
         .then(([turno, consultaUltima, templates, medicamentos]) => {
             const ultimoTurno = consultaUltima[0];
-            // console.log( templates);
+
+            if (turno.estado == 'Atendido' && editar === 'nuevo') {
+                estado = 'Atendido';
+            } 
+            
+
+            console.log( estado + 'estado a la salida del pedido turno');
             // console.log( ultimoTurno );
-            res.render('consulta', { turno, ultimoTurno, templates, medicamentos, medico });
+            res.render('consulta', { turno, ultimoTurno, templates, medicamentos, medico, estado });
         })
         .catch((error) => {
             console.error('Error en las consultas:', error);
@@ -119,19 +136,19 @@ const obtenerPacientesPorNombre = async (req, res) => {
     try {
         // Ejecuta el servicio `listarPacientesPorDni`
         const query = req.query.query;
-        
+
         if (!query) {
             return res.status(400).json({ error: 'Falla 404' });
         }
-        
-        const pacientes = await listarPacientes( query );
-        
+
+        const pacientes = await listarPacientes(query);
+
         if (pacientes.length === 0) {
             return res.status(404).json({ mensaje: 'No se encontraron pacientes con ese Nombre' });
         }
-        
+
         // Enviar la lista de pacientes como respuesta
-        res.status(200).json( pacientes );
+        res.status(200).json(pacientes);
     } catch (error) {
         console.error('Error al obtener pacientes por DNI:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
@@ -143,24 +160,24 @@ const obtenerHcePorDni = async (req, res) => {
         // Ejecuta el servicio `listarPacientesPorDni`
         const dni = req.query.dni;
         // console.log(dni);
-        
+
         // Verifica si se proporcionó el DNI
         if (!dni) {
             return res.status(400).json({ error: 'DNI no proporcionado' });
         }
-        
+
         // Llama a la función para obtener el paciente por DNI
         const paciente = await hceXDni(dni);
-        
+
         // Verifica si se encontró el paciente
         if (paciente.length === 0) {
             return res.status(404).json({ mensaje: 'No se encontró paciente con ese DNI' });
         }
-        
+
         // console.log(paciente); // Asegúrate de utilizar la variable correcta
-        
+
         // Enviar el paciente como respuesta
-        res.status(200).json( paciente );
+        res.status(200).json(paciente);
     } catch (error) {
         console.error('Error al obtener paciente por DNI:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
@@ -172,22 +189,22 @@ const obtenerHcePorDniEspecifico = async (req, res) => {
     try {
         // Obtiene el DNI del parámetro de consulta
         const dni = req.query.dni;
-        
+
         // Verifica si se proporcionó el DNI
         if (!dni) {
             return res.status(400).json({ error: 'DNI no proporcionado' });
         }
-        
+
         // Llama a la función para obtener el paciente por DNI
         const paciente = await hceXDni(dni);
-        
+
         // Verifica si se encontró el paciente
         if (paciente.length === 0) {
             return res.status(404).json({ mensaje: 'No se encontró paciente con ese DNI' });
         }
         // console.log( paciente );
         // Renderiza el archivo Pug y envía los datos del paciente
-        res.render('hce', { paciente, matricula }); 
+        res.render('hce', { paciente, matricula });
     } catch (error) {
         console.error('Error al obtener paciente por DNI:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
@@ -205,14 +222,14 @@ const editarUltimaConsulta = async (req, res) => {
         }
 
         // Llama al método obtenerUltimaConsulta para obtener los datos de la última consulta
-        const ultimaConsulta = await ultimaConsultaPorNumeroDni( dni );
+        const ultimaConsulta = await ultimaConsultaPorNumeroDni(dni);
 
         if (!ultimaConsulta) {
             return res.status(404).json({ mensaje: 'No se encontró ninguna consulta para el paciente con ese DNI' });
         }
 
         // Renderiza el formulario Pug para editar la consulta, pasando los datos de la última consulta
-        res.render('consulta', { ultimaConsulta, matricula, medico_nombre});
+        res.render('consulta', { ultimaConsulta, matricula, medico_nombre });
     } catch (error) {
         console.error('Error al editar la última consulta:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
@@ -229,6 +246,5 @@ module.exports = {
     obtenerPacientesPorNombre,
     obtenerHcePorDni,
     obtenerHcePorDniEspecifico,
-    editarUltimaConsulta,
 
 };
