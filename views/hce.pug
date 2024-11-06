@@ -41,6 +41,9 @@ html
               tbody#resultados
                 
     script.
-      window.dni = !{JSON.stringify(dni)};
-      window.matricula = !{JSON.stringify(matricula)}
-      //- console.log("DNI:", window.dni);
+      window.matricula = !{JSON.stringify(matricula)};
+      console.log("DNI:", window.matricula);
+    script.
+      if (!{JSON.stringify(dni)} !== "undefined") {
+          window.dni = !{JSON.stringify(dni)};
+      };
