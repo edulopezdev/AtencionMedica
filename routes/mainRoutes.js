@@ -16,7 +16,9 @@ router.get('/agenda',  authController.authMiddleware,  (req, res) => {
 
 // Ruta para la página de hce =========================================================
 router.get('/hce',   authController.authMiddleware, (req, res) => {
-    res.render('hce', { matricula: req.session.matricula }); // Renderiza hce
+    const matricula = req.session.matricula;
+    console.log(matricula + 'routes')
+    res.render('hce', { matricula }); // Renderiza hce
 });
 
 router.get('/cargarHceDni/:dni?', authController.authMiddleware, (req, res) => {

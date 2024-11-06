@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const resultadosContainer = document.getElementById('resultados'); // Asegúrate que el ID sea correcto
     let datosPacienteSeleccionado = null;
     const matricula = window.matricula; // Verifica que matricula esté definida
-
+    console.log( window.matricula + 'matricula en front');
     const mostrarResultadosEnDesplegable = (turnos) => {
         const datalist = document.getElementById('pacientes');
         datalist.innerHTML = '';
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         return `${day}-${month}-${year}`;
     };
 
-    const mostrarTurnosHce = (turnosHistoria) => {
+    const mostrarTurnosHce = ( turnosHistoria ) => {
         resultadosContainer.innerHTML = '';
         let ultimoTurnoMarcado = false;
 
@@ -71,14 +71,14 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Mostrar el nombre del paciente antes del bucle, si hay turnos
         const nombrePaciente = turnosHistoria[0].nombre_paciente || 'Nombre del Paciente No Disponible';
         const trNombrePaciente = document.createElement('tr');
-        trNombrePaciente.innerHTML = `<td colspan="7" style="background-color: #E6E6FA; text-align: center; font-weight: bold;">${nombrePaciente}</td>`;
+        trNombrePaciente.innerHTML = `<td colspan="7" style="background-color: #E6E6FA; text-align: center; font-weight: bold;">Paciente: ${nombrePaciente}</td>`;
         resultadosContainer.appendChild(trNombrePaciente);
 
         turnosHistoria.forEach(turno => {
             const tr = document.createElement('tr');
             const esMismoMedico = turno.matricula_medico == matricula;
-            // console.log(turno.matricula_medico);
-            // console.log(matricula);
+            console.log(turno.matricula_medico);
+            console.log(matricula);
             tr.innerHTML = `
                 <td class="turno-cell">${formatDate(turno.fecha)}</td> <!-- Modificar aquí -->
                 <td class="turno-cell">${turno.profesional}</td>
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     window.location.href = `/editarConsulta?numero_turno=${turno.numero_turno}&editar=true`;
                 });
                 ultimoTurnoMarcado = true; // Marcar que ya se ha pintado el primer turno
-                console.log('marco el primero')
+                // console.log('marco el primero')
             } else if (esMismoMedico && ultimoTurnoMarcado) {
                 tr.addEventListener('click', () => {
                     // Redirigir a otra página con el número de turno, por ejemplo:
