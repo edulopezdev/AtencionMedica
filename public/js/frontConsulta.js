@@ -54,19 +54,19 @@ document.addEventListener('DOMContentLoaded', function () {
     estadoAlergia.readOnly = true;
 
     const inicioAlergia = document.getElementById('inicioAlergia');
-    inicioAlergia.value = (turno.aler_desde).substring(10) || '';
+    inicioAlergia.value = (turno.aler_desde).substring(0,10) || '';
     inicioAlergia.readOnly = true;
 
     const finAlergia = document.getElementById('finAlergia');
-    finAlergia.value = turno.aler_hasta || '';
+    finAlergia.value = turno.aler_hasta.substring(0,10) || '';
     finAlergia.readOnly = true;
 
     const inicioAntecedentes = document.getElementById('inicioAntecedentes');
-    inicioAntecedentes.value = turno.ant_desde || '';
+    inicioAntecedentes.value = turno.ant_desde.substring(0,10) || '';
     inicioAntecedentes.readOnly = true;
 
     const finAntecedentes = document.getElementById('finAntecedentes');
-    finAntecedentes.value = turno.ant_hasta || '';
+    finAntecedentes.value = turno.ant_hasta.substring(0,10) || '';
     finAntecedentes.readOnly = true;
 
     const antecedentes = document.getElementById('antecedentes');
@@ -74,11 +74,11 @@ document.addEventListener('DOMContentLoaded', function () {
     antecedentes.readOnly = true;
 
     const inicioHabitos = document.getElementById('inicioHabitos');
-    inicioHabitos.value = turno.hab_desde || '';
+    inicioHabitos.value = turno.hab_desde.substring(0,10) || '';
     inicioHabitos.readOnly = true;
 
     const finHabitos = document.getElementById('finHabitos');
-    finHabitos.value = turno.hab_hasta || '';
+    finHabitos.value = turno.hab_hasta.substring(0,10) || '';
     finHabitos.readOnly = true;
 
     const habitos = document.getElementById('habitos');
@@ -108,25 +108,25 @@ document.addEventListener('DOMContentLoaded', function () {
     estadoAlergia.value = turno.importancia || '';
 
     const inicioAlergia = document.getElementById('inicioAlergia');
-    inicioAlergia.value = (turno.aler_desde) || '';
+    inicioAlergia.value = turno.aler_desde.substring(0,10) || '';
 
     const finAlergia = document.getElementById('finAlergia');
-    finAlergia.value = turno.aler_hasta || '';
+    finAlergia.value = turno.aler_hasta.substring(0,10) || '';
 
     const inicioAntecedentes = document.getElementById('inicioAntecedentes');
-    inicioAntecedentes.value = turno.ant_desde || '';
+    inicioAntecedentes.value = turno.ant_desde.substring(0,10) || '';
 
     const finAntecedentes = document.getElementById('finAntecedentes');
-    finAntecedentes.value = turno.ant_hasta || '';
+    finAntecedentes.value = turno.ant_hasta.substring(0,10) || '';
 
     const antecedentes = document.getElementById('antecedentes');
     antecedentes.value = turno.descripcion_antecedente || '';
 
     const inicioHabitos = document.getElementById('inicioHabitos');
-    inicioHabitos.value = turno.hab_desde || '';
+    inicioHabitos.value = turno.hab_desde.substring(0,10) || '';
 
     const finHabitos = document.getElementById('finHabitos');
-    finHabitos.value = turno.hab_hasta || '';
+    finHabitos.value = turno.hab_hasta.substring(0,10) || '';
 
     const habitos = document.getElementById('habitos');
     habitos.value = turno.descripcion_habito || '';
