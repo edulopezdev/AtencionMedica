@@ -67,5 +67,6 @@ router.get('/turnos/:fecha',   authController.authMiddleware, consultaController
 // Ruta para obtener consulta por número de turno
 
 router.post('/guardarConsulta',   authController.authMiddleware, consultaController.guardarConsulta);
+router.post('/modificarConsulta',   authController.authMiddleware, consultaController.modificarConsulta);
 
 module.exports = router;
