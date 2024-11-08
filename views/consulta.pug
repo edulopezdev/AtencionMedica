@@ -19,6 +19,34 @@ html
         justify-content: center;
         margin-top: 15px; // Espacio superior para separarlo de los otros elementos
       }
+      .card-custom {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Sombra más sutil
+        border-radius: 8px;
+        margin-bottom: 20px;
+        opacity: 0.95; // Opacidad más alta para menos translucidez
+        background-color: #dcdcdc; // Gris más oscuro
+        user-select: none; // Desactiva la selección de texto
+        cursor: default; // Asegura que el cursor no cambie a mano
+      }
+      .form-section {
+        margin-bottom: 20px;
+      }
+      .form-section h3 {
+        color: #333; // Titulo en un color más oscuro
+      }
+      .campo-obligatorio {
+        border: 2px solid red !important;
+        background-color: #f8d7da; /* Color de fondo rojo claro */
+      }
+      .campo-obligatorio:focus {
+        border-color: #f5c6cb;
+        background-color: #f8d7da;
+      }
+      .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+      }
 
   body
     .container-fluid(style="background-image: url('images/background_modulos.png'); background-size: cover; background-attachment: fixed; min-height: 100vh;")
@@ -31,12 +59,9 @@ html
             .d-flex.justify-content-center
               h3 Consulta actual
 
-
-
-
             // Datos del Paciente
             if turno
-              .card.mb-4.custom-bg.datos-paciente
+              .card.mb-4.custom-bg.datos-paciente.card-custom
                 .card-body.no-hover
                   .row
                     .col-md-6
@@ -63,116 +88,141 @@ html
 
             // Formulario de Evolución
             .col-md-12.mt-5
-              h3.text-center Evolución
-              form(action="/submit" method="POST")
-                .mb-3.separacion-campos
-                  label(for="template", class="form-label") Template evolución:
-                  select#template.form-select(name="template")
-                    option(value="") Seleccionar template
-                    each t in templates
-                      option(value=t.id_template data-contenido=t.contenido_template) #{t.nombre_template}
+              form(action="/submit" method="POST", id="formularioEvolucion")
+                .form-section
+                  .card.card-custom
+                    .card-body
+                      h3.text-center Evolución
+                      .mb-3.separacion-campos
+                        label(for="template", class="form-label") Template evolución:
+                        select#template.form-select(name="template", style="width: 150px;" required) 
+                          option(value="") Seleccionar
+                          each t in templates
+                            option(value=t.id_template data-contenido=t.contenido_template) #{t.nombre_template}
 
-                .mb-3.separacion-campos
-                  label(for="evolucion", class="form-label") Evolución:
-                  textarea#evolucion.form-control(name="evolucion" placeholder="* Ingrese la evolución del paciente" rows="3")
+                      .mb-3.separacion-campos
+                        label(for="evolucion", class="form-label") Evolución:
+                        textarea#evolucion.form-control(name="evolucion" placeholder="* Ingrese la evolución del paciente" rows="6" required)
 
                 // Diagnóstico
-                h3.text-center Diagnóstico
-                div#diagnosticosContainer(class="diagnostico-item", style="display: block;")
-                  .mb-3.separacion-campos
-                    label(for="estadoDiagnostico", class="form-label") Estado del Diagnóstico:
-                    select#estadoDiagnostico.form-select(name="estadoDiagnostico")
-                      option(value="") Seleccionar
-                      option(value="Preliminar") Preliminar
-                      option(value="Confirmado") Confirmado
+                .form-section
+                  .card.card-custom
+                    .card-body
+                      h3.text-center Diagnóstico
+                      div#diagnosticosContainer(class="diagnostico-item", style="display: block;")
+                        .mb-3.separacion-campos
+                          label(for="estadoDiagnostico", class="form-label") Estado del Diagnóstico:
+                          select#estadoDiagnostico.form-select(name="estadoDiagnostico", style="width: 150px;" required)
+                            option(value="") Seleccionar
+                            option(value="Preliminar") Preliminar
+                            option(value="Confirmado") Confirmado
 
-                  .mb-3.separacion-campos
-                    label(for="diagnostico", class="form-label") Diagnóstico:
-                    textarea#diagnostico.form-control(name="diagnostico" placeholder="* Ingrese un diagnóstico" rows="3")
+                        .mb-3.separacion-campos
+                          label(for="diagnostico", class="form-label") Diagnóstico:
+                          textarea#diagnostico.form-control(name="diagnostico" placeholder="* Ingrese un diagnóstico" rows="6" required)
 
-                // Botón para agregar otro diagnóstico
-                div(class="text-center mt-3 mb-4")  <!-- Se le da un margen superior y margen inferior -->
-                  button.btn.btn-secondary(type="button", id="addDiagnosticoButton") + Agregar otro diagnóstico
-
-
+                      // Botón para agregar otro diagnóstico
+                      div(class="text-center mt-3 mb-4")  
+                        button.btn.btn-secondary(type="button", id="addDiagnosticoButton") + Agregar otro diagnóstico
 
                 // Alergias
-                .form-check
-                  input#checkboxAlergias.form-check-input(type="checkbox", onclick="toggleFields('alergiasContainer', this)")
-                  label.form-check-label(for="checkboxAlergias") Alergias
-                div#alergiasContainer(style="display: none;")
-                  .row.justify-content-center
-                    .col-12.col-md-6
-                      .d-flex.align-items-center.mb-3.justify-content-center
-                        label(for="inicioAlergia", class="form-label me-2") Inicio:
-                        input#inicioAlergia(type="date" name="inicioAlergia" class="form-control" style="width: 180px;" disabled)
+                .form-section
+                  .card.card-custom
+                    .card-body
+                      .form-check
+                        input#checkboxAlergias.form-check-input(type="checkbox", onclick="toggleFields('alergiasContainer', this)")
+                        label.form-check-label(for="checkboxAlergias") Alergias
+                      div#alergiasContainer(style="display: none;")
+                        .row.justify-content-center
+                          .col-12.col-md-6
+                            .d-flex.align-items-center.mb-3.justify-content-center
+                              label(for="inicioAlergia", class="form-label me-2") Inicio:
+                              input#inicioAlergia(type="date" name="inicioAlergia" class="form-control" style="width: 180px;" disabled)
 
-                    .col-12.col-md-6
-                      .d-flex.align-items-center.mb-3.justify-content-center
-                        label(for="finAlergia", class="form-label me-2") Fin:
-                        input#finAlergia(type="date" name="finAlergia" class="form-control" style="width: 180px;" disabled)
-
-                  .mb-3.separacion-campos
-                    label(for="alergia", class="form-label") Alergias:
-                    textarea#alergia.form-control(name="alergia" placeholder="Ingresar alergia" rows="3" disabled)
+                          .col-12.col-md-6
+                            .d-flex.align-items-center.mb-3.justify-content-center
+                              label(for="finAlergia", class="form-label me-2") Fin:
+                              input#finAlergia(type="date" name="finAlergia" class="form-control" style="width: 180px;" disabled)
+                              .d-flex.align-items-center.ms-2  
+                                label(for="checkboxDisableFinAlergia", class="me-2") Vigente:
+                                input#checkboxDisableFinAlergia.form-check-input(type="checkbox", onclick="disableDateField('finAlergia', this)")
 
                   .mb-3.separacion-campos
                     label(for="estadoAlergia", class="form-label") Nivel de alergia:
-                    select#estadoAlergia.form-select(name="estadoAlergia", disabled)
+                    select#estadoAlergia.form-select(name="estadoAlergia", disabled, style="width: 150px;")
                       option(value="") Seleccionar
-                      option(value="normal") Normal
-                      option(value="leve") Leve
-                      option(value="alta") Alto
+                      option(value="Normal") Normal
+                      option(value="Leve") Leve
+                      option(value="Alta") Alta
+
+                        .mb-3.separacion-campos
+                          label(for="alergia", class="form-label") Alergias:
+                          textarea#alergia.form-control(name="alergia" placeholder="Ingresar alergia" rows="6" disabled)
 
                 // Antecedentes
-                .form-check
-                  input#checkboxAntecedentes.form-check-input(type="checkbox", onclick="toggleFields('antecedentesContainer', this)")
-                  label.form-check-label(for="checkboxAntecedentes") Antecedentes Patológicos
-                div#antecedentesContainer(style="display: none;")
-                  .row.justify-content-center
-                    .col-12.col-md-6
-                      .d-flex.align-items-center.mb-3.justify-content-center
-                        label(for="inicioAntecedentes", class="form-label me-2") Inicio:
-                        input#inicioAntecedentes(type="date" name="inicioAntecedentes" class="form-control" style="width: 180px;" disabled)
+                .form-section
+                  .card.card-custom
+                    .card-body
+                      .form-check
+                        input#checkboxAntecedentes.form-check-input(type="checkbox", onclick="toggleFields('antecedentesContainer', this)")
+                        label.form-check-label(for="checkboxAntecedentes") Antecedentes Patológicos
+                      div#antecedentesContainer(style="display: none;")
+                        .row.justify-content-center
+                          .col-12.col-md-6
+                            .d-flex.align-items-center.mb-3.justify-content-center
+                              label(for="inicioAntecedentes", class="form-label me-2") Inicio:
+                              input#inicioAntecedentes(type="date" name="inicioAntecedentes" class="form-control" style="width: 180px;" disabled)
 
-                    .col-12.col-md-6
-                      .d-flex.align-items-center.mb-3.justify-content-center
-                        label(for="finAntecedentes", class="form-label me-2") Fin:
-                        input#finAntecedentes(type="date" name="finAntecedentes" class="form-control" style="width: 180px;" disabled)
+                          .col-12.col-md-6
+                            .d-flex.align-items-center.mb-3.justify-content-center
+                              label(for="finAntecedentes", class="form-label me-2") Fin:
+                              input#finAntecedentes(type="date" name="finAntecedentes" class="form-control" style="width: 180px;" disabled)
+                              .d-flex.align-items-center.ms-2  
+                                label(for="checkboxDisableFinAntecedentes", class="me-2") Vigente:
+                                input#checkboxDisableFinAntecedentes.form-check-input(type="checkbox", onclick="disableDateField('finAntecedentes', this)")
 
-                  .mb-3.separacion-campos
-                    input#antecedentes.form-control(type="text" name="antecedentes" placeholder="Ingresar antecedentes" disabled)
+                        .mb-3.separacion-campos
+                          textarea#antecedentes.form-control(name="antecedentes" placeholder="Ingresar antecedentes" rows="6" disabled)
 
                 // Hábitos
-                .form-check
-                  input#checkboxHabitos.form-check-input(type="checkbox", onclick="toggleFields('habitosContainer', this)")
-                  label.form-check-label(for="checkboxHabitos") Hábitos
-                div#habitosContainer(style="display: none;")
-                  .row.justify-content-center
-                    .col-12.col-md-6
-                      .d-flex.align-items-center.mb-3.justify-content-center
-                        label(for="inicioHabitos", class="form-label me-2") Inicio:
-                        input#inicioHabitos(type="date" name="inicioHabitos" class="form-control" style="width: 180px;" disabled)
+                .form-section
+                  .card.card-custom
+                    .card-body
+                      .form-check
+                        input#checkboxHabitos.form-check-input(type="checkbox", onclick="toggleFields('habitosContainer', this)")
+                        label.form-check-label(for="checkboxHabitos") Hábitos
+                      div#habitosContainer(style="display: none;")
+                        .row.justify-content-center
+                          .col-12.col-md-6
+                            .d-flex.align-items-center.mb-3.justify-content-center
+                              label(for="inicioHabitos", class="form-label me-2") Inicio:
+                              input#inicioHabitos(type="date" name="inicioHabitos" class="form-control" style="width: 180px;" disabled)
 
-                    .col-12.col-md-6
-                      .d-flex.align-items-center.mb-3.justify-content-center
-                        label(for="finHabitos", class="form-label me-2") Fin:
-                        input#finHabitos(type="date" name="finHabitos" class="form-control" style="width: 180px;" disabled)
+                          .col-12.col-md-6
+                            .d-flex.align-items-center.mb-3.justify-content-center
+                              label(for="finHabitos", class="form-label me-2") Fin:
+                              input#finHabitos(type="date" name="finHabitos" class="form-control" style="width: 180px;" disabled)
+                              .d-flex.align-items-center.ms-2  
+                                label(for="checkboxDisableFinHabitos", class="me-2") Vigente:
+                                input#checkboxDisableFinHabitos.form-check-input(type="checkbox", onclick="disableDateField('finHabitos', this)")
 
-                  .mb-3.separacion-campos
-                    input#habitos.form-control(type="text" name="habitos" placeholder="Ingresar hábitos" disabled)
+                        .mb-3.separacion-campos
+                          textarea#habitos.form-control(name="habitos" placeholder="Ingresar hábitos" rows="6" disabled)
 
                 // Medicamentos
-                .form-check
-                  input#checkboxMedicamentos.form-check-input(type="checkbox", onclick="toggleFields('medicamentoContainer', this)")
-                  label.form-check-label(for="checkboxMedicamentos") Medicamentos
-                div#medicamentoContainer(style="display: none;")
-                  .mb-3.separacion-campos
-                    label(for="medicamento", class="form-label") Seleccionar medicamento:
-                    select#medicamento.form-select(name="medicamento", disabled)
-                      option(value="") Seleccionar medicamento
-                      each m in medicamentos
-                        option(value=m.id_medicamento) #{m.nombre_medicamento}
+                .form-section
+                  .card.card-custom
+                    .card-body
+                      .form-check
+                        input#checkboxMedicamentos.form-check-input(type="checkbox", onclick="toggleFields('medicamentoContainer', this)")
+                        label.form-check-label(for="checkboxMedicamentos") Medicamentos
+                      div#medicamentoContainer(style="display: none;")
+                        .mb-3.separacion-campos
+                          label(for="medicamento", class="form-label") Seleccionar:
+                          select#medicamento.form-select(name="medicamento", disabled, style="width: 200px;") 
+                            option(value="") Seleccionar
+                            each m in medicamentos
+                              option(value=m.id_medicamento) #{m.nombre_medicamento}
 
                 // Botón Procesar
                 div.text-end.mt-4
@@ -198,3 +248,34 @@ html
                     inputs.forEach(input => input.disabled = true);
                   }
                 }
+
+                // Nueva función para deshabilitar el campo de fecha "Fin" al marcar el checkbox
+                function disableDateField(fieldId, checkbox) {
+                  const dateField = document.getElementById(fieldId);
+                  dateField.disabled = checkbox.checked;
+                }
+
+                // Validación y resaltado de campos vacíos antes de enviar
+                document.getElementById('formularioEvolucion').addEventListener('submit', function(event) {
+                  let formValid = true;
+                  let errorMessage = '';
+
+                  // Verificar si los campos obligatorios están vacíos y resaltar
+                  const requiredFields = document.querySelectorAll('textarea[required], select[required]');
+                  
+                  requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                      formValid = false;
+                      field.classList.add('campo-obligatorio');
+                      errorMessage = 'Por favor complete todos los campos obligatorios.';
+                    } else {
+                      field.classList.remove('campo-obligatorio');
+                    }
+                  });
+                  
+                  // Si el formulario no es válido, evitar el envío
+                  if (!formValid) {
+                    event.preventDefault();
+                    alert(errorMessage);
+                  }
+                });
