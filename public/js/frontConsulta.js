@@ -7,6 +7,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // Alergia 
   const alergiaTextarea = document.getElementById('alergia');
   let estadoAlergiaSelect = document.getElementById('estadoAlergia');
+  const inicioAlergia = document.getElementById('inicioAlergia');
+  const finAlergia = document.getElementById('finAlergia');
+  //Antecedentes
+  const inicioAntecedentes = document.getElementById('inicioAntecedentes');
+  const finAntecedentes = document.getElementById('finAntecedentes');
+  const antecedentes = document.getElementById('antecedentes');
+  //habitos
+  const inicioHabitos = document.getElementById('inicioHabitos');
+  const finHabitos = document.getElementById('finHabitos');
+  const habitos = document.getElementById('habitos');
   // Medicamentos
   const medicamentoSelect = document.getElementById('medicamento');
   // llenado de desplegable templates y auto completado de input
@@ -14,28 +24,37 @@ document.addEventListener('DOMContentLoaded', function () {
   const evolucionInput = document.getElementById('evolucion');
   // Boton de enviar
   const botonGuardar = document.getElementById('guardarBoton');
+  const botonModificar = document.getElementById('modificarBoton');
   // datos del turno
   const turno = window.turno;
   const numero_turno = turno.numero_turno;
   const estado = window.estado;
+  console.log(estado);
   //Boton add diagnostico
   const addDiagnosticoButton = document.getElementById('addDiagnosticoButton');
 
   //=====================================Estado del turno condiciona el llenado del pug
   // Método para llenar los campos cuando el estado es "atendido"
   const llenarCamposAtendido = (turno) => {
-    templateSelect.disabled = true;
-    estadoAlergiaSelect.disabled = true;
-    medicamentoSelect.disabled = true;
+    botonGuardar.style.display = 'none';
+    addDiagnosticoButton.style.display = 'none';
+    templateSelect.style.display = 'none';
 
     txtEvolucion.value = turno.resumen_evolucion || '';
     txtEvolucion.readOnly = true;
 
+    estadoDiagnosticoSelect.value = turno.diag_estado || '';
+    estadoDiagnosticoSelect.disabled = true;
+
     txtDiagnostico.value = turno.resumen_diagnostico || '';
     txtDiagnostico.readOnly = true;
 
-    estadoDiagnosticoSelect.value = turno.diag_estado || '';
-    estadoDiagnosticoSelect.disabled = true;
+    inicioAlergia.value = (turno.aler_desde).substring(0, 10) || '';
+    inicioAlergia.readOnly = true;
+
+    
+    finAlergia.value = turno.aler_hasta.substring(0, 10) || '';
+    finAlergia.readOnly = true;
 
     alergiaTextarea.value = turno.nombre_alergia || '';
     alergiaTextarea.readOnly = true;
@@ -46,49 +65,31 @@ document.addEventListener('DOMContentLoaded', function () {
     medicamentoSelect.value = turno.id_medicamento || '';
     medicamentoSelect.disabled = true;
 
-    botonGuardar.disabled = true;
-
-    // Llenar otros campos adicionales y establecerlos como solo lectura
-    const estadoAlergia = document.getElementById('estadoAlergia');
-    estadoAlergia.value = turno.importancia || '';
-    estadoAlergia.readOnly = true;
-
-    const inicioAlergia = document.getElementById('inicioAlergia');
-    inicioAlergia.value = (turno.aler_desde).substring(0,10) || '';
-    inicioAlergia.readOnly = true;
-
-    const finAlergia = document.getElementById('finAlergia');
-    finAlergia.value = turno.aler_hasta.substring(0,10) || '';
-    finAlergia.readOnly = true;
-
-    const inicioAntecedentes = document.getElementById('inicioAntecedentes');
-    inicioAntecedentes.value = turno.ant_desde.substring(0,10) || '';
+    inicioAntecedentes.value = turno.ant_desde.substring(0, 10) || '';
     inicioAntecedentes.readOnly = true;
 
-    const finAntecedentes = document.getElementById('finAntecedentes');
-    finAntecedentes.value = turno.ant_hasta.substring(0,10) || '';
+    finAntecedentes.value = turno.ant_hasta.substring(0, 10) || '';
     finAntecedentes.readOnly = true;
 
-    const antecedentes = document.getElementById('antecedentes');
     antecedentes.value = turno.descripcion_antecedente || '';
     antecedentes.readOnly = true;
 
-    const inicioHabitos = document.getElementById('inicioHabitos');
-    inicioHabitos.value = turno.hab_desde.substring(0,10) || '';
+
+    inicioHabitos.value = turno.hab_desde.substring(0, 10) || '';
     inicioHabitos.readOnly = true;
 
-    const finHabitos = document.getElementById('finHabitos');
-    finHabitos.value = turno.hab_hasta.substring(0,10) || '';
+    finHabitos.value = turno.hab_hasta.substring(0, 10) || '';
     finHabitos.readOnly = true;
 
-    const habitos = document.getElementById('habitos');
     habitos.value = turno.descripcion_habito || '';
     habitos.readOnly = true;
   };
 
-
   // Método para llenar los campos cuando el estado es "editar"
   const llenarCamposEditar = (turno) => {
+
+    botonGuardar.style.display = 'none';
+    botonModificar.style.display = "block";
 
     txtEvolucion.value = turno.resumen_evolucion || '';
 
@@ -100,36 +101,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     estadoAlergiaSelect.value = turno.importancia || '';
 
-    medicamentoSelect.value = turno.id_medicamento || '';
+    inicioAlergia.value = turno.aler_desde.substring(0, 10) || '';
 
-
-    // Llenar otros campos adicionales y establecerlos como solo lectura
-    const estadoAlergia = document.getElementById('estadoAlergia');
-    estadoAlergia.value = turno.importancia || '';
-
-    const inicioAlergia = document.getElementById('inicioAlergia');
-    inicioAlergia.value = turno.aler_desde.substring(0,10) || '';
-
-    const finAlergia = document.getElementById('finAlergia');
-    finAlergia.value = turno.aler_hasta.substring(0,10) || '';
-
-    const inicioAntecedentes = document.getElementById('inicioAntecedentes');
-    inicioAntecedentes.value = turno.ant_desde.substring(0,10) || '';
-
-    const finAntecedentes = document.getElementById('finAntecedentes');
-    finAntecedentes.value = turno.ant_hasta.substring(0,10) || '';
-
-    const antecedentes = document.getElementById('antecedentes');
+    finAlergia.value = turno.aler_hasta.substring(0, 10) || '';
+    
+    inicioAntecedentes.value = turno.ant_desde.substring(0, 10) || '';
+    
+    finAntecedentes.value = turno.ant_hasta.substring(0, 10) || '';
+    
     antecedentes.value = turno.descripcion_antecedente || '';
-
-    const inicioHabitos = document.getElementById('inicioHabitos');
-    inicioHabitos.value = turno.hab_desde.substring(0,10) || '';
-
-    const finHabitos = document.getElementById('finHabitos');
-    finHabitos.value = turno.hab_hasta.substring(0,10) || '';
-
-    const habitos = document.getElementById('habitos');
+    
+    inicioHabitos.value = turno.hab_desde.substring(0, 10) || '';
+    
+    finHabitos.value = turno.hab_hasta.substring(0, 10) || '';
+    
     habitos.value = turno.descripcion_habito || '';
+    
+    medicamentoSelect.value = turno.id_medicamento || '';
   }
 
   console.log(turno);
@@ -205,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Alergias ===============================================
   estadoAlergiaSelect.addEventListener('change', (event) => {
-    estadoAlergiaSelect = event.target.value;
+    estadoAlergiaSelect.value = event.target.value;
   });
 
   // Antecedentes =====================================================
@@ -260,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
       diagnosticosArray,
       alergia: {
         texto: alergiaTextarea.value,
-        nivel: estadoAlergiaSelect,
+        nivel: estadoAlergiaSelect.value,
         fechaDesde: document.querySelector('#inicioAlergia').value,
         fechaHasta: document.querySelector('#finAlergia').value,
       },
@@ -270,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
       numero_turno,
     };
 
-    console.log('Datos del formulario:', datosFormulario);
+    // console.log('Datos del formulario:', datosFormulario);
 
     // Primero, pide confirmación antes de guardar
     Swal.fire({
@@ -305,6 +293,87 @@ document.addEventListener('DOMContentLoaded', function () {
             Swal.fire({
               title: 'Éxito',
               text: 'Consulta guardada correctamente',
+              icon: 'success',
+              confirmButtonText: 'Aceptar'
+            }).then(() => {
+              // Redirigir a otra página si es necesario
+              window.location.href = '/getMain'; // Cambia esto si necesitas otra URL
+            });
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            // Aquí puedes manejar errores, por ejemplo, mostrar un mensaje de error
+            Swal.fire({
+              title: 'Error',
+              text: 'Debe completar los campos obligatorios',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
+          });
+      }
+    });
+  });
+
+  botonModificar.addEventListener('click', (event) => {
+    event.preventDefault(); // Evita el envío del formulario
+    console.log(estadoAlergiaSelect.value);
+    // Desestructuramos los valores de antecedentes y hábitos ===========================
+    const { antecedentes } = obtenerDatosAntecedentes();
+    const { habitos } = obtenerDatosHabitos();
+    const diagnosticosArray = getDiagnosticosArray();
+    const id_receta = turno.id_receta;
+    // Crear objeto con todos los datos
+    const datosFormulario = {
+      evolucion: txtEvolucion.value,
+      diagnosticosArray,
+      alergia: {
+        texto: alergiaTextarea.value,
+        nivel: estadoAlergiaSelect.value,
+        fechaDesde: document.querySelector('#inicioAlergia').value,
+        fechaHasta: document.querySelector('#finAlergia').value,
+      },
+      antecedentes,
+      habitos,
+      medicamento: medicamentoSelect.value,
+      id_receta: id_receta,
+      numero_turno,
+    };
+
+    // console.log('Datos del formulario:', datosFormulario);
+
+    // Primero, pide confirmación antes de guardar
+    Swal.fire({
+      title: 'Confirmar Consulta',
+      text: '¿Está seguro de que desea guardar la consulta?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#dc3545',
+      confirmButtonText: 'Sí, guardar',
+      cancelButtonText: 'No, cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si se confirma, realizar la solicitud fetch
+        fetch('/modificarConsulta', { // Cambia esta ruta a la correcta
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(datosFormulario)
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error en la solicitud: ' + response.statusText);
+            }
+            return response.json(); // Suponiendo que tu backend devuelve un JSON
+          })
+          .then(data => {
+            console.log('Respuesta del servidor:', data);
+
+            // Mostrar mensaje de éxito
+            Swal.fire({
+              title: 'Éxito',
+              text: 'Consulta modificada correctamente',
               icon: 'success',
               confirmButtonText: 'Aceptar'
             }).then(() => {

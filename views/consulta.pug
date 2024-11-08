@@ -226,7 +226,8 @@ html
 
                 // Botón Procesar
                 div.text-end.mt-4
-                  button#guardarBoton(type="submit", class="btn btn-primary") Procesar
+                  button#guardarBoton(type="submit", class="btn btn-primary") Guardar
+                  button#modificarBoton(type="submit", class="btn btn-primary" style="display: none;") Modificar
 
               script.
                 window.turno = !{JSON.stringify(turno)}; 

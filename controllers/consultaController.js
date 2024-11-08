@@ -1,6 +1,6 @@
 // controllers/consultaController.js
 const { turnosHoyMatricula, datosTurno, turnosXFechaYMatricula, listarTemplates, listarMedicamentos } = require('../services/agendaService');
-const { ultimaConsultaPorNumeroDni, guardarConsultaCompleta, listarPacientes, hceXDni, consultaPorNumeroTurno } = require('../services/pacienteService');
+const { ultimaConsultaPorNumeroDni, guardarConsultaCompleta, listarPacientes, hceXDni, consultaPorNumeroTurno, modificarConsultaCompleta } = require('../services/pacienteService');
 
 // Controlador para la ruta "/getMain" renderizo vista index
 const getMain = (req, res) => {
@@ -81,7 +81,7 @@ const iniciarConsultaPorNumeroTurno = (req, res) => {
         .then(([turno, consultaUltima, templates, medicamentos]) => {
             const ultimoTurno = consultaUltima[0];
 
-            if (turno.estado == 'Atendido' && editar === 'nuevo') {
+            if (turno.estado == 'Atendido' && estado === 'nuevo') {
                 estado = 'Atendido';
             } 
             
@@ -122,6 +122,42 @@ const guardarConsulta = (req, res) => {
 
     // Llamar a la función que guarda la consulta
     guardarConsultaCompleta(datos)
+        .then((mensaje) => {
+            res.status(200).json({ mensaje });
+        })
+        .catch((error) => {
+            console.error('Error al guardar la consulta:', error);
+            res.status(500).json({ error: 'Error al guardar los datos' });
+        });
+};
+
+//modificar consulta
+const modificarConsulta = (req, res) => {
+    // Extraer los datos del formulario desde `req.body`
+    const { numero_turno, evolucion, diagnosticosArray, alergia, antecedentes, habitos, medicamento , id_receta} = req.body;
+
+    // Construir el objeto de datos para guardar en la base de datos
+    const datos = {
+        numero_turno,
+        // Suponiendo que estos valores son parte de `req.body` o se extraen de alguna manera
+        nombre_alergia: alergia.texto, // o la propiedad que tengas en el body
+        importancia_alergia: alergia.nivel,
+        fecha_desde_alergia: alergia.fechaDesde,
+        fecha_hasta_alergia: alergia.fechaHasta,
+        descripcion_antecedente: antecedentes.antecedentes, // igual que arriba
+        fecha_desde_antecedente: antecedentes.inicioAntecedentes,
+        fecha_hasta_antecedente: antecedentes.finAntecedentes,
+        diagnosticosArray: diagnosticosArray,
+        resumen_evolucion: evolucion,
+        descripcion_habito: habitos.habitos,
+        fecha_desde_habito: habitos.inicioHabitos,
+        fecha_hasta_habito: habitos.finHabitos,
+        id_medicamento: medicamento ,// Suponiendo que es un ID
+        id_receta: id_receta
+    };
+    console.log(datos);
+    // Llamar a la función que guarda la consulta
+    modificarConsultaCompleta(datos)
         .then((mensaje) => {
             res.status(200).json({ mensaje });
         })
@@ -246,5 +282,6 @@ module.exports = {
     obtenerPacientesPorNombre,
     obtenerHcePorDni,
     obtenerHcePorDniEspecifico,
+    modificarConsulta,
 
 };
