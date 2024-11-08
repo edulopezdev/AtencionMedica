@@ -7,6 +7,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // Alergia 
   const alergiaTextarea = document.getElementById('alergia');
   let estadoAlergiaSelect = document.getElementById('estadoAlergia');
+  const inicioAlergia = document.getElementById('inicioAlergia');
+  const finAlergia = document.getElementById('finAlergia');
+  //Antecedentes
+  const inicioAntecedentes = document.getElementById('inicioAntecedentes');
+  const finAntecedentes = document.getElementById('finAntecedentes');
+  const antecedentes = document.getElementById('antecedentes');
+  //habitos
+  const inicioHabitos = document.getElementById('inicioHabitos');
+  const finHabitos = document.getElementById('finHabitos');
+  const habitos = document.getElementById('habitos');
   // Medicamentos
   const medicamentoSelect = document.getElementById('medicamento');
   // llenado de desplegable templates y auto completado de input
@@ -19,25 +29,32 @@ document.addEventListener('DOMContentLoaded', function () {
   const turno = window.turno;
   const numero_turno = turno.numero_turno;
   const estado = window.estado;
+  console.log(estado);
   //Boton add diagnostico
   const addDiagnosticoButton = document.getElementById('addDiagnosticoButton');
 
   //=====================================Estado del turno condiciona el llenado del pug
   // Método para llenar los campos cuando el estado es "atendido"
   const llenarCamposAtendido = (turno) => {
-    templateSelect.disabled = true;
-    estadoAlergiaSelect.disabled = true;
-    medicamentoSelect.disabled = true;
-    botonGuardar.disabled = true;
+    botonGuardar.style.display = 'none';
+    addDiagnosticoButton.style.display = 'none';
+    templateSelect.style.display = 'none';
 
     txtEvolucion.value = turno.resumen_evolucion || '';
     txtEvolucion.readOnly = true;
 
+    estadoDiagnosticoSelect.value = turno.diag_estado || '';
+    estadoDiagnosticoSelect.disabled = true;
+
     txtDiagnostico.value = turno.resumen_diagnostico || '';
     txtDiagnostico.readOnly = true;
 
-    estadoDiagnosticoSelect.value = turno.diag_estado || '';
-    estadoDiagnosticoSelect.disabled = true;
+    inicioAlergia.value = (turno.aler_desde).substring(0, 10) || '';
+    inicioAlergia.readOnly = true;
+
+    
+    finAlergia.value = turno.aler_hasta.substring(0, 10) || '';
+    finAlergia.readOnly = true;
 
     alergiaTextarea.value = turno.nombre_alergia || '';
     alergiaTextarea.readOnly = true;
@@ -48,50 +65,30 @@ document.addEventListener('DOMContentLoaded', function () {
     medicamentoSelect.value = turno.id_medicamento || '';
     medicamentoSelect.disabled = true;
 
-
-    // Llenar otros campos adicionales y establecerlos como solo lectura
-    const estadoAlergia = document.getElementById('estadoAlergia');
-    estadoAlergia.value = turno.importancia || '';
-    estadoAlergia.readOnly = true;
-
-    const inicioAlergia = document.getElementById('inicioAlergia');
-    inicioAlergia.value = (turno.aler_desde).substring(0, 10) || '';
-    inicioAlergia.readOnly = true;
-
-    const finAlergia = document.getElementById('finAlergia');
-    finAlergia.value = turno.aler_hasta.substring(0, 10) || '';
-    finAlergia.readOnly = true;
-
-    const inicioAntecedentes = document.getElementById('inicioAntecedentes');
     inicioAntecedentes.value = turno.ant_desde.substring(0, 10) || '';
     inicioAntecedentes.readOnly = true;
 
-    const finAntecedentes = document.getElementById('finAntecedentes');
     finAntecedentes.value = turno.ant_hasta.substring(0, 10) || '';
     finAntecedentes.readOnly = true;
 
-    const antecedentes = document.getElementById('antecedentes');
     antecedentes.value = turno.descripcion_antecedente || '';
     antecedentes.readOnly = true;
 
-    const inicioHabitos = document.getElementById('inicioHabitos');
+
     inicioHabitos.value = turno.hab_desde.substring(0, 10) || '';
     inicioHabitos.readOnly = true;
 
-    const finHabitos = document.getElementById('finHabitos');
     finHabitos.value = turno.hab_hasta.substring(0, 10) || '';
     finHabitos.readOnly = true;
 
-    const habitos = document.getElementById('habitos');
     habitos.value = turno.descripcion_habito || '';
     habitos.readOnly = true;
   };
 
-
   // Método para llenar los campos cuando el estado es "editar"
   const llenarCamposEditar = (turno) => {
 
-    botonGuardar.disabled = true;
+    botonGuardar.style.display = 'none';
     botonModificar.style.display = "block";
 
     txtEvolucion.value = turno.resumen_evolucion || '';
@@ -104,36 +101,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     estadoAlergiaSelect.value = turno.importancia || '';
 
-    medicamentoSelect.value = turno.id_medicamento || '';
-
-
-    // Llenar otros campos adicionales y establecerlos como solo lectura
-    const estadoAlergia = document.getElementById('estadoAlergia');
-    estadoAlergia.value = turno.importancia || '';
-
-    const inicioAlergia = document.getElementById('inicioAlergia');
     inicioAlergia.value = turno.aler_desde.substring(0, 10) || '';
 
-    const finAlergia = document.getElementById('finAlergia');
     finAlergia.value = turno.aler_hasta.substring(0, 10) || '';
-
-    const inicioAntecedentes = document.getElementById('inicioAntecedentes');
+    
     inicioAntecedentes.value = turno.ant_desde.substring(0, 10) || '';
-
-    const finAntecedentes = document.getElementById('finAntecedentes');
+    
     finAntecedentes.value = turno.ant_hasta.substring(0, 10) || '';
-
-    const antecedentes = document.getElementById('antecedentes');
+    
     antecedentes.value = turno.descripcion_antecedente || '';
-
-    const inicioHabitos = document.getElementById('inicioHabitos');
+    
     inicioHabitos.value = turno.hab_desde.substring(0, 10) || '';
-
-    const finHabitos = document.getElementById('finHabitos');
+    
     finHabitos.value = turno.hab_hasta.substring(0, 10) || '';
-
-    const habitos = document.getElementById('habitos');
+    
     habitos.value = turno.descripcion_habito || '';
+    
+    medicamentoSelect.value = turno.id_medicamento || '';
   }
 
   console.log(turno);
@@ -209,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Alergias ===============================================
   estadoAlergiaSelect.addEventListener('change', (event) => {
-    estadoAlergiaSelect = event.target.value;
+    estadoAlergiaSelect.value = event.target.value;
   });
 
   // Antecedentes =====================================================
@@ -264,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
       diagnosticosArray,
       alergia: {
         texto: alergiaTextarea.value,
-        nivel: estadoAlergiaSelect,
+        nivel: estadoAlergiaSelect.value,
         fechaDesde: document.querySelector('#inicioAlergia').value,
         fechaHasta: document.querySelector('#finAlergia').value,
       },
@@ -332,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   botonModificar.addEventListener('click', (event) => {
     event.preventDefault(); // Evita el envío del formulario
-
+    console.log(estadoAlergiaSelect.value);
     // Desestructuramos los valores de antecedentes y hábitos ===========================
     const { antecedentes } = obtenerDatosAntecedentes();
     const { habitos } = obtenerDatosHabitos();
@@ -344,14 +328,14 @@ document.addEventListener('DOMContentLoaded', function () {
       diagnosticosArray,
       alergia: {
         texto: alergiaTextarea.value,
-        nivel: estadoAlergiaSelect,
+        nivel: estadoAlergiaSelect.value,
         fechaDesde: document.querySelector('#inicioAlergia').value,
         fechaHasta: document.querySelector('#finAlergia').value,
       },
       antecedentes,
       habitos,
       medicamento: medicamentoSelect.value,
-      id_receta : id_receta,
+      id_receta: id_receta,
       numero_turno,
     };
 

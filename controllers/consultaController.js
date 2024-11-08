@@ -81,7 +81,7 @@ const iniciarConsultaPorNumeroTurno = (req, res) => {
         .then(([turno, consultaUltima, templates, medicamentos]) => {
             const ultimoTurno = consultaUltima[0];
 
-            if (turno.estado == 'Atendido' && editar === 'nuevo') {
+            if (turno.estado == 'Atendido' && estado === 'nuevo') {
                 estado = 'Atendido';
             } 
             
