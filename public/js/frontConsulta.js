@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
+  // boton
+  const btnHcePaciente = document.getElementById('btnHcePaciente');
   // Evolucion ok
   const txtEvolucion = document.getElementById('evolucion');
   // Diagnostico ok
   const txtDiagnostico = document.getElementById('diagnostico');
   let estadoDiagnosticoSelect = document.getElementById('estadoDiagnostico');
+  const addDiagnosticoButton = document.getElementById('addDiagnosticoButton');
   // Alergia 
   const alergiaTextarea = document.getElementById('alergia');
   let estadoAlergiaSelect = document.getElementById('estadoAlergia');
@@ -31,8 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const estado = window.estado;
   // console.log(estado);
   //Boton add diagnostico
-  const addDiagnosticoButton = document.getElementById('addDiagnosticoButton');
-
+  btnHcePaciente.addEventListener('click', () => {
+    window.location.href = `/cargarHceDni?dni=${turno.dni_paciente}`;
+  });
+  
   //=====================================Estado del turno condiciona el llenado del pug
   // Método para llenar los campos cuando el estado es "atendido"
   const llenarCamposAtendido = (turno) => {
