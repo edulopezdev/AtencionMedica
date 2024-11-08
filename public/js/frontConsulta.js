@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const turno = window.turno;
   const numero_turno = turno.numero_turno;
   const estado = window.estado;
-  console.log(estado);
+  // console.log(estado);
   //Boton add diagnostico
   const addDiagnosticoButton = document.getElementById('addDiagnosticoButton');
 
@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
     inicioAlergia.value = (turno.aler_desde).substring(0, 10) || '';
     inicioAlergia.readOnly = true;
 
-    
     finAlergia.value = turno.aler_hasta.substring(0, 10) || '';
     finAlergia.readOnly = true;
 
@@ -104,22 +103,22 @@ document.addEventListener('DOMContentLoaded', function () {
     inicioAlergia.value = turno.aler_desde.substring(0, 10) || '';
 
     finAlergia.value = turno.aler_hasta.substring(0, 10) || '';
-    
+
     inicioAntecedentes.value = turno.ant_desde.substring(0, 10) || '';
-    
+
     finAntecedentes.value = turno.ant_hasta.substring(0, 10) || '';
-    
+
     antecedentes.value = turno.descripcion_antecedente || '';
-    
+
     inicioHabitos.value = turno.hab_desde.substring(0, 10) || '';
-    
+
     finHabitos.value = turno.hab_hasta.substring(0, 10) || '';
-    
+
     habitos.value = turno.descripcion_habito || '';
-    
+
     medicamentoSelect.value = turno.id_medicamento || '';
   }
-
+  //Logica segun estado de turno
   console.log(turno);
   if (estado === 'Atendido') {
     console.log('atendido entro');
@@ -131,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   //Agregar mas de un diagnostico
   // console.log('ejecutando front.....')
-  // Función para agregar un nuevo diagnóstico
   const addDiagnostico = () => {
     const diagnosticosContainer = document.getElementById('diagnosticosContainer');
 
@@ -148,10 +146,18 @@ document.addEventListener('DOMContentLoaded', function () {
       <option value="Preliminar">Preliminar</option>
       <option value="Confirmado">Confirmado</option> 
     </select>
+    <button type="button" class="btn btn-danger mt-2 remove-diagnostico">Eliminar</button>
   `;
 
     diagnosticosContainer.appendChild(nuevoDiagnostico);
+
+    // Agregar el evento para eliminar este diagnóstico
+    const removeButton = nuevoDiagnostico.querySelector('.remove-diagnostico');
+    removeButton.addEventListener('click', () => {
+      diagnosticosContainer.removeChild(nuevoDiagnostico);
+    });
   };
+
 
   // Función para recoger todos los diagnósticos en un array de objetos
   const getDiagnosticosArray = () => {
