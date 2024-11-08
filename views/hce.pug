@@ -19,14 +19,13 @@ html
               h3(style="margin: 0;") HCE
               .mx-auto
                 .d-flex.justify-content-center
-                  // Texto de indicación
                   input#search.form-control(type="text" placeholder="Buscar por nombre o DNI" list="pacientes" style="width: 300px; margin-right: 10px;")
-                  // Datalist para sugerencias
                   datalist#pacientes
-                  // Botón para buscar HCE
                   button#buscarHCE.btn.btn-primary.btn-buscar(type="button") Buscar
-                  
-
+            .patient-info#datosPaciente(style="display: none; margin-top: 20px; padding: 20px; border-radius: 10px; background-color: #f7f7f7; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);")
+              h4(style="font-weight: bold; color: #5a5a5a; margin-bottom: 15px;") Datos del Paciente
+              p#nombrePaciente(style="font-size: 1.2rem; color: #333; font-weight: bold; margin-bottom: 5px;")
+              p#dniPaciente(style="font-size: 1rem; color: #777;")
             table.table.table-bordered.table-hover(style="margin-top: 20px; width: 100%;")
               thead.bg-dark
                 tr
@@ -35,15 +34,14 @@ html
                   th(style="color: white;") Alergia
                   th(style="color: white;") Antecedentes
                   th(style="color: white;") Diagnóstico
-                  th(style="color: white;") Evolución 
+                  th(style="color: white;") Evolución
                   th(style="color: white;") Hábito
-
+                  th(style="color: white;") Acciones
               tbody#resultados
-                
     script.
       window.matricula = !{JSON.stringify(matricula)};
       console.log("DNI:", window.matricula);
     script.
       if (!{JSON.stringify(dni)} !== "undefined") {
-          window.dni = !{JSON.stringify(dni)};
+          window.dni = !{JSON.stringify(dni)}; 
       };
