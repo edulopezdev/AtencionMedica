@@ -71,7 +71,8 @@ html
                           - var anio = fecha.getFullYear()
                           p Fecha: #{dia}-#{mes}-#{anio}
                           p Resumen: #{ultimoTurno.resumen_diagnostico}
-                          a.btn-hce.mt-3(href="/hce") Ir a HCE del paciente
+                          a.btn-hce.mt-3#btnHcePaciente Ir a HCE del paciente
+
                         else
                           p Esta es la primera visita del paciente
             else
