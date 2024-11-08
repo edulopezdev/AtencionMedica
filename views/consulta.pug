@@ -7,46 +7,37 @@ html
     link(rel="stylesheet" href="css/styles.css")
     script(src="/js/frontConsulta.js")
     style.
-      .datos-paciente {
-        cursor: default; // Cambia el cursor a default
-        margin-top: 20px; // Separación exterior superior
-      }
-      .separacion-campos {
-        margin-bottom: 1.5rem; // Separación sutil entre los campos
-      }
-      .centrar-boton {
-        display: flex;
-        justify-content: center;
-        margin-top: 15px; // Espacio superior para separarlo de los otros elementos
-      }
-      .card-custom {
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Sombra más sutil
-        border-radius: 8px;
-        margin-bottom: 20px;
-        opacity: 0.95; // Opacidad más alta para menos translucidez
-        background-color: #dcdcdc; // Gris más oscuro
-        user-select: none; // Desactiva la selección de texto
-        cursor: default; // Asegura que el cursor no cambie a mano
-      }
-      .form-section {
-        margin-bottom: 20px;
-      }
-      .form-section h3 {
-        color: #333; // Titulo en un color más oscuro
-      }
-      .campo-obligatorio {
-        border: 2px solid red !important;
-        background-color: #f8d7da; /* Color de fondo rojo claro */
-      }
-      .campo-obligatorio:focus {
-        border-color: #f5c6cb;
-        background-color: #f8d7da;
-      }
-      .error-message {
-        color: red;
-        font-size: 0.9em;
-        margin-top: 5px;
-      }
+      .datos-paciente
+        cursor: default // Cambia el cursor a default
+        margin-top: 20px // Separación exterior superior
+      .separacion-campos
+        margin-bottom: 1.5rem // Separación sutil entre los campos
+      .centrar-boton
+        display: flex
+        justify-content: center
+        margin-top: 15px // Espacio superior para separarlo de los otros elementos
+      .card-custom
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) // Sombra más sutil
+        border-radius: 8px
+        margin-bottom: 20px
+        opacity: 0.95 // Opacidad más alta para menos translucidez
+        background-color: #dcdcdc // Gris más oscuro
+        user-select: none // Desactiva la selección de texto
+        cursor: default // Asegura que el cursor no cambie a mano
+      .form-section
+        margin-bottom: 20px
+      .form-section h3
+        color: #333 // Titulo en un color más oscuro
+      .campo-obligatorio
+        border: 2px solid red !important
+        background-color: #f8d7da // Color de fondo rojo claro
+      .campo-obligatorio:focus
+        border-color: #f5c6cb
+        background-color: #f8d7da
+      .error-message
+        color: red
+        font-size: 0.9em
+        margin-top: 5px
 
   body
     .container-fluid(style="background-image: url('images/background_modulos.png'); background-size: cover; background-attachment: fixed; min-height: 100vh;")
@@ -74,10 +65,10 @@ html
                       h2.text-center Última visita
                       .text-center
                         if ultimoTurno
-                          - var fecha = new Date(ultimoTurno.fecha);
-                          - var dia = String(fecha.getDate()).padStart(2, '0');
-                          - var mes = String(fecha.getMonth() + 1).padStart(2, '0');
-                          - var anio = fecha.getFullYear();
+                          - var fecha = new Date(ultimoTurno.fecha)
+                          - var dia = String(fecha.getDate()).padStart(2, '0')
+                          - var mes = String(fecha.getMonth() + 1).padStart(2, '0')
+                          - var anio = fecha.getFullYear()
                           p Fecha: #{dia}-#{mes}-#{anio}
                           p Resumen: #{ultimoTurno.resumen_diagnostico}
                           a.btn-hce.mt-3(href="/hce") Ir a HCE del paciente
@@ -95,7 +86,7 @@ html
                       h3.text-center Evolución
                       .mb-3.separacion-campos
                         label(for="template", class="form-label") Template evolución:
-                        select#template.form-select(name="template", style="width: 150px;" required) 
+                        select#template.form-select(name="template", style="width: 150px;" required)
                           option(value="") Seleccionar
                           each t in templates
                             option(value=t.id_template data-contenido=t.contenido_template) #{t.nombre_template}
@@ -138,26 +129,23 @@ html
                             .d-flex.align-items-center.mb-3.justify-content-center
                               label(for="inicioAlergia", class="form-label me-2") Inicio:
                               input#inicioAlergia(type="date" name="inicioAlergia" class="form-control" style="width: 180px;" disabled)
-
-                          .col-12.col-md-6
+                          .col-12.col-md-6 
                             .d-flex.align-items-center.mb-3.justify-content-center
                               label(for="finAlergia", class="form-label me-2") Fin:
                               input#finAlergia(type="date" name="finAlergia" class="form-control" style="width: 180px;" disabled)
-                              .d-flex.align-items-center.ms-2  
-                                label(for="checkboxDisableFinAlergia", class="me-2") Vigente:
+                              .d-flex.align-items-center.ms-2
+                                label(for="checkboxDisableFinAlergia", class="form-label me-2") Vigente:
                                 input#checkboxDisableFinAlergia.form-check-input(type="checkbox", onclick="disableDateField('finAlergia', this)")
-
-                  .mb-3.separacion-campos
-                    label(for="estadoAlergia", class="form-label") Nivel de alergia:
-                    select#estadoAlergia.form-select(name="estadoAlergia", disabled, style="width: 150px;")
-                      option(value="") Seleccionar
-                      option(value="Normal") Normal
-                      option(value="Leve") Leve
-                      option(value="Alta") Alta
-
+                        .mb-3.separacion-campos
+                          label(for="estadoAlergia", class="form-label") Nivel de alergia:
+                          select#estadoAlergia.form-select(name="estadoAlergia", style="width: 150px;")
+                            option(value="") Seleccionar
+                            option(value="Normal") Normal
+                            option(value="Leve") Leve
+                            option(value="Alta") Alta
                         .mb-3.separacion-campos
                           label(for="alergia", class="form-label") Alergias:
-                          textarea#alergia.form-control(name="alergia" placeholder="Ingresar alergia" rows="6" disabled)
+                          textarea#alergia.form-control(name="alergia" placeholder="Ingresar alergia" rows="6")
 
                 // Antecedentes
                 .form-section
@@ -172,15 +160,13 @@ html
                             .d-flex.align-items-center.mb-3.justify-content-center
                               label(for="inicioAntecedentes", class="form-label me-2") Inicio:
                               input#inicioAntecedentes(type="date" name="inicioAntecedentes" class="form-control" style="width: 180px;" disabled)
-
                           .col-12.col-md-6
                             .d-flex.align-items-center.mb-3.justify-content-center
                               label(for="finAntecedentes", class="form-label me-2") Fin:
                               input#finAntecedentes(type="date" name="finAntecedentes" class="form-control" style="width: 180px;" disabled)
-                              .d-flex.align-items-center.ms-2  
+                              .d-flex.align-items-center.ms-2
                                 label(for="checkboxDisableFinAntecedentes", class="me-2") Vigente:
                                 input#checkboxDisableFinAntecedentes.form-check-input(type="checkbox", onclick="disableDateField('finAntecedentes', this)")
-
                         .mb-3.separacion-campos
                           textarea#antecedentes.form-control(name="antecedentes" placeholder="Ingresar antecedentes" rows="6" disabled)
 
@@ -197,15 +183,13 @@ html
                             .d-flex.align-items-center.mb-3.justify-content-center
                               label(for="inicioHabitos", class="form-label me-2") Inicio:
                               input#inicioHabitos(type="date" name="inicioHabitos" class="form-control" style="width: 180px;" disabled)
-
                           .col-12.col-md-6
                             .d-flex.align-items-center.mb-3.justify-content-center
                               label(for="finHabitos", class="form-label me-2") Fin:
                               input#finHabitos(type="date" name="finHabitos" class="form-control" style="width: 180px;" disabled)
-                              .d-flex.align-items-center.ms-2  
+                              .d-flex.align-items-center.ms-2
                                 label(for="checkboxDisableFinHabitos", class="me-2") Vigente:
                                 input#checkboxDisableFinHabitos.form-check-input(type="checkbox", onclick="disableDateField('finHabitos', this)")
-
                         .mb-3.separacion-campos
                           textarea#habitos.form-control(name="habitos" placeholder="Ingresar hábitos" rows="6" disabled)
 
@@ -219,7 +203,7 @@ html
                       div#medicamentoContainer(style="display: none;")
                         .mb-3.separacion-campos
                           label(for="medicamento", class="form-label") Seleccionar:
-                          select#medicamento.form-select(name="medicamento", disabled, style="width: 200px;") 
+                          select#medicamento.form-select(name="medicamento", disabled, style="width: 200px;")
                             option(value="") Seleccionar
                             each m in medicamentos
                               option(value=m.id_medicamento) #{m.nombre_medicamento}
@@ -230,11 +214,10 @@ html
                   button#modificarBoton(type="submit", class="btn btn-primary" style="display: none;") Modificar
 
               script.
-                window.turno = !{JSON.stringify(turno)}; 
-                window.estado = !{JSON.stringify(estado)}; 
-                //- console.log('Datos de turnos iniciales:', window.turno);
+                window.turno = !{JSON.stringify(turno)} 
+                window.estado = !{JSON.stringify(estado)} 
 
-              // Este script es para togglea entre las secciones que se ocultan
+              // Este script es para toggle entre las secciones que se ocultan
               script.
                 function toggleFields(sectionId, checkbox) {
                   const section = document.getElementById(sectionId);
