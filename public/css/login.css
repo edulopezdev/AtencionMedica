@@ -1,6 +1,6 @@
+/* Importación de fuentes */
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
-
 
 /* Estilos generales */
 body {
@@ -32,9 +32,8 @@ body {
     backdrop-filter: blur(10px); /* Efecto de desenfoque del fondo */
     min-height: 200px; /* Altura mínima del contenedor */
     margin-top: 40px; /* Ajusta este valor según necesites */
+    position: relative; /* Necesario para posicionar el mensaje de error */
 }
-
-
 
 /* Estilos del título */
 .title-container {
@@ -63,7 +62,6 @@ body {
     margin-top: 20px; /* Ajusta este valor para moverlo hacia abajo */
 }
 
-
 /* Estilos de los campos de entrada */
 input[type="text"],
 input[type="password"] {
@@ -81,8 +79,6 @@ input[type="password"] {
     margin-top: 20px; /* Espacio opcional encima del botón */
 }
 
-
-/* Estilos del botón */
 /* Estilos del botón */
 button {
     width: 70%; /* Ocupa todo el ancho del contenedor */
@@ -95,7 +91,6 @@ button {
     font-size: 16px; /* Tamaño de fuente */
     margin-top: 30px; /* Aumentado para bajar más */
 }
-
 
 /* Efecto hover para el botón */
 button:hover {
@@ -126,4 +121,11 @@ p {
     color: #929496; /* Color del texto, opcional */
 }
 
-
+/* Estilos para el mensaje de error */
+.error-message {
+    color: #e74c3c; /* Rojo estándar para errores */
+    font-size: 14px; /* Tamaño de fuente pequeño */
+    margin-top: 10px; /* Espacio entre el mensaje de error y el campo */
+    padding: 5px 0;
+    text-align: center; /* Centrado */
+}

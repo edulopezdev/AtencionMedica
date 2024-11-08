@@ -13,6 +13,9 @@ html
                         input(type='text', name='usuario', id='usuario', placeholder='Ingrese su usuario' required)
                     .form-group
                         input(type='password', name='contrasenia', id='contrasenia', placeholder='Ingrese su contraseña' required)
+                    // Mostrar mensaje de error si existe
+                    if errorMessage
+                        .error-message= errorMessage
                     .button-container
                         button(type='submit') Iniciar Sesión
                 p.text-center
