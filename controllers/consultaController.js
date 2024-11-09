@@ -273,6 +273,23 @@ const editarUltimaConsulta = async (req, res) => {
 };
 
 
+const crearNuevaTemplate = async (req, res) => {
+    const nombre_template = req.params.nombre_template;
+    const contenido_template = req.params.contenido_template;
+
+    try {
+        const resultado = await crearTemplate(nombre_template, contenido_template);
+        res.status(201).json({
+            message: 'Template creado exitosamente',
+            data: resultado
+        });
+    } catch (error) {
+        console.error('Error al crear template:', error);
+        res.status(500).json({ message: 'Error al crear el template' });
+    }
+};
+
+
 module.exports = {
     getMain,
     //procesarFechaConsulta,

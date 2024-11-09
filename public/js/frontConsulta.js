@@ -28,16 +28,14 @@ document.addEventListener('DOMContentLoaded', function () {
   // Boton de enviar
   const botonGuardar = document.getElementById('guardarBoton');
   const botonModificar = document.getElementById('modificarBoton');
+  const btnAddTemplate = document.getElementById('btnAddTemplate');
+  console.log(btnAddTemplate)
   // datos del turno
   const turno = window.turno;
   const numero_turno = turno.numero_turno;
   const estado = window.estado;
   // console.log(estado);
   //Boton add diagnostico
-  btnHcePaciente.addEventListener('click', () => {
-    window.location.href = `/cargarHceDni?dni=${turno.dni_paciente}`;
-  });
-  
   //=====================================Estado del turno condiciona el llenado del pug
   // Método para llenar los campos cuando el estado es "atendido"
   const llenarCamposAtendido = (turno) => {
@@ -47,10 +45,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     txtEvolucion.value = turno.resumen_evolucion || '';
     txtEvolucion.readOnly = true;
-
+    
     estadoDiagnosticoSelect.value = turno.diag_estado || '';
     estadoDiagnosticoSelect.disabled = true;
-
+    
     txtDiagnostico.value = turno.resumen_diagnostico || '';
     txtDiagnostico.readOnly = true;
 
@@ -68,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     medicamentoSelect.value = turno.id_medicamento || '';
     medicamentoSelect.disabled = true;
-
+    
     inicioAntecedentes.value = turno.ant_desde.substring(0, 10) || '';
     inicioAntecedentes.readOnly = true;
 
@@ -98,11 +96,11 @@ document.addEventListener('DOMContentLoaded', function () {
     txtEvolucion.value = turno.resumen_evolucion || '';
 
     txtDiagnostico.value = turno.resumen_diagnostico || '';
-
+    
     estadoDiagnosticoSelect.value = turno.diag_estado || '';
-
+    
     alergiaTextarea.value = turno.nombre_alergia || '';
-
+    
     estadoAlergiaSelect.value = turno.importancia || '';
 
     inicioAlergia.value = turno.aler_desde.substring(0, 10) || '';
@@ -132,7 +130,19 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('editar entro');
     llenarCamposEditar(turno);
   }
+  //botones
+  if (btnHcePaciente) {
+    btnHcePaciente.addEventListener('click', () => {
+      window.location.href = `/cargarHceDni?dni=${turno.dni_paciente}`;
+    });
+  }
 
+  btnAddTemplate.addEventListener('click', ( event ) => {
+    event.preventDefault();
+    console.log('Clickkkkkkk')
+    window.location.href = `/nuevaTemplate`;
+  });
+  
   //Agregar mas de un diagnostico
   // console.log('ejecutando front.....')
   const addDiagnostico = () => {

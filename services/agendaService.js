@@ -112,6 +112,21 @@ const listarTemplates = () => {
     });
 };
 
+const crearTemplate = ( nombre, contenido ) => {
+    return new Promise((resolve, reject) => {
+        const query = `INSERT INTO templates (nombre_template, contenido_template) VALUES (?, ?);`;
+        
+        conexion.query(query, [nombre, contenido], (error, resultado) => {
+            if (error) {
+                console.error("Error al crear template:", error);
+                return reject(error);  // En caso de error, se rechaza la promesa
+            }
+            resolve(resultado);  // En caso de éxito, se resuelve con el resultado de la inserción
+        });
+    });
+};
+
+
 //Listar medicamentos
 const listarMedicamentos = () => {
     return new Promise((resolve, reject) => {
