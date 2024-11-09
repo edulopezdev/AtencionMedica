@@ -37,6 +37,23 @@ document.addEventListener('DOMContentLoaded', function () {
   // console.log(estado);
   //Boton add diagnostico
   //=====================================Estado del turno condiciona el llenado del pug
+
+  //===================================texto enriquecido====================================
+   // Inicializar Quill en el div con el ID 'evolucion'
+   let quill = new Quill('#evolucion', {
+    theme: 'snow',
+    placeholder: '* Ingrese la evolución del paciente',
+    modules: {
+      toolbar: [
+        [{ 'header': [1, 2, false] }],
+        ['bold', 'italic', 'underline'],
+        ['link', 'image'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+      ]
+    }
+  });
+
+  //==============================================================================================
   // Método para llenar los campos cuando el estado es "atendido"
   const llenarCamposAtendido = (turno) => {
     botonGuardar.style.display = 'none';
@@ -93,7 +110,8 @@ document.addEventListener('DOMContentLoaded', function () {
     botonGuardar.style.display = 'none';
     botonModificar.style.display = "block";
 
-    txtEvolucion.value = turno.resumen_evolucion || '';
+    // txtEvolucion.value = turno.resumen_evolucion || '';
+    quill.root.innerHTML = turno.resumen_evolucion || '';
 
     txtDiagnostico.value = turno.resumen_diagnostico || '';
     
@@ -136,12 +154,13 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = `/cargarHceDni?dni=${turno.dni_paciente}`;
     });
   }
-
-  btnAddTemplate.addEventListener('click', ( event ) => {
-    event.preventDefault();
-    console.log('Clickkkkkkk')
-    window.location.href = `/nuevaTemplate`;
-  });
+  if(btnAddTemplate){
+    btnAddTemplate.addEventListener('click', ( event ) => {
+      event.preventDefault();
+      console.log('Clickkkkkkk')
+      window.location.href = `/nuevaTemplate`;
+    });
+  }
   
   //Agregar mas de un diagnostico
   // console.log('ejecutando front.....')
@@ -198,11 +217,13 @@ document.addEventListener('DOMContentLoaded', function () {
   addDiagnosticoButton.addEventListener('click', addDiagnostico);
 
 
+
   // Evolucion ================================================
   const llenarEvolucion = () => {
     const selectedOption = templateSelect.options[templateSelect.selectedIndex];
     const contenidoTemplate = selectedOption.getAttribute('data-contenido');
-    evolucionInput.value = contenidoTemplate || '';
+    // evolucionInput.value = contenidoTemplate || '';
+    quill.root.innerHTML = contenidoTemplate || '';
   }
 
   templateSelect.addEventListener('change', llenarEvolucion);
@@ -265,7 +286,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Crear objeto con todos los datos
     const datosFormulario = {
-      evolucion: txtEvolucion.value,
+      // evolucion: txtEvolucion.value,
+      evolucion: quill.root.innerHTML,
       diagnosticosArray,
       alergia: {
         texto: alergiaTextarea.value,
@@ -337,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   botonModificar.addEventListener('click', (event) => {
     event.preventDefault(); // Evita el envío del formulario
-    console.log(estadoAlergiaSelect.value);
+    // console.log(estadoAlergiaSelect.value);
     // Desestructuramos los valores de antecedentes y hábitos ===========================
     const { antecedentes } = obtenerDatosAntecedentes();
     const { habitos } = obtenerDatosHabitos();
@@ -345,7 +367,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const id_receta = turno.id_receta;
     // Crear objeto con todos los datos
     const datosFormulario = {
-      evolucion: txtEvolucion.value,
+      // evolucion: txtEvolucion.value,
+      evolucion: quill.root.innerHTML,
       diagnosticosArray,
       alergia: {
         texto: alergiaTextarea.value,

@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 <td class="turno-cell">${esMismoMedico ? (turno.resumen_evolucion || 'N/A') : 'Privado'}</td>
                 <td class="turno-cell">${esMismoMedico ? (turno.descripcion_habito || 'N/A') : 'Privado'}</td>
                 <td class="turno-cell">
-                 <!-- Solo mostrar el botón en el último turno -->
+                <!-- Solo mostrar el botón en el último turno -->
                     ${index === 0 ? `
                         <button class="btn btn-info btn-accion" data-turno-id="${turno.numero_turno}" data-es-mismo-medico="${esMismoMedico}">
                             <i class="lni lni-pencil-1"></i> Editar
