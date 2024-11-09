@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     botonGuardar.style.display = 'none';
     botonModificar.style.display = "block";
+    addDiagnosticoButton.style.display = 'none';
 
     // txtEvolucion.value = turno.resumen_evolucion || '';
     quill.root.innerHTML = turno.resumen_evolucion || '';
