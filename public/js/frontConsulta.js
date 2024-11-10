@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   //==============================================================================================
   // Método para llenar los campos cuando el estado es "atendido"
-  const llenarCamposAtendido = (turno) => {
+  const llenarCamposAtendido = ( turno ) => {
     botonGuardar.style.display = 'none';
     addDiagnosticoButton.style.display = 'none';
     templateSelect.style.display = 'none';
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   // Método para llenar los campos cuando el estado es "editar"
-  const llenarCamposEditar = (turno) => {
+  const llenarCamposEditar = ( turno ) => {
 
     botonGuardar.style.display = 'none';
     botonModificar.style.display = "block";
@@ -122,19 +122,19 @@ document.addEventListener('DOMContentLoaded', function () {
     
     estadoAlergiaSelect.value = turno.importancia || '';
 
-    inicioAlergia.value = turno.aler_desde.substring(0, 10) || '';
+    inicioAlergia.value = turno.aler_desde ? turno.aler_desde.substring(0, 10) : '';
 
-    finAlergia.value = turno.aler_hasta.substring(0, 10) || '';
+    finAlergia.value = turno.aler_hasta ? turno.aler_hasta.substring(0, 10) : '';
+    
+    inicioAntecedentes.value = turno.ant_desde ? turno.ant_desde.substring(0, 10) : '';
 
-    inicioAntecedentes.value = turno.ant_desde.substring(0, 10) || '';
-
-    finAntecedentes.value = turno.ant_hasta.substring(0, 10) || '';
+    finAntecedentes.value = turno.ant_hasta ? turno.ant_hasta.substring(0, 10) : '';
 
     antecedentes.value = turno.descripcion_antecedente || '';
 
-    inicioHabitos.value = turno.hab_desde.substring(0, 10) || '';
+    inicioHabitos.value = turno.hab_desde ? turno.hab_desde.substring(0, 10) : '';
 
-    finHabitos.value = turno.hab_hasta.substring(0, 10) || '';
+    finHabitos.value = turno.hab_hasta ? turno.hab_hasta.substring(0, 10) : '';
 
     habitos.value = turno.descripcion_habito || '';
 
