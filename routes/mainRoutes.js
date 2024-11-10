@@ -56,10 +56,12 @@ router.post('/logout', (req, res) => {
     res.render('index', { showLogoutModal: true }); // Redirigir a la página de inicio con el modal de confirmación
 });
 
-
-router.post('/nuevaTemplate', authController.authMiddleware,  (req, res) => {
+//Templates
+router.get('/nuevaTemplate', authController.authMiddleware,  (req, res) => {
     res.render('nuevaTemplate'); 
 });
+router.post('/crearTemplate', authController.authMiddleware, consultaController.nuevaTemplate);
+
 
 // Ruta "/main" renderiza la vista "index" 
 
@@ -73,7 +75,6 @@ router.get('/turnos/:fecha',   authController.authMiddleware, consultaController
 // Ruta para obtener consulta por número de turno
 
 router.post('/guardarConsulta',   authController.authMiddleware, consultaController.guardarConsulta);
-// router.post('/guardarTemplate',   authController.authMiddleware, consultaController.guardarTemplate);
 router.post('/modificarConsulta',   authController.authMiddleware, consultaController.modificarConsulta);
 
 module.exports = router;

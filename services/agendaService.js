@@ -158,5 +158,6 @@ module.exports = {
     cambiarEstadoTurnoAtendido,
     cambiarEstadoTurnoCancelado,
     listarMedicamentos,
+    crearTemplate,
 
 };

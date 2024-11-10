@@ -1,0 +1,19 @@
+doctype html
+html
+    head
+        title Nueva Template
+    body
+        h1 Crear Nueva Template
+
+    form(action="/submit" method="POST", id="formulario")
+        .mb-3
+            label(for='nombre_template') Nombre del Template:
+            input#nombre_template(type='text', name='nombre_template', class='form-control', required)
+        .mb-3
+            label(for='descripcion_template') Descripción del Template:
+            textarea#descripcion_template(name='descripcion_template', class='form-control', rows='4', cols='50', required)
+        .mb-3
+            button#guardarBoton(type="submit", class="btn btn-primary") Guardar
+
+                
+                

@@ -1,5 +1,5 @@
 // controllers/consultaController.js
-const { turnosHoyMatricula, datosTurno, turnosXFechaYMatricula, listarTemplates, listarMedicamentos } = require('../services/agendaService');
+const { turnosHoyMatricula, datosTurno, turnosXFechaYMatricula, listarTemplates, listarMedicamentos, crearTemplate } = require('../services/agendaService');
 const { ultimaConsultaPorNumeroDni, guardarConsultaCompleta, listarPacientes, hceXDni, consultaPorNumeroTurno, modificarConsultaCompleta } = require('../services/pacienteService');
 
 // Controlador para la ruta "/getMain" renderizo vista index
@@ -273,21 +273,28 @@ const editarUltimaConsulta = async (req, res) => {
 };
 
 
-const guardarTemplate = async (req, res) => {
-    const nombre_template = req.params.nombre_template;
-    const contenido_template = req.params.contenido_template;
+const nuevaTemplate = async (req, res) => {
+    // Obtener los datos del cuerpo de la solicitud (body)
+    const { nombre_template, descripcion_template } = req.body; // Obtener datos del cuerpo de la solicitud
+    
+    console.log('Datos recibidos:', nombre_template, descripcion_template);
 
     try {
-        const resultado = await crearTemplate(nombre_template, contenido_template);
+        // Llamada a la función para crear el template con los datos recibidos
+        const resultado = await crearTemplate(nombre_template, descripcion_template);
+        
+        // Responder con un mensaje de éxito y los datos resultantes
         res.status(201).json({
             message: 'Template creado exitosamente',
             data: resultado
         });
     } catch (error) {
+        // Manejo de errores
         console.error('Error al crear template:', error);
         res.status(500).json({ message: 'Error al crear el template' });
     }
 };
+
 
 
 module.exports = {
@@ -300,5 +307,6 @@ module.exports = {
     obtenerHcePorDni,
     obtenerHcePorDniEspecifico,
     modificarConsulta,
+    nuevaTemplate,
 
 };

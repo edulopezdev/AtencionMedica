@@ -84,15 +84,12 @@ document.addEventListener('DOMContentLoaded', function () {
     estadoAlergiaSelect.value = turno.importancia || '';
     estadoAlergiaSelect.disabled = true;
 
-    medicamentoSelect.value = turno.id_medicamento || '';
-    medicamentoSelect.disabled = true;
-    
     inicioAntecedentes.value = turno.ant_desde ? turno.ant_desde.substring(0, 10) : '';
     inicioAntecedentes.readOnly = true;
     
     finAntecedentes.value = turno.ant_hasta ? turno.ant_hasta.substring(0, 10) : '';
     finAntecedentes.readOnly = true;
-
+    
     antecedentes.value = turno.descripcion_antecedente || '';
     antecedentes.readOnly = true;
     
@@ -101,9 +98,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
     finHabitos.value = turno.hab_hasta ? turno.hab_hasta.substring(0, 10) : '';
     finHabitos.readOnly = true;
-
+    
     habitos.value = turno.descripcion_habito || '';
     habitos.readOnly = true;
+
+    medicamentoSelect.value = turno.id_medicamento || '';
+    medicamentoSelect.disabled = true;
   };
 
   // Método para llenar los campos cuando el estado es "editar"
