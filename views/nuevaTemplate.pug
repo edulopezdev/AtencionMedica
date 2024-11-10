@@ -2,10 +2,11 @@ doctype html
 html
     head
         title Nueva Template
+        script(src="/js/frontNuevaTemplate.js")
     body
         h1 Crear Nueva Template
 
-    form(action="/submit" method="POST", id="formulario")
+        form(id="formulario")
         .mb-3
             label(for='nombre_template') Nombre del Template:
             input#nombre_template(type='text', name='nombre_template', class='form-control', required)

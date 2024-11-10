@@ -277,7 +277,7 @@ const nuevaTemplate = async (req, res) => {
     // Obtener los datos del cuerpo de la solicitud (body)
     const { nombre_template, descripcion_template } = req.body; // Obtener datos del cuerpo de la solicitud
     
-    console.log('Datos recibidos:', nombre_template, descripcion_template);
+    // console.log('Datos recibidos:', nombre_template, descripcion_template);
 
     try {
         // Llamada a la función para crear el template con los datos recibidos
