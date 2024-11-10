@@ -73,8 +73,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             return;
         }
 
-        // Ordenar los turnos por fecha (del más reciente al más antiguo)
-        turnosHistoria.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
         // Mostrar los datos del paciente antes de los turnos
         const nombrePaciente = turnosHistoria[0].nombre_paciente || 'Nombre del Paciente No Disponible';
@@ -88,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         datosPacienteContainer.style.display = 'block';
 
         // Mostrar los turnos en la tabla
-        turnosHistoria.forEach((turno, index) => {
+        turnosHistoria.forEach(turno => {
             const tr = document.createElement('tr');
 
             // Verificar si el médico logueado atendió este turno (si la matrícula coincide)
@@ -103,39 +101,26 @@ document.addEventListener('DOMContentLoaded', async function () {
                 <td class="turno-cell">${turno.resumen_diagnostico}</td>
                 <td class="turno-cell">${esMismoMedico ? (turno.resumen_evolucion || 'N/A') : 'Privado'}</td>
                 <td class="turno-cell">${esMismoMedico ? (turno.descripcion_habito || 'N/A') : 'Privado'}</td>
-                <td class="turno-cell">
-                <!-- Solo mostrar el botón en el último turno -->
-                    ${index === 0 ? `
-                        <button class="btn btn-info btn-accion" data-turno-id="${turno.numero_turno}" data-es-mismo-medico="${esMismoMedico}">
-                            <i class="lni lni-pencil-1"></i> Editar
-                        </button>
-                    ` : ''}
-                </td>
             `;
 
-
-            // Agregar evento de clic solo al botón del último turno
-            if (index === 0) {
-                const botonAccion = tr.querySelector('.btn-accion');
-                botonAccion.addEventListener('click', () => {
-                    const turnoId = botonAccion.getAttribute('data-turno-id');
-                    const esMismoMedico = botonAccion.getAttribute('data-es-mismo-medico') === 'true';
-
-                    // Redirigir al usuario dependiendo del médico que atendió el turno
-                    if (esMismoMedico) {
-                        // Redirigir a la página de editar consulta
-                        window.location.href = `/editarConsulta?numero_turno=${turnoId}&editar=true`;
-                    } else {
-                        // Redirigir a la página de ampliar consulta
-                        window.location.href = `/ampliarConsulta?numero_turno=${turnoId}`;
-                    }
+            if (esMismoMedico && !ultimoTurnoMarcado) {
+                tr.classList.add('clickable-row');
+                tr.addEventListener('click', () => {
+                    // Redirigir a otra página con el número de turno, por ejemplo:
+                    window.location.href = `/editarConsulta?numero_turno=${turno.numero_turno}&editar=true`;
+                });
+                ultimoTurnoMarcado = true; // Marcar que ya se ha pintado el primer turno
+                console.log('marco el primero')
+            } else if (esMismoMedico && ultimoTurnoMarcado) {
+                tr.classList.add('clickable-row');
+                tr.addEventListener('click', () => {
+                    // Redirigir a otra página con el número de turno, por ejemplo:
+                    window.location.href = `/ampliarConsulta?numero_turno=${turno.numero_turno}`;
                 });
             }
-
-            // Agregar la fila a la tabla
             resultadosContainer.appendChild(tr);
         });
-    };
+    }
 
     // Si llega dni, ejecuto búsqueda
     if (window.dni) {

@@ -159,3 +159,12 @@ h3 {
         font-size: 1.5rem;
     }
 }
+/* Clase para estilo de hover y pointer */
+.clickable-row {
+    cursor: pointer; /* Cambia el cursor a "pointer" para indicar que es clickeable */
+    transition: background-color 0.3s; /* Transición suave al cambiar color */
+}
+
+.clickable-row:hover {
+    background-color: #715fd8; /* Color bordó claro */
+}

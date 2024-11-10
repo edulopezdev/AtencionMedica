@@ -273,7 +273,7 @@ const editarUltimaConsulta = async (req, res) => {
 };
 
 
-const crearNuevaTemplate = async (req, res) => {
+const guardarTemplate = async (req, res) => {
     const nombre_template = req.params.nombre_template;
     const contenido_template = req.params.contenido_template;
 
