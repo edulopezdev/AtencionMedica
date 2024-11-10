@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const botonGuardar = document.getElementById('guardarBoton');
   const botonModificar = document.getElementById('modificarBoton');
   const btnAddTemplate = document.getElementById('btnAddTemplate');
-  console.log(btnAddTemplate)
+  // console.log(btnAddTemplate)
   // datos del turno
   const turno = window.turno;
   const numero_turno = turno.numero_turno;
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   //===================================texto enriquecido====================================
    // Inicializar Quill en el div con el ID 'evolucion'
-   let quill = new Quill('#evolucion', {
+  let quill = new Quill('#evolucion', {
     theme: 'snow',
     placeholder: '* Ingrese la evolución del paciente',
     modules: {
@@ -60,19 +60,22 @@ document.addEventListener('DOMContentLoaded', function () {
     addDiagnosticoButton.style.display = 'none';
     templateSelect.style.display = 'none';
 
-    txtEvolucion.value = turno.resumen_evolucion || '';
-    txtEvolucion.readOnly = true;
+    // txtEvolucion.value = turno.resumen_evolucion || '';
+    quill.root.innerHTML = turno.resumen_evolucion || '';
+    // txtEvolucion.readOnly = true;
+    quill.enable( false );
+    quill.root.dataset.placeholder = '';
     
     estadoDiagnosticoSelect.value = turno.diag_estado || '';
     estadoDiagnosticoSelect.disabled = true;
     
     txtDiagnostico.value = turno.resumen_diagnostico || '';
     txtDiagnostico.readOnly = true;
-
-    inicioAlergia.value = (turno.aler_desde).substring(0, 10) || '';
+    
+    inicioAlergia.value = turno.aler_desde ? turno.aler_desde.substring(0, 10) : '';
     inicioAlergia.readOnly = true;
-
-    finAlergia.value = turno.aler_hasta.substring(0, 10) || '';
+    
+    finAlergia.value = turno.aler_hasta ? turno.aler_hasta.substring(0, 10) : '';
     finAlergia.readOnly = true;
 
     alergiaTextarea.value = turno.nombre_alergia || '';
@@ -84,20 +87,19 @@ document.addEventListener('DOMContentLoaded', function () {
     medicamentoSelect.value = turno.id_medicamento || '';
     medicamentoSelect.disabled = true;
     
-    inicioAntecedentes.value = turno.ant_desde.substring(0, 10) || '';
+    inicioAntecedentes.value = turno.ant_desde ? turno.ant_desde.substring(0, 10) : '';
     inicioAntecedentes.readOnly = true;
-
-    finAntecedentes.value = turno.ant_hasta.substring(0, 10) || '';
+    
+    finAntecedentes.value = turno.ant_hasta ? turno.ant_hasta.substring(0, 10) : '';
     finAntecedentes.readOnly = true;
 
     antecedentes.value = turno.descripcion_antecedente || '';
     antecedentes.readOnly = true;
-
-
-    inicioHabitos.value = turno.hab_desde.substring(0, 10) || '';
+    
+    inicioHabitos.value = turno.hab_desde ? turno.hab_desde.substring(0, 10) : '';
     inicioHabitos.readOnly = true;
-
-    finHabitos.value = turno.hab_hasta.substring(0, 10) || '';
+    
+    finHabitos.value = turno.hab_hasta ? turno.hab_hasta.substring(0, 10) : '';
     finHabitos.readOnly = true;
 
     habitos.value = turno.descripcion_habito || '';

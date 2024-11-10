@@ -233,41 +233,77 @@ const modificarConsultaCompleta = (datos) => {
                 if (error) return conexion.rollback(() => reject(error));
             });
 
-            // Inserta en la tabla alergia si los datos están presentes
-            if (datos.nombre_alergia && datos.importancia_alergia && datos.fecha_desde_alergia ) {
-                const queryAlergia = `
-                    UPDATE alergia
-                        SET nombre_alergia = ?, 
-                            importancia = ?, 
-                            fecha_desde = ?, 
-                            fecha_hasta = ?
-                        WHERE numero_turno = ?;
+            // Inserta en la tabla alergia si los datos están presentes // solo update
+            // if (datos.nombre_alergia && datos.importancia_alergia && datos.fecha_desde_alergia ) {
+            //     const queryAlergia = `
+            //         UPDATE alergia
+            //             SET nombre_alergia = ?, 
+            //                 importancia = ?, 
+            //                 fecha_desde = ?, 
+            //                 fecha_hasta = ?
+            //             WHERE numero_turno = ?;
 
-                `;
-                const paramsAlergia = [datos.nombre_alergia, datos.importancia_alergia, datos.fecha_desde_alergia, datos.fecha_hasta_alergia, datos.numero_turno];
+            //     `;
+            //     const paramsAlergia = [datos.nombre_alergia, datos.importancia_alergia, datos.fecha_desde_alergia, datos.fecha_hasta_alergia, datos.numero_turno];
 
-                conexion.query(queryAlergia, paramsAlergia, (error) => {
+            //     conexion.query(queryAlergia, paramsAlergia, (error) => {
+            //         if (error) return conexion.rollback(() => reject(error));
+            //     });
+            // }
+
+            //Alergia
+             // Alergia: Verifica si existe y luego decide entre UPDATE o INSERT
+            if (datos.nombre_alergia && datos.importancia_alergia && datos.fecha_desde_alergia) {
+                const queryVerificarAlergia = `SELECT COUNT(*) AS count FROM alergia WHERE numero_turno = ?`;
+                conexion.query(queryVerificarAlergia, [datos.numero_turno], (error, results) => {
                     if (error) return conexion.rollback(() => reject(error));
+
+                    const existeAlergia = results[0].count > 0;
+                    const queryAlergia = existeAlergia
+                        ? `UPDATE alergia SET nombre_alergia = ?, importancia = ?, fecha_desde = ?, fecha_hasta = ? WHERE numero_turno = ?`
+                        : `INSERT INTO alergia (nombre_alergia, importancia, fecha_desde, fecha_hasta, numero_turno) VALUES (?, ?, ?, ?, ?)`;
+                    const paramsAlergia = [datos.nombre_alergia, datos.importancia_alergia, datos.fecha_desde_alergia, datos.fecha_hasta_alergia, datos.numero_turno];
+
+                    conexion.query(queryAlergia, paramsAlergia, (error) => {
+                        if (error) return conexion.rollback(() => reject(error));
+                    });
                 });
             }
 
-            // Inserta en la tabla antecedente si los datos están presentes
-            if (datos.descripcion_antecedente && datos.fecha_desde_antecedente ) {
-                const queryAntecedente = `
-                    UPDATE antecedente
-                        SET descripcion_antecedente = ?, 
-                            fecha_desde = ?, 
-                            fecha_hasta = ?
-                        WHERE numero_turno = ?;
+            // Inserta en la tabla antecedente si los datos están presentes // solo update
+            // if (datos.descripcion_antecedente && datos.fecha_desde_antecedente ) {
+            //     const queryAntecedente = `
+            //         UPDATE antecedente
+            //             SET descripcion_antecedente = ?, 
+            //                 fecha_desde = ?, 
+            //                 fecha_hasta = ?
+            //             WHERE numero_turno = ?;
 
-                `;
-                const paramsAntecedente = [datos.descripcion_antecedente, datos.fecha_desde_antecedente, datos.fecha_hasta_antecedente, datos.numero_turno];
+            //     `;
+            //     const paramsAntecedente = [datos.descripcion_antecedente, datos.fecha_desde_antecedente, datos.fecha_hasta_antecedente, datos.numero_turno];
 
-                conexion.query(queryAntecedente, paramsAntecedente, (error) => {
+            //     conexion.query(queryAntecedente, paramsAntecedente, (error) => {
+            //         if (error) return conexion.rollback(() => reject(error));
+            //     });
+            // }
+            //Antecedentes
+            if (datos.descripcion_antecedente && datos.fecha_desde_antecedente) {
+                const queryVerificarAntecedente = `SELECT COUNT(*) AS count FROM antecedente WHERE numero_turno = ?`;
+                conexion.query(queryVerificarAntecedente, [datos.numero_turno], (error, results) => {
                     if (error) return conexion.rollback(() => reject(error));
+            
+                    const existeAntecedente = results[0].count > 0;
+                    const queryAntecedente = existeAntecedente
+                        ? `UPDATE antecedente SET descripcion_antecedente = ?, fecha_desde = ?, fecha_hasta = ? WHERE numero_turno = ?`
+                        : `INSERT INTO antecedente (descripcion_antecedente, fecha_desde, fecha_hasta, numero_turno) VALUES (?, ?, ?, ?)`;
+                    const paramsAntecedente = [datos.descripcion_antecedente, datos.fecha_desde_antecedente, datos.fecha_hasta_antecedente, datos.numero_turno];
+            
+                    conexion.query(queryAntecedente, paramsAntecedente, (error) => {
+                        if (error) return conexion.rollback(() => reject(error));
+                    });
                 });
             }
-
+            
             // Inserta múltiples registros en la tabla diagnostico si existen en el array
             datos.diagnosticosArray.forEach(diagnostico => {
                 const queryDiagnostico = `
@@ -297,21 +333,39 @@ const modificarConsultaCompleta = (datos) => {
                 if (error) return conexion.rollback(() => reject(error));
 
                 // Inserta en la tabla habito si los datos están presentes
-                if (datos.descripcion_habito && datos.fecha_desde_habito ) {
-                    const queryHabito = `
-                        UPDATE habito
-                            SET descripcion_habito = ?, 
-                                fecha_desde = ?, 
-                                fecha_hasta = ?
-                            WHERE numero_turno = ?;
+                // if (datos.descripcion_habito && datos.fecha_desde_habito ) {
+                //     const queryHabito = `
+                //         UPDATE habito
+                //             SET descripcion_habito = ?, 
+                //                 fecha_desde = ?, 
+                //                 fecha_hasta = ?
+                //             WHERE numero_turno = ?;
 
-                    `;
-                    const paramsHabito = [datos.descripcion_habito, datos.fecha_desde_habito, datos.fecha_hasta_habito, datos.numero_turno];
+                //     `;
+                //     const paramsHabito = [datos.descripcion_habito, datos.fecha_desde_habito, datos.fecha_hasta_habito, datos.numero_turno];
 
-                    conexion.query(queryHabito, paramsHabito, (error) => {
-                        if (error) return conexion.rollback(() => reject(error));
-                    });
-                }
+                //     conexion.query(queryHabito, paramsHabito, (error) => {
+                //         if (error) return conexion.rollback(() => reject(error));
+                //     });
+                // }
+                    //Habito
+                    if (datos.descripcion_habito && datos.fecha_desde_habito) {
+                        const queryVerificarHabito = `SELECT COUNT(*) AS count FROM habito WHERE numero_turno = ?`;
+                        conexion.query(queryVerificarHabito, [datos.numero_turno], (error, results) => {
+                            if (error) return conexion.rollback(() => reject(error));
+                    
+                            const existeHabito = results[0].count > 0;
+                            const queryHabito = existeHabito
+                                ? `UPDATE habito SET descripcion_habito = ?, fecha_desde = ?, fecha_hasta = ? WHERE numero_turno = ?`
+                                : `INSERT INTO habito (descripcion_habito, fecha_desde, fecha_hasta, numero_turno) VALUES (?, ?, ?, ?)`;
+                            const paramsHabito = [datos.descripcion_habito, datos.fecha_desde_habito, datos.fecha_hasta_habito, datos.numero_turno];
+                    
+                            conexion.query(queryHabito, paramsHabito, (error) => {
+                                if (error) return conexion.rollback(() => reject(error));
+                            });
+                        });
+                    }
+                    
 
                 // Inserta en la tabla receta si hay un medicamento seleccionado
                 if (datos.id_medicamento) {
