@@ -1,17 +1,16 @@
-// controllers/consultaController.js
 const { turnosHoyMatricula, datosTurno, turnosXFechaYMatricula, listarTemplates, listarMedicamentos, crearTemplate } = require('../services/agendaService');
 const { ultimaConsultaPorNumeroDni, guardarConsultaCompleta, listarPacientes, hceXDni, consultaPorNumeroTurno, modificarConsultaCompleta } = require('../services/pacienteService');
 
-// Controlador para la ruta "/getMain" renderizo vista index
+//Este controlador es para la ruta "/getMain" renderizo vista index
 const getMain = (req, res) => {
     const matricula_medico = req.session.matricula;
     Promise.all([turnosHoyMatricula(matricula_medico)])
         .then(([turnos]) => {
-            const turnosPorHora = {}; // Objeto para almacenar turnos organizados por hora
+            const turnosPorHora = {}; //En este bjeto vamos a almacenar turnos organizados por hora
 
-            // Organiza los turnos por hora
+            //Se organizan los turnos por hora
             turnos.forEach(turno => {
-                // console.log(turno);
+                //console.log(turno); // Log para depurar
                 turnosPorHora[turno.hora] = {
                     nombre: turno.nombre,
                     apellido: turno.apellido,
@@ -21,7 +20,7 @@ const getMain = (req, res) => {
                 };
             });
 
-            //console.log('Turnos organizados por hora:', turnosPorHora); // Log para depuración
+            //console.log('Turnos organizados por hora:', turnosPorHora); // Log para depurar
 
             const nombre = req.session.nombre;
             res.render('index', { turnos: turnosPorHora, nombre });
@@ -32,10 +31,10 @@ const getMain = (req, res) => {
         });
 };
 
-// Controlador para obtener turnos por fecha
+//Ahora este controlador para obtener turnos por fecha
 const obtenerTurnosPorFecha = async (req, res) => {
     const fecha = req.params.fecha;
-    // console.log( fecha );
+    //console.log( fecha ); // Log para depurar
     try {
         const turnos = await turnosXFechaYMatricula(fecha, req.session.matricula);
         res.json({ turnos });
@@ -45,7 +44,7 @@ const obtenerTurnosPorFecha = async (req, res) => {
     }
 };
 
-// Trae los datos ultima consulta y turno, y renderizo vista consulta
+//Este método nos trae los datos ultima consulta y turno, y renderiza la vista consulta
 const iniciarConsultaPorNumeroTurno = (req, res) => {
     const { numero_turno } = req.query;
     const { editar } = req.query;
@@ -57,20 +56,20 @@ const iniciarConsultaPorNumeroTurno = (req, res) => {
         estado = 'Editar';
     }
 
-    console.log(estado + 'estado al inicio despues de recibir primer parametro');
+    // console.log(estado + 'estado al inicio despues de recibir primer parametro'); //Log para depurar
 
-    // datosTurno(numero_turno)
+    //datosTurno(numero_turno)
     consultaPorNumeroTurno( numero_turno )
         .then((resultado) => {
             if (resultado.length === 0) {
                 return res.status(404).send('Turno no encontrado');
             }
 
-            // console.log(resultado[0] + 'en back controller')
+            //console.log(resultado[0] + 'en back controller') // Log para depurar
             const turno = resultado[0];
             const dni_paciente = turno.dni_paciente;
 
-            // Llama a `ultimaConsultaPorNumeroDni` usando el DNI obtenido
+            //Llamamos a `ultimaConsultaPorNumeroDni` usando el DNI obtenido
             return Promise.all([
                 Promise.resolve(turno),
                 ultimaConsultaPorNumeroDni(turno.dni_paciente),
@@ -85,9 +84,9 @@ const iniciarConsultaPorNumeroTurno = (req, res) => {
                 estado = 'Atendido';
             } 
             
+            //console.log( estado + 'estado a la salida del pedido turno'); //Log para depurar
+            //console.log( ultimoTurno ); //Log para depurar
 
-            console.log( estado + 'estado a la salida del pedido turno');
-            // console.log( ultimoTurno );
             res.render('consulta', { turno, ultimoTurno, templates, medicamentos, medico, estado });
         })
         .catch((error) => {
@@ -96,20 +95,20 @@ const iniciarConsultaPorNumeroTurno = (req, res) => {
         });
 };
 
-
+//Este método es el que va a guardar la consulta
 const guardarConsulta = (req, res) => {
-    // Extraer los datos del formulario desde `req.body`
+    //Extraemos los datos del formulario desde `req.body`
     const { numero_turno, evolucion, diagnosticosArray, alergia, antecedentes, habitos, medicamento } = req.body;
 
-    // Construir el objeto de datos para guardar en la base de datos
+    //Acá es donde construimos el objeto de datos para guardar en la base de datos
     const datos = {
         numero_turno,
-        // Suponiendo que estos valores son parte de `req.body` o se extraen de alguna manera
-        nombre_alergia: alergia.texto, // o la propiedad que tengas en el body
+        //Suponiendo que estos valores son parte de `req.body` o se extraen de alguna manera
+        nombre_alergia: alergia.texto, //o la propiedad que tengas en el body
         importancia_alergia: alergia.nivel,
         fecha_desde_alergia: alergia.fechaDesde,
         fecha_hasta_alergia: alergia.fechaHasta,
-        descripcion_antecedente: antecedentes.antecedentes, // igual que arriba
+        descripcion_antecedente: antecedentes.antecedentes, //igual que arriba
         fecha_desde_antecedente: antecedentes.inicioAntecedentes,
         fecha_hasta_antecedente: antecedentes.finAntecedentes,
         diagnosticosArray: diagnosticosArray,
@@ -117,10 +116,10 @@ const guardarConsulta = (req, res) => {
         descripcion_habito: habitos.habitos,
         fecha_desde_habito: habitos.inicioHabitos,
         fecha_hasta_habito: habitos.finHabitos,
-        id_medicamento: medicamento // Suponiendo que es un ID
+        id_medicamento: medicamento //Suponiendo que es un ID
     };
 
-    // Llamar a la función que guarda la consulta
+    //Acá llamamos a la función que guarda la consulta
     guardarConsultaCompleta(datos)
         .then((mensaje) => {
             res.status(200).json({ mensaje });
@@ -131,20 +130,20 @@ const guardarConsulta = (req, res) => {
         });
 };
 
-//modificar consulta
+//Ahora en este método vamos a poder modificar la consulta
 const modificarConsulta = (req, res) => {
-    // Extraer los datos del formulario desde `req.body`
+    //Extraemos los datos del formulario desde `req.body`
     const { numero_turno, evolucion, diagnosticosArray, alergia, antecedentes, habitos, medicamento , id_receta} = req.body;
 
-    // Construir el objeto de datos para guardar en la base de datos
+    //Acá construimos el objeto de datos para guardar en la base de datos
     const datos = {
         numero_turno,
-        // Suponiendo que estos valores son parte de `req.body` o se extraen de alguna manera
-        nombre_alergia: alergia.texto, // o la propiedad que tengas en el body
+        //Suponiendo que estos valores son parte de `req.body` o se extraen de alguna manera
+        nombre_alergia: alergia.texto, //o la propiedad que tengas en el body
         importancia_alergia: alergia.nivel,
         fecha_desde_alergia: alergia.fechaDesde,
         fecha_hasta_alergia: alergia.fechaHasta,
-        descripcion_antecedente: antecedentes.antecedentes, // igual que arriba
+        descripcion_antecedente: antecedentes.antecedentes, //igual que arriba
         fecha_desde_antecedente: antecedentes.inicioAntecedentes,
         fecha_hasta_antecedente: antecedentes.finAntecedentes,
         diagnosticosArray: diagnosticosArray,
@@ -152,11 +151,11 @@ const modificarConsulta = (req, res) => {
         descripcion_habito: habitos.habitos,
         fecha_desde_habito: habitos.inicioHabitos,
         fecha_hasta_habito: habitos.finHabitos,
-        id_medicamento: medicamento ,// Suponiendo que es un ID
+        id_medicamento: medicamento ,//Suponiendo que es un ID
         id_receta: id_receta
     };
-    console.log(datos);
-    // Llamar a la función que guarda la consulta
+    //console.log(datos); //Log para depurar
+    //Ahora llamamos a la función que guarda la consulta modificada
     modificarConsultaCompleta(datos)
         .then((mensaje) => {
             res.status(200).json({ mensaje });
@@ -167,10 +166,10 @@ const modificarConsulta = (req, res) => {
         });
 };
 
-//usada para cargar pacientes en busqueda de hce en vista hce
+//Este método lo vamos a usar para cargar pacientes en busqueda de hce en vista hce
 const obtenerPacientesPorNombre = async (req, res) => {
     try {
-        // Ejecuta el servicio `listarPacientesPorDni`
+        //Acá ejecutamos el servicio `listarPacientesPorDni`
         const query = req.query.query;
 
         if (!query) {
@@ -183,7 +182,7 @@ const obtenerPacientesPorNombre = async (req, res) => {
             return res.status(404).json({ mensaje: 'No se encontraron pacientes con ese Nombre' });
         }
 
-        // Enviar la lista de pacientes como respuesta
+        //Ahora enviamos la lista de pacientes como respuesta
         res.status(200).json(pacientes);
     } catch (error) {
         console.error('Error al obtener pacientes por DNI:', error);
@@ -193,26 +192,26 @@ const obtenerPacientesPorNombre = async (req, res) => {
 
 const obtenerHcePorDni = async (req, res) => {
     try {
-        // Ejecuta el servicio `listarPacientesPorDni`
+        //Ejecutamos el servicio `listarPacientesPorDni`
         const dni = req.query.dni;
-        // console.log(dni);
+        //console.log(dni); // Log para depurar
 
-        // Verifica si se proporcionó el DNI
+        //Ahora vamos a verifica si se proporcionó el DNI
         if (!dni) {
             return res.status(400).json({ error: 'DNI no proporcionado' });
         }
 
-        // Llama a la función para obtener el paciente por DNI
+        //Acá es donde vamos a llamar a la función para obtener el paciente por DNI
         const paciente = await hceXDni(dni);
 
-        // Verifica si se encontró el paciente
+        //Verificamos si se encontró el paciente
         if (paciente.length === 0) {
             return res.status(404).json({ mensaje: 'No se encontró paciente con ese DNI' });
         }
 
-        // console.log(paciente); // Asegúrate de utilizar la variable correcta
+        //console.log(paciente); //Log para depurar
 
-        // Enviar el paciente como respuesta
+        //Enviamos el paciente como respuesta
         res.status(200).json(paciente);
     } catch (error) {
         console.error('Error al obtener paciente por DNI:', error);
@@ -223,23 +222,24 @@ const obtenerHcePorDni = async (req, res) => {
 const obtenerHcePorDniEspecifico = async (req, res) => {
     const matricula = req.session.matricula;
     try {
-        // Obtiene el DNI del parámetro de consulta
+        //Se obtiene el DNI del parámetro de consulta
         const dni = req.query.dni;
 
-        // Verifica si se proporcionó el DNI
+        //Ahora verificamos si se proporcionó el DNI
         if (!dni) {
             return res.status(400).json({ error: 'DNI no proporcionado' });
         }
 
-        // Llama a la función para obtener el paciente por DNI
+        //Luego llamamos a la función para obtener el paciente por DNI
         const paciente = await hceXDni(dni);
 
-        // Verifica si se encontró el paciente
+        //Acá vamos a verificar si se encontró el paciente
         if (paciente.length === 0) {
             return res.status(404).json({ mensaje: 'No se encontró paciente con ese DNI' });
         }
-        // console.log( paciente );
-        // Renderiza el archivo Pug y envía los datos del paciente
+        // console.log( paciente ); //Log para depurar
+
+        //Y luego renderizamos el archivo Pug y envía los datos del paciente
         res.render('hce', { paciente, matricula });
     } catch (error) {
         console.error('Error al obtener paciente por DNI:', error);
@@ -247,49 +247,24 @@ const obtenerHcePorDniEspecifico = async (req, res) => {
     }
 };
 
-// const editarUltimaConsulta = async (req, res) => {
-//     const matricula = req.session.matricula;
-//     const medico_nombre = req.session.nombre;
-//     try {
-//         const dni = req.query.dni;
-
-//         if (!dni) {
-//             return res.status(400).json({ error: 'DNI no proporcionado' });
-//         }
-
-//         // Llama al método obtenerUltimaConsulta para obtener los datos de la última consulta
-//         const ultimaConsulta = await ultimaConsultaPorNumeroDni(dni);
-
-//         if (!ultimaConsulta) {
-//             return res.status(404).json({ mensaje: 'No se encontró ninguna consulta para el paciente con ese DNI' });
-//         }
-
-//         // Renderiza el formulario Pug para editar la consulta, pasando los datos de la última consulta
-//         res.render('consulta', { ultimaConsulta, matricula, medico_nombre });
-//     } catch (error) {
-//         console.error('Error al editar la última consulta:', error);
-//         res.status(500).json({ error: 'Error interno del servidor' });
-//     }
-// };
-
-
+//Este método lo vamos a usar para crear una NUEVA TEMPLATE
 const nuevaTemplate = async (req, res) => {
-    // Obtener los datos del cuerpo de la solicitud (body)
-    const { nombre_template, descripcion_template } = req.body; // Obtener datos del cuerpo de la solicitud
+    //Primero obtenemos los datos del cuerpo de la solicitud (body)
+    const { nombre_template, descripcion_template } = req.body; //Acá se va a obtener datos del cuerpo de la solicitud
     
-    // console.log('Datos recibidos:', nombre_template, descripcion_template);
+    // console.log('Datos recibidos:', nombre_template, descripcion_template); //Log para depurar
 
     try {
-        // Llamada a la función para crear el template con los datos recibidos
+        //Hacemos la llamada a la función para crear el template con los datos recibidos
         const resultado = await crearTemplate(nombre_template, descripcion_template);
         
-        // Responder con un mensaje de éxito y los datos resultantes
+        //Luego de eso vamos a responder con un mensaje de éxito y los datos resultantes
         res.status(201).json({
             message: 'Template creado exitosamente',
             data: resultado
         });
     } catch (error) {
-        // Manejo de errores
+        //Acá vamos a hacer el manejo de errores
         console.error('Error al crear template:', error);
         res.status(500).json({ message: 'Error al crear el template' });
     }

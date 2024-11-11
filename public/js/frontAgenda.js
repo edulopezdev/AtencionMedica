@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 if (data.turnos && data.turnos.length > 0) {
                     data.turnos.forEach(turno => {
-                        console.log(JSON.stringify(turno) + 'dniiiiiiiii');
+                        // console.log(JSON.stringify(turno) + 'dniiiiiiiii'); //Log para depurar
                         const tr = document.createElement('tr');
                         tr.classList.add(turno.numero_turno % 2 === 0 ? 'row-even' : 'row-odd'); // Clase según par o impar
                         

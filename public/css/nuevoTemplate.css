@@ -3,39 +3,39 @@
 
 /* Estilos generales para el body */
 body {
-    font-family: 'Open Sans', sans-serif; /* Mantener la misma fuente */
-    background-color: #f0f4f8; /* Fondo suave */
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f0f4f8;
     margin: 0;
 }
 
-/* Ajustar márgenes de la página */
+/* Ajustes de márgenes */
 .container-fluid {
     padding: 0;
 }
 
-/* Centrar contenido */
+/* Centrado de contenido */
 .row {
     display: flex;
     justify-content: center;
 }
 
-/* Fondo ligero para el contenedor principal */
+/* Fondo claro con opacidad */
 .bg-light {
-    background-color: rgba(248, 249, 250, 0.9); /* Fondo claro con opacidad */
-    margin: 15px; /* Unificado margen */
-    opacity: 0.85; /* Opacidad */
+    background-color: rgba(248, 249, 250, 0.9);
+    margin: 15px;
+    opacity: 0.85;
 }
 
 /* Estilo para el encabezado */
 h3 {
-    font-weight: 300;  /* Menos peso para un título más suave */
+    font-weight: 300;
     color: #555;
     text-align: center;
     margin: 20px 0;
-    font-size: 1.6rem; /* Aumentar tamaño de fuente para visibilidad */
+    font-size: 1.6rem;
 }
 
-/* Estilo para los campos de formulario */
+/* Estilo para las secciones de formulario */
 .form-section {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -50,12 +50,11 @@ h3 {
     border-radius: 8px;
 }
 
-/* Cuerpo de la tarjeta (espaciado interno) */
 .card-body {
     padding: 2rem;
 }
 
-/* Estilo de los campos del formulario */
+/* Estilo de los campos de formulario */
 .form-label {
     font-weight: 600;
     font-size: 1rem;
@@ -71,7 +70,7 @@ h3 {
     border: 1px solid #ddd;
 }
 
-/* Estilo de los campos requeridos */
+/* Campos obligatorios */
 .campo-obligatorio {
     border: 2px solid red !important;
     background-color: #f8d7da;
@@ -82,40 +81,37 @@ h3 {
     background-color: #f8d7da;
 }
 
-/* Estilo para los campos con separación */
+/* Separación de campos */
 .separacion-campos {
     margin-bottom: 1.5rem;
 }
 
 /* Aumento de la altura de la descripción */
 textarea.form-control {
-    height: 150px; /* Aumento la altura de la descripción */
+    height: 150px;
 }
 
 /* Estilo para el botón guardar, alineado a la derecha */
 .centrar-boton {
-  display: flex;
-  justify-content: flex-end; /* Mueve el botón a la derecha */
-  margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
 }
 
-/* Estilo del botón guardar con el tamaño especificado */
 button#guardarBoton {
-  padding: 0.5rem 1rem; /* Reducir padding horizontal */
-  font-size: 1rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  transition: opacity 0.3s;
-  min-width: 90px; /* Esto se puede mantener o eliminar */
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: opacity 0.3s;
+    min-width: 90px;
 }
-
 
 button#guardarBoton:hover {
-  opacity: 0.8; /* Efecto de hover */
+    opacity: 0.8;
 }
-
 
 /* Estilo para los mensajes de error */
 .error-message {
@@ -129,7 +125,7 @@ button#guardarBoton:hover {
     font-size: 1rem;
 }
 
-/* Espaciado para los botones y elementos adicionales */
+/* Espaciado para botones y elementos adicionales */
 .mt-3 {
     margin-top: 1rem;
 }
@@ -195,40 +191,38 @@ input[type="checkbox"] {
     border-color: #dc3545 !important;
 }
 
-/* Estilo personalizado para el campo de nombre del template */
+/* Estilo para el campo de nombre del template */
 #nombre_template {
-  padding: 0.2rem 1rem;  /* Reducir el padding para disminuir la altura */
-  font-size: 1.1rem;  /* Aumentar el tamaño de la fuente */
-  border-radius: 5px;  /* Bordes redondeados */
-  border: 1px solid #ddd;  /* Borde gris claro */
-  background-color: #f8f9fa;  /* Fondo claro */
-  width: 20%;  /* Asegura que ocupe todo el ancho disponible */
-  transition: border-color 0.3s ease;  /* Transición suave para el borde */
+    padding: 0.2rem 1rem;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    width: 20%;
+    transition: border-color 0.3s ease;
 }
 
-/* Estilo cuando el campo está en foco (focus) */
 #nombre_template:focus {
-  border-color: #007bff;  /* Cambiar el borde a azul cuando el campo está en foco */
-  outline: none;  /* Eliminar el borde predeterminado */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);  /* Agregar sombra suave */
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Estilo personalizado para el campo de descripción del template */
+/* Estilo para el campo de descripción del template */
 #descripcion_template {
-  padding: 1rem;  /* Aumentar el padding para mayor comodidad */
-  font-size: 1.1rem;  /* Aumentar el tamaño de la fuente */
-  border-radius: 5px;  /* Bordes redondeados */
-  border: 1px solid #ddd;  /* Borde gris claro */
-  background-color: #f8f9fa;  /* Fondo claro */
-  width: 100%;  /* Asegura que ocupe todo el ancho disponible */
-  transition: border-color 0.3s ease;  /* Transición suave para el borde */
-  min-height: 250px;  /* Aumentar la altura mínima del área de texto */
-  resize: vertical;  /* Permite que el usuario redimensione el campo verticalmente */
+    padding: 1rem;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    width: 100%;
+    transition: border-color 0.3s ease;
+    min-height: 250px;
+    resize: vertical;
 }
 
-/* Estilo cuando el campo está en foco (focus) */
 #descripcion_template:focus {
-  border-color: #007bff;  /* Cambiar el borde a azul cuando el campo está en foco */
-  outline: none;  /* Eliminar el borde predeterminado */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);  /* Agregar sombra suave */
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }

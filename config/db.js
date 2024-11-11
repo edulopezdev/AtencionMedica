@@ -1,6 +1,4 @@
-// config/db.js
 const mysql = require('mysql');
-
 
 //Direccion DB Franco
 // const conexion = mysql.createConnection({
@@ -21,7 +19,7 @@ const mysql = require('mysql');
      database: 'am_tp' 
  });
 
-// Verificación de conexión
+//Acá verificamos la conexión
 conexion.connect((error) => {
     if (error) {
         console.error('Error al conectar a la base de datos:', error.stack);

@@ -105,7 +105,7 @@ ORDER BY
 
 //Metodo para insertar la consulta completa, abarcando todos los campos
 const guardarConsultaCompleta = (datos) => {
-    console.log(datos);
+    //console.log(datos); //Log para depurar
     return new Promise((resolve, reject) => {
         // Comienza la transacción
         conexion.beginTransaction((err) => {

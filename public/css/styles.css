@@ -1,13 +1,16 @@
+/* Importar fuentes */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700&display=swap');
 
+/* Estilos generales para el body */
 body {
-    font-family: 'Open Sans', sans-serif; /* Usar la misma fuente que en agenda.css */
+    font-family: 'Open Sans', sans-serif; 
     margin: 0;
     background-color: #f0f4f8;
     color: #333;
 }
 
+/* Ajustar márgenes y padding global */
 .container-fluid {
     padding: 0;
 }
@@ -17,62 +20,67 @@ body {
     justify-content: center;
 }
 
+/* Fondo claro con opacidad */
 .bg-light {
     background-color: rgba(248, 249, 250, 0.9);
-    margin: 15px; /* Consistente con agenda */
+    margin: 15px;
 }
 
+/* Estilos para las tarjetas */
 .card {
-    border: none; 
+    border: none;
     border-radius: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer; 
+    cursor: pointer;
     transition: box-shadow 0.2s ease;
     margin-bottom: 20px;
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    padding: 10px; 
-    height: 120px; /* Reducir altura de la tarjeta */
-    min-height: 120px; /* Mantener altura mínima */
-    background-color: rgba(255, 255, 255, 0.8); /* Ajustar transparencia */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+    height: 120px; 
+    min-height: 120px;
+    background-color: rgba(255, 255, 255, 0.8); 
 }
 
+/* Efecto hover en la tarjeta */
 .card:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Estilos del título y texto dentro de la tarjeta */
 .card-title {
     font-weight: 600;
     font-size: 1.5rem;
-    margin: 0; 
-    text-align: left; 
+    margin: 0;
+    text-align: left;
 }
 
 .card-text {
-    margin: 0; 
-    text-align: center; 
+    margin: 0;
+    text-align: center;
 }
 
+/* Estilo de las badges */
 .badge {
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center; 
-    padding: 5px; 
-    font-size: 0.9rem; 
-    max-width: 60%; 
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    font-size: 0.9rem;
+    max-width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-
-/* Añadimos el color violeta personalizado */
+/* Color personalizado para badge violeta */
 .badge.bg-violet {
-  background-color: #7c09f0; /* Puedes ajustar el valor de #7c09f0 a cualquier tono de violeta que te guste */
-  color: white; /* Para asegurarnos de que el texto sea legible sobre el fondo violeta */
+    background-color: #7c09f0; 
+    color: white; 
 }
 
+/* Estilos para los encabezados */
 h3 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
@@ -81,12 +89,15 @@ h3 {
     margin: 20px 0;
 }
 
+/* Media Queries */
 @media (max-width: 1176px) {
+    /* Ajustar tamaño de fuente en badge */
     .badge {
-        font-size: 0.8rem; 
+        font-size: 0.8rem;
     }
 
+    /* Ajustar padding en tarjetas para pantallas más pequeñas */
     .card {
-        padding: 15px; 
+        padding: 15px;
     }
 }

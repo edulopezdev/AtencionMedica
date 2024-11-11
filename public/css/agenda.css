@@ -1,11 +1,13 @@
+/* Fuentes y Body */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700&display=swap');
 
 body {
-    font-family: 'Open Sans', sans-serif; /* Mantener la misma fuente */
+    font-family: 'Open Sans', sans-serif;
     background-color: #f0f4f8;
     margin: 0;
 }
 
+/* Contenedor y Estructura */
 .container-fluid {
     padding: 0;
 }
@@ -15,12 +17,14 @@ body {
     justify-content: center;
 }
 
+/* Fondos y Efectos de Fondo */
 .bg-light {
     background-color: rgba(248, 249, 250, 0.9);
-    margin: 15px; /* Unificado margen para ambos archivos */
-    opacity: 0.85; /* Mantener opacidad */
+    margin: 15px;
+    opacity: 0.85;
 }
 
+/* Tabla */
 .table {
     margin-top: 20px;
     border-radius: 0.5rem;
@@ -47,6 +51,7 @@ body {
     border-right: none;
 }
 
+/* Tarjetas (Card) */
 .card {
     border: none; 
     border-radius: 20px;
@@ -58,9 +63,9 @@ body {
     flex-direction: column; 
     justify-content: center; 
     padding: 10px; 
-    height: 120px; /* Reducir altura de la tarjeta */
-    min-height: 120px; /* Mantener altura mínima */
-    background-color: rgba(255, 255, 255, 0.8); /* Ajustar transparencia */
+    height: 120px;
+    min-height: 120px;
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .card:hover {
@@ -79,6 +84,7 @@ body {
     text-align: center; 
 }
 
+/* Badges */
 .badge {
     display: inline-flex; 
     align-items: center; 
@@ -99,26 +105,28 @@ body {
     background-color: #ffc107;
 }
 
+/* Botones */
 .btn-hce {
     background-color: transparent;
-    color: #ff0000; /* Color rojo para el icono */
+    color: #ff0000;
     border: none;
     cursor: pointer;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .btn-hce:hover {
-    color: #b30000; /* Color más oscuro al pasar el mouse */
+    color: #b30000;
 }
 
 .btn-buscar {
-    margin-left: 10px; /* Separar el botón hacia la derecha */
+    margin-left: 10px;
 }
 
 .btn-hce i {
-    font-size: 1.5rem; /* Aumentar el tamaño del icono */
+    font-size: 1.5rem;
 }
 
+/* Encabezados */
 h3 {
     font-weight: 300;
     color: #555;
@@ -126,6 +134,7 @@ h3 {
     margin: 20px 0;
 }
 
+/* Media Queries */
 @media (max-width: 1176px) {
     .badge {
         font-size: 0.8rem; 

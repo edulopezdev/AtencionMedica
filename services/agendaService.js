@@ -1,8 +1,7 @@
-const conexion = require('../config/db'); 
+const conexion = require('../config/db');  //Importamos la configuración de la conexión a la base de datos
 
-
-// Función para procesar la fecha (por ejemplo, guardar en la base de datos)
-const turnosHoyMatricula = ( matriculaMedico ) => {
+//Función para obtener los turnos del día para un médico específico (por matrícula)
+const turnosHoyMatricula = (matriculaMedico) => {
     return new Promise((resolve, reject) => {
         const query = `
             SELECT t.*, p.nombre, p.apellido
@@ -10,18 +9,18 @@ const turnosHoyMatricula = ( matriculaMedico ) => {
             JOIN paciente p ON t.dni_paciente = p.dni_paciente
             WHERE t.fecha = CURDATE() AND t.matricula_medico = ?;
         `;
-        conexion.query(query, [ matriculaMedico ], (error, resultado) => {
+        conexion.query(query, [matriculaMedico], (error, resultado) => {
             if (error) {
-                console.error("Error en la consulta:", error);
-                return reject(error);
+                console.error("Error en la consulta:", error); //Si ocurre un error, lo mostramos en la consola
+                return reject(error); //Rechazamos la promesa con el error
             }
-            resolve(resultado);
+            resolve(resultado); //Si la consulta es exitosa, resolvemos la promesa con el resultado
         });
     });
 };
 
-// Función para procesar la fecha (por ejemplo, guardar en la base de datos)
-const turnosXFechaYMatricula = ( fecha , matriculaMedico ) => {
+//Función para obtener los turnos de un médico en una fecha específica
+const turnosXFechaYMatricula = (fecha, matriculaMedico) => {
     return new Promise((resolve, reject) => {
         const query = `
             SELECT t.*, p.nombre, p.apellido
@@ -31,15 +30,16 @@ const turnosXFechaYMatricula = ( fecha , matriculaMedico ) => {
         `;
         conexion.query(query, [fecha, matriculaMedico], (error, resultado) => {
             if (error) {
-                console.error("Error en la consulta:", error);
-                return reject(error);
+                console.error("Error en la consulta:", error); //Si hay un error, lo mostramos en la consola
+                return reject(error); //Rechazamos la promesa con el error
             }
-            resolve(resultado);
+            resolve(resultado); //Si la consulta es exitosa, resolvemos la promesa con el resultado
         });
     });
 };
 
-const datosTurno = ( numero_turno ) => { //datos del paciente y su turno
+//Función para obtener los datos de un turno específico
+const datosTurno = (numero_turno) => {
     return new Promise((resolve, reject) => {
         const query = `
             SELECT *
@@ -47,19 +47,17 @@ const datosTurno = ( numero_turno ) => { //datos del paciente y su turno
             JOIN turno t ON p.dni_paciente = t.dni_paciente
             WHERE t.numero_turno = ?;
         `;
-        
-        // Asumiendo que tienes acceso a la conexión de la base de datos
+        //Asumiendo que tienes acceso a la conexión de la base de datos
         conexion.query(query, [numero_turno], (error, resultado) => {
             if (error) {
-                return reject(error);  // En caso de error, se rechaza la promesa
+                return reject(error); //Si ocurre un error, rechazamos la promesa
             }
-            //console.log( 'metodo ' + resultado)
-            resolve(resultado);  // En caso de éxito, se resuelven los datos del paciente
+            resolve(resultado); //Si la consulta es exitosa, resolvemos la promesa con los datos del paciente
         });
     });
 };
 
-//Modifica el estado de un turno a atendido
+//Función para cambiar el estado de un turno a "Atendido"
 const cambiarEstadoTurnoAtendido = (numero_turno) => {
     return new Promise((resolve, reject) => {
         const query = `
@@ -70,15 +68,15 @@ const cambiarEstadoTurnoAtendido = (numero_turno) => {
         
         conexion.query(query, [numero_turno], (error, resultado) => {
             if (error) {
-                console.error("Error al actualizar el estado del turno a 'atendido':", error);
-                return reject(error); // En caso de error, se rechaza la promesa
+                console.error("Error al actualizar el estado del turno a 'atendido':", error); //Si ocurre un error, lo mostramos en la consola
+                return reject(error); //Rechazamos la promesa con el error
             }
-            resolve(resultado); // En caso de éxito, se resuelve el resultado de la consulta
+            resolve(resultado); //Si la consulta es exitosa, resolvemos la promesa con el resultado de la actualización
         });
     });
 };
 
-//Modifica el estado de un turno a cancelado
+//Función para cambiar el estado de un turno a "Cancelado"
 const cambiarEstadoTurnoCancelado = (numero_turno) => {
     return new Promise((resolve, reject) => {
         const query = `
@@ -89,67 +87,60 @@ const cambiarEstadoTurnoCancelado = (numero_turno) => {
         
         conexion.query(query, [numero_turno], (error, resultado) => {
             if (error) {
-                console.error("Error al actualizar el estado del turno a 'cancelado':", error);
-                return reject(error); // En caso de error, se rechaza la promesa
+                console.error("Error al actualizar el estado del turno a 'cancelado':", error); //Si ocurre un error, lo mostramos en la consola
+                return reject(error); //Rechazamos la promesa con el error
             }
-            resolve(resultado); // En caso de éxito, se resuelve el resultado de la consulta
+            resolve(resultado); //Si la consulta es exitosa, resolvemos la promesa con el resultado de la actualización
         });
     });
 };
 
-//Obtenes las templates y su contenido
+//Función para listar todas las plantillas existentes
 const listarTemplates = () => {
     return new Promise((resolve, reject) => {
         const query = `SELECT * FROM templates;`;
         
         conexion.query(query, (error, resultado) => {
             if (error) {
-                console.error("Error al obtener templates:", error);
-                return reject(error);  // En caso de error, se rechaza la promesa
+                console.error("Error al obtener templates:", error); //Si ocurre un error, lo mostramos en la consola
+                return reject(error); //Rechazamos la promesa con el error
             }
-            resolve(resultado);  // En caso de éxito, se resuelve el resultado de la consulta
+            resolve(resultado); //Si la consulta es exitosa, resolvemos la promesa con el resultado
         });
     });
 };
 
-const crearTemplate = ( nombre, contenido ) => {
+//Función para crear una nueva plantilla
+const crearTemplate = (nombre, contenido) => {
     return new Promise((resolve, reject) => {
         const query = `INSERT INTO templates (nombre_template, contenido_template) VALUES (?, ?);`;
         
         conexion.query(query, [nombre, contenido], (error, resultado) => {
             if (error) {
-                console.error("Error al crear template:", error);
-                return reject(error);  // En caso de error, se rechaza la promesa
+                console.error("Error al crear template:", error); //Si ocurre un error, lo mostramos en la consola
+                return reject(error); //Rechazamos la promesa con el error
             }
-            resolve(resultado);  // En caso de éxito, se resuelve con el resultado de la inserción
+            resolve(resultado); //Si la consulta es exitosa, resolvemos la promesa con el resultado de la inserción
         });
     });
 };
 
-
-//Listar medicamentos
+//Función para listar todos los medicamentos disponibles
 const listarMedicamentos = () => {
     return new Promise((resolve, reject) => {
         const query = `SELECT * FROM medicamento;`;
         
         conexion.query(query, (error, resultado) => {
             if (error) {
-                console.error("Error al obtener medicamento:", error);
-                return reject(error);  // En caso de error, se rechaza la promesa
+                console.error("Error al obtener medicamento:", error); //Si ocurre un error, lo mostramos en la consola
+                return reject(error); //Rechazamos la promesa con el error
             }
-            resolve(resultado);  // En caso de éxito, se resuelve el resultado de la consulta
+            resolve(resultado); //Si la consulta es exitosa, resolvemos la promesa con el resultado
         });
     });
 };
 
-
-
-//Modificar la ultima atencion del paciente
-
-
-
-
-// Exporta las funciones
+//Exportamos las funciones para poder usarlas en otros archivos
 module.exports = {
     turnosHoyMatricula,
     datosTurno,
@@ -159,5 +150,4 @@ module.exports = {
     cambiarEstadoTurnoCancelado,
     listarMedicamentos,
     crearTemplate,
-
 };

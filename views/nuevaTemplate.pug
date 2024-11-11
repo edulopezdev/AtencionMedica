@@ -72,7 +72,7 @@ html
       document.addEventListener('DOMContentLoaded', function () {
 
         const guardarTemplate = async (nombre, descripcion) => {
-            console.log('Método front');
+  
             try {
                 // Enviar los datos como JSON al servidor
                 const response = await fetch('/crearTemplate', {
@@ -154,8 +154,7 @@ html
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Llamar a la función guardarTemplate con los datos del formulario
-                    console.log(nombreTemplate, descripcionTemplate);
+                    // Llamar a la función guardarTemplate con los datos del Formulario
                     guardarTemplate(nombreTemplate, descripcionTemplate);
                 }
             });

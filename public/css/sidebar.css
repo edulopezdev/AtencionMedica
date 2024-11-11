@@ -1,113 +1,113 @@
 /* Estilos del sidebar */
 #sidebar {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 200px; /* Ancho fijo del sidebar */
-    z-index: 1000;
-    transition: background-color 0.25s ease-in-out;
-    background-color: rgba(52, 6, 91, 0.817);
-    box-shadow: 2px 0 10px rgba(50, 49, 49, 0.265);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200px;
+  z-index: 1000;
+  transition: background-color 0.25s ease-in-out;
+  background-color: rgba(52, 6, 91, 0.817);
+  box-shadow: 2px 0 10px rgba(50, 49, 49, 0.265);
 }
 
+/* Estilos del logo dentro del sidebar */
 .sidebar-logo {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente el logo */
-    align-items: center; /* Centra verticalmente el logo */
-    margin-top: 5px; /* Ajusta el margen superior aquí */
-    margin-left: 10px; /* Ajusta el margen izquierdo para mover a la derecha */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 0 0 10px;
 }
 
+.logo {
+  width: 150px;
+  height: auto;
+}
 
 /* Estilos del botón de toggle */
 .toggle-btn {
-    background-color: transparent;
-    cursor: pointer;
-    border: 0;
-    padding: 1rem 1.5rem;
-    color: #FFF;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+  padding: 1rem 1.5rem;
+  color: #FFF;
 }
 
-/* Icono del botón */
 .toggle-btn i {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
-/* Estilo del logo */
-.logo {
-    width: 150px; /* Ajusta el ancho según lo necesites */
-    height: auto; /* Mantiene la proporción */
-}
-
-/* Navegación del sidebar */
+/* Estilos de la navegación dentro del sidebar */
 .sidebar-nav {
-    padding: 2rem 0;
-    flex: 1 1 auto;
+  padding: 2rem 0;
+  flex: 1 1 auto;
 }
 
-/* Estilos de los enlaces del sidebar */
+/* Estilo de los enlaces dentro del sidebar */
 a.sidebar-link {
-    padding: .625rem 1.625rem;
-    color: #FFF;
-    display: flex;
-    align-items: center;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    border-left: 3px solid transparent;
-    text-decoration: none; /* Eliminar subrayado */
+  padding: .625rem 1.625rem;
+  color: #FFF;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  border-left: 3px solid transparent;
+  text-decoration: none;
 }
 
 /* Iconos de los enlaces */
 .sidebar-link i {
-    font-size: 1.1rem;
-    margin-right: .75rem;
+  font-size: 1.1rem;
+  margin-right: .75rem;
 }
 
-/* Estado activo */
+/* Enlace activo */
 .sidebar-link.active {
-    background-color: rgba(95, 89, 32, 0.1);
-    border-left: 3px solid #3b7ddd;
+  background-color: rgba(95, 89, 32, 0.1);
+  border-left: 3px solid #3b7ddd;
 }
 
-/* Efecto hover en los enlaces */
+/* Efecto hover para los enlaces */
 a.sidebar-link:hover {
-    background-color: rgba(255, 255, 255, .075);
-    border-left: 3px solid #3b7ddd;
+  background-color: rgba(255, 255, 255, .075);
+  border-left: 3px solid #3b7ddd;
 }
 
-/* Estilos del pie de página */
+/* Estilos del pie de página del sidebar */
 .sidebar-footer {
-    margin-top: auto; /* Empuja el pie de página hacia el fondo del sidebar */
+  margin-top: auto;
 }
 
+/* Colapsable sin fondo */
 .collapse {
-  background-color: transparent !important; /* Eliminar fondo blanco */
+  background-color: transparent !important;
 }
 
 .collapse.show {
-  background-color: transparent; /* Aseguramos que el submenú expandido no tenga fondo blanco */
+  background-color: transparent;
 }
 
-
-/* Responsivo para pantallas pequeñas */
+/* Media queries para pantallas pequeñas */
 @media (max-width: 768px) {
-    #sidebar {
-        width: 70px; /* Ancho reducido en pantallas pequeñas */
-    }
+  #sidebar {
+      width: 70px; /* Reduce el ancho del sidebar */
+  }
 
-    #sidebar .sidebar-logo,
-    #sidebar a.sidebar-link span {
-        display: none; /* Oculta textos en pantallas pequeñas */
-    }
+  /* Ocultar logo y texto de los enlaces en pantallas pequeñas */
+  #sidebar .sidebar-logo,
+  #sidebar a.sidebar-link span {
+      display: none;
+  }
 
-    #sidebar a.sidebar-link {
-        justify-content: center; /* Centra el contenido */
-    }
+  /* Centrar contenido de los enlaces */
+  #sidebar a.sidebar-link {
+      justify-content: center;
+  }
 
-    #sidebar:hover {
-        width: 70px; /* Mantiene el ancho reducido en hover */
-    }
+  /* Mantener el ancho reducido al hacer hover en pantallas pequeñas */
+  #sidebar:hover {
+      width: 70px;
+  }
 }
