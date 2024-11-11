@@ -3,18 +3,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
     turnosList.addEventListener("click", function (event) {
         const cardSeleccionada = event.target.closest(".card");
+
+        // Verifica si se ha seleccionado una tarjeta de turno
         if (cardSeleccionada) {
             const horaTurno = cardSeleccionada.querySelector('.card-title').innerText; // Obtener la hora del turno
-            
-            const turnoInfo = window.turnos[horaTurno]; 
+            const turnoInfo = window.turnos[horaTurno]; // Obtener la información del turno desde el objeto `turnos`
 
-            if (turnoInfo) { 
+            // Verifica si hay información del turno seleccionada
+            if (turnoInfo) {
                 if (turnoInfo.estado.toLowerCase() === 'atendido') {
+                    // Mostrar un SweetAlert para preguntar si desea modificar el turno
                     Swal.fire({
                         title: 'Turno Atendido',
-                        text: 'Este turno ya fue atendido.',
-                        icon: 'info',
-                        confirmButtonText: 'Aceptar'
+                        text: `El turno para el paciente ${turnoInfo.nombre} ${turnoInfo.apellido} ya ha sido atendido. ¿Desea modificar el turno?`,
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#28a745', // Botón "Sí"
+                        cancelButtonColor: '#dc3545',  // Botón "No" con color rojo
+                        confirmButtonText: 'Sí, modificar turno',
+                        cancelButtonText: 'No, cancelar',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirigir a la página para ampliar/modificar la consulta
+                            window.location.href = `/editarConsulta?numero_turno=${turnoInfo.numero}&editar=true`;
+                        }
                     });
                 } else if (turnoInfo.estado.toLowerCase() === 'cancelado') {
                     Swal.fire({
@@ -39,11 +51,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         cancelButtonText: 'No, cancelar',
                     }).then((result) => {
                         if (result.isConfirmed) {
+                            // Redirigir a la página para iniciar la consulta
                             window.location.href = `/getConsulta?hora=${numero_turno}&numero_turno=${numero}`;
                         }
                     });
                 }
             } else {
+                // Si no hay información del turno, indica que el turno está libre
                 Swal.fire({
                     title: 'Turno Libre',
                     text: 'Este turno está libre. No se puede iniciar una consulta.',

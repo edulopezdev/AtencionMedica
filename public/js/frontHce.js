@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const dniPacienteDiv = document.getElementById('dniPaciente'); // Contenedor para el DNI del paciente
     let datosPacienteSeleccionado = null;
     const matricula = window.matricula; // Matrícula del profesional médico logueado
-    console.log(window.matricula + ' - matrícula en front');
+    // console.log(window.matricula + ' - matrícula en front');
 
     // Función para mostrar los resultados en el datalist de búsqueda
     const mostrarResultadosEnDesplegable = (turnos) => {
