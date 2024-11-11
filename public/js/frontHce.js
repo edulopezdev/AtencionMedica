@@ -99,11 +99,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             // Verificar si el médico logueado atendió este turno (si la matrícula coincide)
             const esMismoMedico = turno.matricula_medico == matricula;
+            // console.log( turno );
 
             // Solo se muestran los datos completos si el médico logueado es el que atendió el turno
             tr.innerHTML = `
                 <td class="turno-cell">${formatDate(turno.fecha)}</td>
                 <td class="turno-cell">${turno.profesional}</td>
+                <td class="turno-cell">${ turno.motivo_consulta }</td>
                 <td class="turno-cell">${esMismoMedico ? (turno.nombre_alergia || 'N/A') : 'Privado'}</td>
                 <td class="turno-cell">${esMismoMedico ? (turno.descripcion_antecedente || 'N/A') : 'Privado'}</td>
                 <td class="turno-cell">${turno.resumen_diagnostico}</td>
