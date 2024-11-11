@@ -83,6 +83,15 @@ a.sidebar-link:hover {
     margin-top: auto; /* Empuja el pie de página hacia el fondo del sidebar */
 }
 
+.collapse {
+  background-color: transparent !important; /* Eliminar fondo blanco */
+}
+
+.collapse.show {
+  background-color: transparent; /* Aseguramos que el submenú expandido no tenga fondo blanco */
+}
+
+
 /* Responsivo para pantallas pequeñas */
 @media (max-width: 768px) {
     #sidebar {

@@ -1,0 +1,234 @@
+/* Importar fuente Open Sans */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700&display=swap');
+
+/* Estilos generales para el body */
+body {
+    font-family: 'Open Sans', sans-serif; /* Mantener la misma fuente */
+    background-color: #f0f4f8; /* Fondo suave */
+    margin: 0;
+}
+
+/* Ajustar márgenes de la página */
+.container-fluid {
+    padding: 0;
+}
+
+/* Centrar contenido */
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+/* Fondo ligero para el contenedor principal */
+.bg-light {
+    background-color: rgba(248, 249, 250, 0.9); /* Fondo claro con opacidad */
+    margin: 15px; /* Unificado margen */
+    opacity: 0.85; /* Opacidad */
+}
+
+/* Estilo para el encabezado */
+h3 {
+    font-weight: 300;  /* Menos peso para un título más suave */
+    color: #555;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 1.6rem; /* Aumentar tamaño de fuente para visibilidad */
+}
+
+/* Estilo para los campos de formulario */
+.form-section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Personalización de las tarjetas */
+.card-custom {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+/* Cuerpo de la tarjeta (espaciado interno) */
+.card-body {
+    padding: 2rem;
+}
+
+/* Estilo de los campos del formulario */
+.form-label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+}
+
+.form-control,
+.form-select {
+    border-radius: 5px;
+    padding: 0.8rem;
+    width: 100%;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+}
+
+/* Estilo de los campos requeridos */
+.campo-obligatorio {
+    border: 2px solid red !important;
+    background-color: #f8d7da;
+}
+
+.campo-obligatorio:focus {
+    border-color: #f5c6cb;
+    background-color: #f8d7da;
+}
+
+/* Estilo para los campos con separación */
+.separacion-campos {
+    margin-bottom: 1.5rem;
+}
+
+/* Aumento de la altura de la descripción */
+textarea.form-control {
+    height: 150px; /* Aumento la altura de la descripción */
+}
+
+/* Estilo para el botón guardar, alineado a la derecha */
+.centrar-boton {
+  display: flex;
+  justify-content: flex-end; /* Mueve el botón a la derecha */
+  margin-top: 20px;
+}
+
+/* Estilo del botón guardar con el tamaño especificado */
+button#guardarBoton {
+  padding: 0.5rem 1rem; /* Reducir padding horizontal */
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: opacity 0.3s;
+  min-width: 90px; /* Esto se puede mantener o eliminar */
+}
+
+
+button#guardarBoton:hover {
+  opacity: 0.8; /* Efecto de hover */
+}
+
+
+/* Estilo para los mensajes de error */
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* Estilo de los mensajes de SweetAlert */
+.swal2-popup {
+    font-size: 1rem;
+}
+
+/* Espaciado para los botones y elementos adicionales */
+.mt-3 {
+    margin-top: 1rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+/* Ajuste de márgenes para el formulario */
+.row.justify-content-center {
+    display: flex;
+    justify-content: center;
+}
+
+.text-center.mt-3.mb-4 {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Alineación flex para elementos dentro de contenedores */
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.ms-2 {
+    margin-left: 10px;
+}
+
+.me-2 {
+    margin-right: 10px;
+}
+
+.ms-3 {
+    margin-left: 20px;
+}
+
+/* Ajuste en el tamaño de los inputs de fecha */
+input[type="date"] {
+    border-radius: 5px;
+    padding: 0.5rem;
+    width: 180px;
+}
+
+/* Estilo para checkbox */
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+/* Personalización del botón de SweetAlert */
+.swal2-confirm {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+}
+
+.swal2-cancel {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+
+/* Estilo personalizado para el campo de nombre del template */
+#nombre_template {
+  padding: 0.2rem 1rem;  /* Reducir el padding para disminuir la altura */
+  font-size: 1.1rem;  /* Aumentar el tamaño de la fuente */
+  border-radius: 5px;  /* Bordes redondeados */
+  border: 1px solid #ddd;  /* Borde gris claro */
+  background-color: #f8f9fa;  /* Fondo claro */
+  width: 20%;  /* Asegura que ocupe todo el ancho disponible */
+  transition: border-color 0.3s ease;  /* Transición suave para el borde */
+}
+
+/* Estilo cuando el campo está en foco (focus) */
+#nombre_template:focus {
+  border-color: #007bff;  /* Cambiar el borde a azul cuando el campo está en foco */
+  outline: none;  /* Eliminar el borde predeterminado */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);  /* Agregar sombra suave */
+}
+
+/* Estilo personalizado para el campo de descripción del template */
+#descripcion_template {
+  padding: 1rem;  /* Aumentar el padding para mayor comodidad */
+  font-size: 1.1rem;  /* Aumentar el tamaño de la fuente */
+  border-radius: 5px;  /* Bordes redondeados */
+  border: 1px solid #ddd;  /* Borde gris claro */
+  background-color: #f8f9fa;  /* Fondo claro */
+  width: 100%;  /* Asegura que ocupe todo el ancho disponible */
+  transition: border-color 0.3s ease;  /* Transición suave para el borde */
+  min-height: 250px;  /* Aumentar la altura mínima del área de texto */
+  resize: vertical;  /* Permite que el usuario redimensione el campo verticalmente */
+}
+
+/* Estilo cuando el campo está en foco (focus) */
+#descripcion_template:focus {
+  border-color: #007bff;  /* Cambiar el borde a azul cuando el campo está en foco */
+  outline: none;  /* Eliminar el borde predeterminado */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);  /* Agregar sombra suave */
+}

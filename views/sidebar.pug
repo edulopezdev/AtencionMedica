@@ -8,11 +8,36 @@ html(lang="es")
         link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css", rel="stylesheet")
         link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css")
         link(rel="stylesheet" href="css/sidebar.css")
+        style.
+            /* Estilo para el ícono */
+            .collapse-icon {
+                transition: transform 0.3s ease, margin-left 0.3s ease; /* Suaviza la rotación y el movimiento */
+                margin-left: 12px; /* Ajustado a la derecha */
+                font-size: 0.9em; /* Más pequeño que antes */
+                color: white; /* Rellenar la flecha con blanco */
+            }
+            /* Rotación inicial apuntando a la derecha */
+            .rotate-right {
+                transform: rotate(90deg); /* Apunta hacia la derecha inicialmente */
+            }
+            /* Rotación cuando el submenú se expande */
+            .rotate-down {
+                transform: rotate(0deg); /* Apunta hacia abajo cuando el submenú se expande */
+            }
+
+            /* Eliminar el fondo blanco del submenú */
+            .collapse {
+                background-color: transparent !important; /* Eliminar fondo blanco del submenú */
+            }
+
+            .collapse.show {
+                background-color: transparent; /* Aseguramos que el submenú expandido no tenga fondo blanco */
+            }
     body
         .sidebar(id="sidebar")
             .d-flex.flex-column.align-items-center
                 .sidebar-logo
-                        img(src="images/logo_blanco.png", alt="LM Médical Group Logo", class="logo")
+                    img(src="images/logo_blanco.png", alt="LM Médical Group Logo", class="logo")
             ul.sidebar-nav
                 li.sidebar-item
                     a.sidebar-link(href="/getMain", class="menu-item")
@@ -31,13 +56,15 @@ html(lang="es")
                         i.bi.bi-person-fill
                         span Perfil
                 li.sidebar-item
-                    a.sidebar-link(href="/settings", class="menu-item")
+                    a.sidebar-link.menu-item(data-bs-toggle="collapse", href="#submenuConfiguracion", aria-expanded="false", aria-controls="submenuConfiguracion")
                         i.bi.bi-gear-fill
                         span Configuración
-                li.sidebar-item
-                    a.sidebar-link(href="/nuevaTemplate", class="menu-item")
-                        i.bi.bi-file-earmark-plus
-                        span Crear template
+                        i.bi.bi-chevron-right.collapse-icon
+                    div#submenuConfiguracion.collapse
+                        ul
+                            li
+                                a.sidebar-link(href="/nuevaTemplate")
+                                    span Nuevo Template
             .sidebar-footer
                 a.sidebar-link(href="javascript:void(0)", onclick="logout()")
                     i.bi.bi-door-open-fill
@@ -77,4 +104,23 @@ html(lang="es")
                 if (item.getAttribute('href') === currentPath) {
                     item.classList.add('active');
                 }
+            });
+
+            // Seleccionamos el submenú y el ícono de la flecha
+            const submenu = document.getElementById('submenuConfiguracion');
+            const collapseIcon = document.querySelector('.collapse-icon');
+
+            // Inicialmente el ícono apunta hacia la derecha
+            collapseIcon.classList.add('rotate-down');
+
+            // Detectamos cuando el submenú se expande
+            submenu.addEventListener('show.bs.collapse', function () {
+                collapseIcon.classList.remove('rotate-down'); // Eliminamos la flecha hacia la derecha
+                collapseIcon.classList.add('rotate-right'); // Ponemos la flecha hacia abajo
+            });
+
+            // Detectamos cuando el submenú se colapsa
+            submenu.addEventListener('hide.bs.collapse', function () {
+                collapseIcon.classList.remove('rotate-right'); // Eliminamos la flecha hacia abajo
+                collapseIcon.classList.add('rotate-down'); // Ponemos la flecha hacia la derecha
             });
