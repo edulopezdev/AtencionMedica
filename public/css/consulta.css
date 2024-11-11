@@ -164,3 +164,42 @@ button#addDiagnosticoButton {
 .ms-3 {
   margin-left: 20px;
 }
+/* Animación para los popups */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animated-popup {
+  animation: fadeIn 0.5s ease-out;
+}
+/* Estilo para los campos vacíos o con error */
+.input-error {
+  border: 2px solid #dc3545 !important;
+  background-color: #f8d7da !important; /* Fondo sutil en rojo claro */
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  animation: fadeInError 0.5s ease-out;
+}
+
+/* Animación para el borde de error */
+@keyframes fadeInError {
+  0% {
+    border-color: transparent;
+    background-color: transparent;
+  }
+  100% {
+    border-color: #dc3545;
+    background-color: #f8d7da;
+  }
+}

@@ -304,99 +304,218 @@ document.addEventListener('DOMContentLoaded', function () {
   medicamentoSelect.addEventListener('change', llenarDetallesMedicamento);
 
   // Escuchar el clic en el botón "Guardar"
-  botonGuardar.addEventListener('click', (event) => {
-    event.preventDefault(); // Evita el envío del formulario
+botonGuardar.addEventListener('click', (event) => {
+  event.preventDefault(); // Evita el envío del formulario
 
-    // Desestructuramos los valores de antecedentes y hábitos ===========================
-    const { antecedentes } = obtenerDatosAntecedentes();
-    const { habitos } = obtenerDatosHabitos();
-    const diagnosticosArray = getDiagnosticosArray();
+  // Desestructuramos los valores de antecedentes y hábitos ===========================
+  const { antecedentes } = obtenerDatosAntecedentes();
+  const { habitos } = obtenerDatosHabitos();
+  const diagnosticosArray = getDiagnosticosArray();
 
-    // Crear objeto con todos los datos
-    const datosFormulario = {
-      // evolucion: txtEvolucion.value,
-      evolucion: quill.root.innerHTML,
-      diagnosticosArray,
-      alergia: {
-        texto: alergiaTextarea.value,
-        nivel: estadoAlergiaSelect.value,
-        fechaDesde: document.querySelector('#inicioAlergia').value,
-        fechaHasta: document.querySelector('#finAlergia').value,
-      },
-      antecedentes,
-      habitos,
-      medicamento: medicamentoSelect.value,
-      numero_turno,
-    };
+  // Obtener los valores de Evolución, Diagnóstico y Estado de Diagnóstico
+  const evolucion = quill.root.innerHTML || '';  // Si quill.root.innerHTML es undefined, asignamos un string vacío
+  const estadoDiagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].estado ? diagnosticosArray[0].estado : ''; // Verificamos si existe un estado
+  const diagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].diagnostico ? diagnosticosArray[0].diagnostico : ''; // Cambié 'descripcion' por 'diagnostico'
 
-    // console.log('Datos del formulario:', datosFormulario);
+  // Imprimir valores para depuración
+  console.log('Diagnóstico Array:', diagnosticosArray);  // Veremos cómo se ve el array
+  console.log('Diagnóstico:', diagnostico);  // Verificamos si el diagnóstico tiene valor
+  console.log('Estado Diagnóstico:', estadoDiagnostico);  // Verificamos si el estado tiene valor
 
-    // Primero, pide confirmación antes de guardar
+  // Comprobamos si el evento de clic fue capturado
+  console.log("Botón de Guardar presionado");
+
+  // Validar que todos los campos necesarios estén completos
+
+  // Comprobamos si el campo Evolución está vacío (usamos innerHTML y eliminamos los espacios)
+  const evolucionSinHtml = evolucion.replace(/<[^>]+>/g, '').trim(); // Elimina las etiquetas HTML y recorta los espacios
+
+  if (!evolucionSinHtml) {
+    console.log("Evolución está vacío");
     Swal.fire({
-      title: 'Confirmar Consulta',
-      text: '¿Está seguro de que desea guardar la consulta?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#28a745',
-      cancelButtonColor: '#dc3545',
-      confirmButtonText: 'Sí, guardar',
-      cancelButtonText: 'No, cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Si se confirma, realizar la solicitud fetch
-        fetch('/guardarConsulta', { // Cambia esta ruta a la correcta
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(datosFormulario)
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Error en la solicitud: ' + response.statusText);
-            }
-            return response.json(); // Suponiendo que tu backend devuelve un JSON
-          })
-          .then(data => {
-            console.log('Respuesta del servidor:', data);
-
-            // Mostrar mensaje de éxito
-            Swal.fire({
-              title: 'Éxito',
-              text: 'Consulta guardada correctamente',
-              icon: 'success',
-              confirmButtonText: 'Aceptar'
-            }).then(() => {
-              // Redirigir a otra página si es necesario
-              window.location.href = '/getMain'; // Cambia esto si necesitas otra URL
-            });
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            // Aquí puedes manejar errores, por ejemplo, mostrar un mensaje de error
-            Swal.fire({
-              title: 'Error',
-              text: 'Debe completar los campos obligatorios',
-              icon: 'error',
-              confirmButtonText: 'Aceptar'
-            });
-          });
-      }
+      title: '¡Error!',
+      text: 'El campo Evolución es obligatorio.',
+      icon: 'error',
+      showConfirmButton: true,
+      confirmButtonText: 'Aceptar'
     });
-  });
+    return; // Detenemos el flujo si la evolución está vacía
+  }
 
+  // Comprobamos si el campo Diagnóstico está vacío
+  // Si el diagnóstico está vacío y el estado no está vacío, mostramos un error
+  if (!diagnostico.trim() && estadoDiagnostico.trim()) {
+    console.log("Diagnóstico está vacío pero Estado está definido");
+    Swal.fire({
+      title: '¡Error!',
+      text: 'El campo Diagnóstico es obligatorio.',
+      icon: 'error',
+      showConfirmButton: true,
+      confirmButtonText: 'Aceptar'
+    });
+    return; // Detenemos el flujo si el diagnóstico está vacío
+  }
+
+  // Comprobamos si el Estado de Diagnóstico está vacío
+  if (!estadoDiagnostico.trim()) {
+    console.log("Estado del diagnóstico no seleccionado");
+    Swal.fire({
+      title: '¡Error!',
+      text: 'Debe seleccionar el estado del diagnóstico.',
+      icon: 'error',
+      showConfirmButton: true,
+      confirmButtonText: 'Aceptar'
+    });
+    return; // Detenemos el flujo si el estado no está seleccionado
+  }
+
+  // Si todo está bien, mostramos la confirmación de guardado
+  console.log("Todos los campos validados correctamente");
+
+  // Crear objeto con todos los datos
+  const datosFormulario = {
+    evolucion: evolucion,
+    diagnosticosArray,
+    alergia: {
+      texto: alergiaTextarea.value,
+      nivel: estadoAlergiaSelect.value,
+      fechaDesde: document.querySelector('#inicioAlergia').value,
+      fechaHasta: document.querySelector('#finAlergia').value,
+    },
+    antecedentes,
+    habitos,
+    medicamento: medicamentoSelect.value,
+    numero_turno,
+  };
+
+  // Pedir confirmación antes de guardar
+  Swal.fire({
+    title: 'Confirmar Consulta',
+    text: '¿Está seguro de que desea guardar la consulta?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#28a745',
+    cancelButtonColor: '#dc3545',
+    confirmButtonText: 'Sí, guardar',
+    cancelButtonText: 'No, cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si se confirma, realizar la solicitud fetch
+      console.log("Guardando consulta...");
+      fetch('/guardarConsulta', { // Cambia esta ruta a la correcta
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datosFormulario)
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error en la solicitud: ' + response.statusText);
+          }
+          return response.json(); // Suponiendo que tu backend devuelve un JSON
+        })
+        .then(data => {
+          console.log('Respuesta del servidor:', data);
+
+          // Mostrar mensaje de éxito
+          Swal.fire({
+            title: 'Éxito',
+            text: 'Consulta guardada correctamente',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            // Redirigir a otra página si es necesario
+            window.location.href = '/getMain'; // Cambia esto si necesitas otra URL
+          });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          // Mostrar mensaje de error si ocurre un problema con el fetch
+          Swal.fire({
+            title: 'Error',
+            text: 'Hubo un error al guardar la consulta.',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          });
+        });
+    }
+  });
+});
+
+  // Escuchar el clic en el botón "Guardar"
   botonModificar.addEventListener('click', (event) => {
     event.preventDefault(); // Evita el envío del formulario
-    // console.log(estadoAlergiaSelect.value);
+  
     // Desestructuramos los valores de antecedentes y hábitos ===========================
     const { antecedentes } = obtenerDatosAntecedentes();
     const { habitos } = obtenerDatosHabitos();
     const diagnosticosArray = getDiagnosticosArray();
     const id_receta = turno.id_receta;
+  
+    // Obtener los valores de Evolución, Diagnóstico y Estado de Diagnóstico
+    const evolucion = quill.root.innerHTML || '';  // Si quill.root.innerHTML es undefined, asignamos un string vacío
+    const estadoDiagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].estado ? diagnosticosArray[0].estado : ''; // Verificamos si existe un estado
+    const diagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].diagnostico ? diagnosticosArray[0].diagnostico : ''; // Cambié 'descripcion' por 'diagnostico'
+  
+    // Imprimir valores para depuración
+    console.log('Diagnóstico Array:', diagnosticosArray);  // Veremos cómo se ve el array
+    console.log('Diagnóstico:', diagnostico);  // Verificamos si el diagnóstico tiene valor
+    console.log('Estado Diagnóstico:', estadoDiagnostico);  // Verificamos si el estado tiene valor
+  
+    // Comprobamos si el evento de clic fue capturado
+    console.log("Botón de Modificar presionado");
+  
+    // Validar que todos los campos necesarios estén completos
+  
+    // Comprobamos si el campo Evolución está vacío (usamos innerHTML y eliminamos los espacios)
+    const evolucionSinHtml = evolucion.replace(/<[^>]+>/g, '').trim(); // Elimina las etiquetas HTML y recorta los espacios
+  
+    if (!evolucionSinHtml) {
+      console.log("Evolución está vacío");
+      Swal.fire({
+        title: '¡Error!',
+        text: 'El campo Evolución es obligatorio.',
+        icon: 'error',
+        showConfirmButton: true,
+        confirmButtonText: 'Aceptar'
+      });
+      return; // Detenemos el flujo si la evolución está vacía
+    }
+  
+    // Comprobamos si el campo Diagnóstico está vacío
+    // Si el diagnóstico está vacío y el estado no está vacío, mostramos un error
+    if (!diagnostico.trim() && estadoDiagnostico.trim()) {
+      console.log("Diagnóstico está vacío pero Estado está definido");
+      Swal.fire({
+        title: '¡Error!',
+        text: 'El campo Diagnóstico es obligatorio.',
+        icon: 'error',
+        showConfirmButton: true,
+        confirmButtonText: 'Aceptar'
+      });
+      return; // Detenemos el flujo si el diagnóstico está vacío
+    }
+  
+    // Comprobamos si el Estado de Diagnóstico está vacío
+    if (!estadoDiagnostico.trim()) {
+      console.log("Estado del diagnóstico no seleccionado");
+      Swal.fire({
+        title: '¡Error!',
+        text: 'Debe seleccionar el estado del diagnóstico.',
+        icon: 'error',
+        showConfirmButton: true,
+        confirmButtonText: 'Aceptar'
+      });
+      return; // Detenemos el flujo si el estado no está seleccionado
+    }
+  
+    // Si todo está bien, mostramos la confirmación de modificación
+    console.log("Todos los campos validados correctamente");
+  
     // Crear objeto con todos los datos
     const datosFormulario = {
-      // evolucion: txtEvolucion.value,
-      evolucion: quill.root.innerHTML,
+      evolucion: evolucion,
       diagnosticosArray,
       alergia: {
         texto: alergiaTextarea.value,
@@ -407,25 +526,24 @@ document.addEventListener('DOMContentLoaded', function () {
       antecedentes,
       habitos,
       medicamento: medicamentoSelect.value,
-      id_receta: id_receta,
+      id_receta: id_receta,  // Usamos el id_receta en lugar de numero_turno para modificación
       numero_turno,
     };
-
-    // console.log('Datos del formulario:', datosFormulario);
-
-    // Primero, pide confirmación antes de guardar
+  
+    // Pedir confirmación antes de modificar
     Swal.fire({
-      title: 'Confirmar Consulta',
-      text: '¿Está seguro de que desea guardar la consulta?',
+      title: 'Confirmar Modificación',
+      text: '¿Está seguro de que desea modificar la consulta?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#28a745',
       cancelButtonColor: '#dc3545',
-      confirmButtonText: 'Sí, guardar',
+      confirmButtonText: 'Sí, modificar',
       cancelButtonText: 'No, cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
         // Si se confirma, realizar la solicitud fetch
+        console.log("Modificando consulta...");
         fetch('/modificarConsulta', { // Cambia esta ruta a la correcta
           method: 'POST',
           headers: {
@@ -441,7 +559,7 @@ document.addEventListener('DOMContentLoaded', function () {
           })
           .then(data => {
             console.log('Respuesta del servidor:', data);
-
+  
             // Mostrar mensaje de éxito
             Swal.fire({
               title: 'Éxito',
@@ -455,10 +573,10 @@ document.addEventListener('DOMContentLoaded', function () {
           })
           .catch(error => {
             console.error('Error:', error);
-            // Aquí puedes manejar errores, por ejemplo, mostrar un mensaje de error
+            // Mostrar mensaje de error si ocurre un problema con el fetch
             Swal.fire({
               title: 'Error',
-              text: 'Debe completar los campos obligatorios',
+              text: 'Hubo un error al modificar la consulta.',
               icon: 'error',
               confirmButtonText: 'Aceptar'
             });
@@ -466,4 +584,5 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+  
 });
