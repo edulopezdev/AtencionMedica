@@ -60,6 +60,18 @@ document.addEventListener('DOMContentLoaded', function () {
     addDiagnosticoButton.style.display = 'none';
     templateSelect.style.display = 'none';
 
+    //Desplegar checks
+    document.getElementById('checkboxAlergias').checked = true;
+    toggleFields('alergiasContainer', document.getElementById('checkboxAlergias'));
+    document.getElementById('checkboxAntecedentes').checked = true;
+    toggleFields('antecedentesContainer', document.getElementById('checkboxAntecedentes'));
+    document.getElementById('checkboxHabitos').checked = true;
+    toggleFields('habitosContainer', document.getElementById('checkboxHabitos'));
+    document.getElementById('checkboxMedicamentos').checked = true;
+    toggleFields('medicamentoContainer', document.getElementById('checkboxMedicamentos'));
+
+
+
     // txtEvolucion.value = turno.resumen_evolucion || '';
     quill.root.innerHTML = turno.resumen_evolucion || '';
     // txtEvolucion.readOnly = true;
@@ -112,6 +124,19 @@ document.addEventListener('DOMContentLoaded', function () {
     botonGuardar.style.display = 'none';
     botonModificar.style.display = "block";
     addDiagnosticoButton.style.display = 'none';
+
+
+    //Desplegar checks
+    document.getElementById('checkboxAlergias').checked = true;
+    toggleFields('alergiasContainer', document.getElementById('checkboxAlergias'));
+    document.getElementById('checkboxAntecedentes').checked = true;
+    toggleFields('antecedentesContainer', document.getElementById('checkboxAntecedentes'));
+    document.getElementById('checkboxHabitos').checked = true;
+    toggleFields('habitosContainer', document.getElementById('checkboxHabitos'));
+    document.getElementById('checkboxMedicamentos').checked = true;
+    toggleFields('medicamentoContainer', document.getElementById('checkboxMedicamentos'));
+
+    
 
     // txtEvolucion.value = turno.resumen_evolucion || '';
     quill.root.innerHTML = turno.resumen_evolucion || '';

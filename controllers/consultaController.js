@@ -247,30 +247,30 @@ const obtenerHcePorDniEspecifico = async (req, res) => {
     }
 };
 
-const editarUltimaConsulta = async (req, res) => {
-    const matricula = req.session.matricula;
-    const medico_nombre = req.session.nombre;
-    try {
-        const dni = req.query.dni;
+// const editarUltimaConsulta = async (req, res) => {
+//     const matricula = req.session.matricula;
+//     const medico_nombre = req.session.nombre;
+//     try {
+//         const dni = req.query.dni;
 
-        if (!dni) {
-            return res.status(400).json({ error: 'DNI no proporcionado' });
-        }
+//         if (!dni) {
+//             return res.status(400).json({ error: 'DNI no proporcionado' });
+//         }
 
-        // Llama al método obtenerUltimaConsulta para obtener los datos de la última consulta
-        const ultimaConsulta = await ultimaConsultaPorNumeroDni(dni);
+//         // Llama al método obtenerUltimaConsulta para obtener los datos de la última consulta
+//         const ultimaConsulta = await ultimaConsultaPorNumeroDni(dni);
 
-        if (!ultimaConsulta) {
-            return res.status(404).json({ mensaje: 'No se encontró ninguna consulta para el paciente con ese DNI' });
-        }
+//         if (!ultimaConsulta) {
+//             return res.status(404).json({ mensaje: 'No se encontró ninguna consulta para el paciente con ese DNI' });
+//         }
 
-        // Renderiza el formulario Pug para editar la consulta, pasando los datos de la última consulta
-        res.render('consulta', { ultimaConsulta, matricula, medico_nombre });
-    } catch (error) {
-        console.error('Error al editar la última consulta:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
-    }
-};
+//         // Renderiza el formulario Pug para editar la consulta, pasando los datos de la última consulta
+//         res.render('consulta', { ultimaConsulta, matricula, medico_nombre });
+//     } catch (error) {
+//         console.error('Error al editar la última consulta:', error);
+//         res.status(500).json({ error: 'Error interno del servidor' });
+//     }
+// };
 
 
 const nuevaTemplate = async (req, res) => {

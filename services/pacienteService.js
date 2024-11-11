@@ -368,23 +368,29 @@ const modificarConsultaCompleta = (datos) => {
                     
 
                 // Inserta en la tabla receta si hay un medicamento seleccionado
+                // 
+                //Receta
                 if (datos.id_medicamento) {
-                    const queryReceta = `
-                        UPDATE receta
-                            SET id_medicamento = ?
-                            WHERE numero_turno = ?
-                            and id_receta = ?;
-
-                    `;
-                    const paramsReceta = [datos.id_medicamento, datos.numero_turno, datos.id_receta];
-
-                    conexion.query(queryReceta, paramsReceta, (error) => {
+                    const queryVerificarReceta = `SELECT COUNT(*) AS count FROM receta WHERE numero_turno = ? AND id_receta = ?`;
+                    conexion.query(queryVerificarReceta, [datos.numero_turno, datos.id_receta], (error, results) => {
                         if (error) return conexion.rollback(() => reject(error));
-
-                        // Si todo ha ido bien, confirma la transacción
-                        conexion.commit((err) => {
-                            if (err) return conexion.rollback(() => reject(err));
-                            resolve('Datos actualizados correctamente');
+                
+                        const existeReceta = results[0].count > 0;
+                        const queryReceta = existeReceta
+                            ? `UPDATE receta SET id_medicamento = ? WHERE numero_turno = ? AND id_receta = ?`
+                            : `INSERT INTO receta (id_medicamento, numero_turno, id_receta) VALUES (?, ?, ?)`;
+                        const paramsReceta = existeReceta
+                            ? [datos.id_medicamento, datos.numero_turno, datos.id_receta]
+                            : [datos.id_medicamento, datos.numero_turno, datos.id_receta];
+                
+                        conexion.query(queryReceta, paramsReceta, (error) => {
+                            if (error) return conexion.rollback(() => reject(error));
+                
+                            // Si todo ha ido bien, confirma la transacción
+                            conexion.commit((err) => {
+                                if (err) return conexion.rollback(() => reject(err));
+                                resolve('Datos actualizados correctamente');
+                            });
                         });
                     });
                 } else {
@@ -394,6 +400,7 @@ const modificarConsultaCompleta = (datos) => {
                         resolve('Datos actualizados correctamente');
                     });
                 }
+                
             });
         });
     });
