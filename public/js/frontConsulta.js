@@ -173,12 +173,12 @@ document.addEventListener('DOMContentLoaded', function () {
     medicamentoSelect.value = turno.id_medicamento || '';
   }
   //Logica segun estado de turno
-  console.log(turno);
+    //console.log(turno); //Log para depurar
   if (estado === 'Atendido') {
-    console.log('atendido entro');
+    //console.log('atendido entro'); //Log para depurar
     llenarCamposAtendido(turno);
   } else if (estado === 'Editar') {
-    console.log('editar entro');
+    //console.log('editar entro'); //Log para depurar
     llenarCamposEditar(turno);
   }
   //botones
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (btnAddTemplate) {
     btnAddTemplate.addEventListener('click', (event) => {
       event.preventDefault();
-      console.log('Clickkkkkkk')
+      //console.log('Clickkkkkkk') //Log para depurar
       window.location.href = `/nuevaTemplate`;
     });
   }
@@ -372,12 +372,12 @@ botonGuardar.addEventListener('click', (event) => {
   const diagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].diagnostico ? diagnosticosArray[0].diagnostico : ''; // Cambié 'descripcion' por 'diagnostico'
 
   // Imprimir valores para depuración
-  console.log('Diagnóstico Array:', diagnosticosArray);  // Veremos cómo se ve el array
-  console.log('Diagnóstico:', diagnostico);  // Verificamos si el diagnóstico tiene valor
-  console.log('Estado Diagnóstico:', estadoDiagnostico);  // Verificamos si el estado tiene valor
+  // console.log('Diagnóstico Array:', diagnosticosArray);  // Veremos cómo se ve el array
+  // console.log('Diagnóstico:', diagnostico);  // Verificamos si el diagnóstico tiene valor
+  // console.log('Estado Diagnóstico:', estadoDiagnostico);  // Verificamos si el estado tiene valor
 
   // Comprobamos si el evento de clic fue capturado
-  console.log("Botón de Guardar presionado");
+  //console.log("Botón de Guardar presionado"); //Log para depurar
 
   // Validar que todos los campos necesarios estén completos
 
@@ -385,7 +385,7 @@ botonGuardar.addEventListener('click', (event) => {
   const evolucionSinHtml = evolucion.replace(/<[^>]+>/g, '').trim(); // Elimina las etiquetas HTML y recorta los espacios
 
   if (!evolucionSinHtml) {
-    console.log("Evolución está vacío");
+    //console.log("Evolución está vacío"); //Log para depurar
     Swal.fire({
       title: '¡Error!',
       text: 'El campo Evolución es obligatorio.',
@@ -399,7 +399,7 @@ botonGuardar.addEventListener('click', (event) => {
   // Comprobamos si el campo Diagnóstico está vacío
   // Si el diagnóstico está vacío y el estado no está vacío, mostramos un error
   if (!diagnostico.trim() && estadoDiagnostico.trim()) {
-    console.log("Diagnóstico está vacío pero Estado está definido");
+    //console.log("Diagnóstico está vacío pero Estado está definido"); //Log para depurar
     Swal.fire({
       title: '¡Error!',
       text: 'El campo Diagnóstico es obligatorio.',
@@ -412,7 +412,7 @@ botonGuardar.addEventListener('click', (event) => {
 
   // Comprobamos si el Estado de Diagnóstico está vacío
   if (!estadoDiagnostico.trim()) {
-    console.log("Estado del diagnóstico no seleccionado");
+    //console.log("Estado del diagnóstico no seleccionado"); //Log para depurar
     Swal.fire({
       title: '¡Error!',
       text: 'Debe seleccionar el estado del diagnóstico.',
@@ -424,7 +424,7 @@ botonGuardar.addEventListener('click', (event) => {
   }
 
   // Si todo está bien, mostramos la confirmación de guardado
-  console.log("Todos los campos validados correctamente");
+  //console.log("Todos los campos validados correctamente"); //Log para depurar
 
   // Crear objeto con todos los datos
   const datosFormulario = {
@@ -474,7 +474,7 @@ botonGuardar.addEventListener('click', (event) => {
             return response.json(); // Suponiendo que tu backend devuelve un JSON
           })
           .then(data => {
-            console.log('Respuesta del servidor:', data);
+            //console.log('Respuesta del servidor:', data); //Log para depurar
 
             // Mostrar mensaje de éxito
             Swal.fire({
@@ -517,12 +517,12 @@ botonGuardar.addEventListener('click', (event) => {
     const diagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].diagnostico ? diagnosticosArray[0].diagnostico : ''; // Cambié 'descripcion' por 'diagnostico'
   
     // Imprimir valores para depuración
-    console.log('Diagnóstico Array:', diagnosticosArray);  // Veremos cómo se ve el array
-    console.log('Diagnóstico:', diagnostico);  // Verificamos si el diagnóstico tiene valor
-    console.log('Estado Diagnóstico:', estadoDiagnostico);  // Verificamos si el estado tiene valor
+    // console.log('Diagnóstico Array:', diagnosticosArray);  // Veremos cómo se ve el array
+    // console.log('Diagnóstico:', diagnostico);  // Verificamos si el diagnóstico tiene valor
+    // console.log('Estado Diagnóstico:', estadoDiagnostico);  // Verificamos si el estado tiene valor
   
     // Comprobamos si el evento de clic fue capturado
-    console.log("Botón de Modificar presionado");
+    //console.log("Botón de Modificar presionado"); //Log para depurar
   
     // Validar que todos los campos necesarios estén completos
   
@@ -530,7 +530,7 @@ botonGuardar.addEventListener('click', (event) => {
     const evolucionSinHtml = evolucion.replace(/<[^>]+>/g, '').trim(); // Elimina las etiquetas HTML y recorta los espacios
   
     if (!evolucionSinHtml) {
-      console.log("Evolución está vacío");
+      //console.log("Evolución está vacío"); //Log para depurar
       Swal.fire({
         title: '¡Error!',
         text: 'El campo Evolución es obligatorio.',
@@ -544,7 +544,7 @@ botonGuardar.addEventListener('click', (event) => {
     // Comprobamos si el campo Diagnóstico está vacío
     // Si el diagnóstico está vacío y el estado no está vacío, mostramos un error
     if (!diagnostico.trim() && estadoDiagnostico.trim()) {
-      console.log("Diagnóstico está vacío pero Estado está definido");
+      //console.log("Diagnóstico está vacío pero Estado está definido"); //Log para depurar
       Swal.fire({
         title: '¡Error!',
         text: 'El campo Diagnóstico es obligatorio.',
@@ -557,7 +557,7 @@ botonGuardar.addEventListener('click', (event) => {
   
     // Comprobamos si el Estado de Diagnóstico está vacío
     if (!estadoDiagnostico.trim()) {
-      console.log("Estado del diagnóstico no seleccionado");
+      //console.log("Estado del diagnóstico no seleccionado"); //Log para depurar
       Swal.fire({
         title: '¡Error!',
         text: 'Debe seleccionar el estado del diagnóstico.',
@@ -569,7 +569,7 @@ botonGuardar.addEventListener('click', (event) => {
     }
   
     // Si todo está bien, mostramos la confirmación de modificación
-    console.log("Todos los campos validados correctamente");
+    //console.log("Todos los campos validados correctamente"); //Log para depurar
   
     // Crear objeto con todos los datos
     const datosFormulario = {
@@ -606,7 +606,7 @@ botonGuardar.addEventListener('click', (event) => {
     }).then((result) => {
       if (result.isConfirmed) {
         // Si se confirma, realizar la solicitud fetch
-        console.log("Modificando consulta...");
+        //console.log("Modificando consulta..."); //Log para depurar
         fetch('/modificarConsulta', { // Cambia esta ruta a la correcta
           method: 'POST',
           headers: {
