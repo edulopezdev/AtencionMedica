@@ -1,12 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700&display=swap');
+
 /* Estilos Generales */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f6f9;
+  font-family: 'Open Sans', sans-serif; /* Usar la misma fuente que en agenda.css */
+  margin: 0;
+  background-color: #f0f4f8;
+  color: #333;
 }
 
 h3 {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  color: #555;
+  text-align: center;
+  margin: 20px 0;
 }
 
 .card-custom {
@@ -24,7 +32,8 @@ h3 {
 }
 
 .bg-light {
-  background-color: #f8f9fa !important;
+  background-color: rgba(248, 249, 250, 0.9);
+  margin: 15px; /* Consistente con agenda */
 }
 
 .text-center {
@@ -55,6 +64,30 @@ h3 {
 
 textarea.form-control {
   height: 100px;
+}
+
+/* Estilo del boton HCE */
+.btn-hce {
+  background-color: #7c09f0; /* Color de fondo */
+  color: white; /* Color del texto */
+  border-radius: 5px; /* Bordes redondeados */
+  padding: 5px 10px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de fuente */
+  cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
+  transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Transición suave para la sombra y el color de fondo */
+  text-decoration: none; /* Asegúrate de que no haya subrayado */
+}
+
+.btn-hce:hover {
+  box-shadow: 0 0 20px rgba(138, 35, 249, 0.8); /* Resplandor al hacer hover */
+  background-color: #7c09d0; /* Cambia a un tono más oscuro o diferente si deseas un cambio sutil en el fondo */
+}
+
+/* Anular estilos de Bootstrap para enlaces */
+.btn-hce:hover,
+.btn-hce:focus {
+  color: white !important; /* Mantener el color del texto en blanco */
+  text-decoration: none !important; /* Asegúrate de que no haya subrayado */
 }
 
 /* Botones */
@@ -178,28 +211,4 @@ button#addDiagnosticoButton {
 
 .animated-popup {
   animation: fadeIn 0.5s ease-out;
-}
-/* Estilo para los campos vacíos o con error */
-.input-error {
-  border: 2px solid #dc3545 !important;
-  background-color: #f8d7da !important; /* Fondo sutil en rojo claro */
-}
-
-.error-message {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-  animation: fadeInError 0.5s ease-out;
-}
-
-/* Animación para el borde de error */
-@keyframes fadeInError {
-  0% {
-    border-color: transparent;
-    background-color: transparent;
-  }
-  100% {
-    border-color: #dc3545;
-    background-color: #f8d7da;
-  }
 }
