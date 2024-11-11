@@ -17,7 +17,7 @@ router.get('/agenda', authController.authMiddleware, (req, res) => {
 //Ruta para la página de HCE (Historia Clínica Electrónica) =========================
 router.get('/hce', authController.authMiddleware, (req, res) => {
     const matricula = req.session.matricula;
-    //console.log(matricula + 'routes'); //Mostrar matrícula del profesional en la consola //Log para depurar
+    console.log(matricula + 'routes'); //Mostrar matrícula del profesional en la consola
     res.render('hce', { matricula }); //Renderiza la página HCE, pasando la matrícula
 });
 
