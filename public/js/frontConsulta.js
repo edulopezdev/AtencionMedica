@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const botonGuardar = document.getElementById('guardarBoton');
   const botonModificar = document.getElementById('modificarBoton');
   const btnAddTemplate = document.getElementById('btnAddTemplate');
+  //Checks
+  const checkAlergia = document.getElementById('checkboxAlergias');
+  const checkAntecedente = document.getElementById('checkboxAntecedentes');
+  const checkHabito = document.getElementById('checkboxHabitos');
+  const checkMedicamento = document.getElementById('checkboxMedicamentos');
   // console.log(btnAddTemplate)
   // datos del turno
   const turno = window.turno;
@@ -39,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
   //=====================================Estado del turno condiciona el llenado del pug
 
   //===================================texto enriquecido====================================
-   // Inicializar Quill en el div con el ID 'evolucion'
+  // Inicializar Quill en el div con el ID 'evolucion'
   let quill = new Quill('#evolucion', {
     theme: 'snow',
     placeholder: '* Ingrese la evolución del paciente',
@@ -48,14 +53,14 @@ document.addEventListener('DOMContentLoaded', function () {
         [{ 'header': [1, 2, false] }],
         ['bold', 'italic', 'underline'],
         ['link', 'image'],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }]
       ]
     }
   });
 
   //==============================================================================================
   // Método para llenar los campos cuando el estado es "atendido"
-  const llenarCamposAtendido = ( turno ) => {
+  const llenarCamposAtendido = (turno) => {
     botonGuardar.style.display = 'none';
     addDiagnosticoButton.style.display = 'none';
     templateSelect.style.display = 'none';
@@ -75,18 +80,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // txtEvolucion.value = turno.resumen_evolucion || '';
     quill.root.innerHTML = turno.resumen_evolucion || '';
     // txtEvolucion.readOnly = true;
-    quill.enable( false );
+    quill.enable(false);
     quill.root.dataset.placeholder = '';
-    
+
     estadoDiagnosticoSelect.value = turno.diag_estado || '';
     estadoDiagnosticoSelect.disabled = true;
-    
+
     txtDiagnostico.value = turno.resumen_diagnostico || '';
     txtDiagnostico.readOnly = true;
-    
+
     inicioAlergia.value = turno.aler_desde ? turno.aler_desde.substring(0, 10) : '';
     inicioAlergia.readOnly = true;
-    
+
     finAlergia.value = turno.aler_hasta ? turno.aler_hasta.substring(0, 10) : '';
     finAlergia.readOnly = true;
 
@@ -98,19 +103,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     inicioAntecedentes.value = turno.ant_desde ? turno.ant_desde.substring(0, 10) : '';
     inicioAntecedentes.readOnly = true;
-    
+
     finAntecedentes.value = turno.ant_hasta ? turno.ant_hasta.substring(0, 10) : '';
     finAntecedentes.readOnly = true;
-    
+
     antecedentes.value = turno.descripcion_antecedente || '';
     antecedentes.readOnly = true;
-    
+
     inicioHabitos.value = turno.hab_desde ? turno.hab_desde.substring(0, 10) : '';
     inicioHabitos.readOnly = true;
-    
+
     finHabitos.value = turno.hab_hasta ? turno.hab_hasta.substring(0, 10) : '';
     finHabitos.readOnly = true;
-    
+
     habitos.value = turno.descripcion_habito || '';
     habitos.readOnly = true;
 
@@ -119,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   // Método para llenar los campos cuando el estado es "editar"
-  const llenarCamposEditar = ( turno ) => {
+  const llenarCamposEditar = (turno) => {
 
     botonGuardar.style.display = 'none';
     botonModificar.style.display = "block";
@@ -127,32 +132,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     //Desplegar checks
-    document.getElementById('checkboxAlergias').checked = true;
+    checkAlergia.checked = true;
     toggleFields('alergiasContainer', document.getElementById('checkboxAlergias'));
-    document.getElementById('checkboxAntecedentes').checked = true;
+    checkAntecedente.checked = true;
     toggleFields('antecedentesContainer', document.getElementById('checkboxAntecedentes'));
-    document.getElementById('checkboxHabitos').checked = true;
+    checkHabito.checked = true;
     toggleFields('habitosContainer', document.getElementById('checkboxHabitos'));
-    document.getElementById('checkboxMedicamentos').checked = true;
+    checkMedicamento.checked = true;
     toggleFields('medicamentoContainer', document.getElementById('checkboxMedicamentos'));
 
-    
+
 
     // txtEvolucion.value = turno.resumen_evolucion || '';
     quill.root.innerHTML = turno.resumen_evolucion || '';
 
     txtDiagnostico.value = turno.resumen_diagnostico || '';
-    
+
     estadoDiagnosticoSelect.value = turno.diag_estado || '';
-    
+
     alergiaTextarea.value = turno.nombre_alergia || '';
-    
+
     estadoAlergiaSelect.value = turno.importancia || '';
 
     inicioAlergia.value = turno.aler_desde ? turno.aler_desde.substring(0, 10) : '';
 
     finAlergia.value = turno.aler_hasta ? turno.aler_hasta.substring(0, 10) : '';
-    
+
     inicioAntecedentes.value = turno.ant_desde ? turno.ant_desde.substring(0, 10) : '';
 
     finAntecedentes.value = turno.ant_hasta ? turno.ant_hasta.substring(0, 10) : '';
@@ -182,14 +187,63 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = `/cargarHceDni?dni=${turno.dni_paciente}`;
     });
   }
-  if(btnAddTemplate){
-    btnAddTemplate.addEventListener('click', ( event ) => {
+  if (btnAddTemplate) {
+    btnAddTemplate.addEventListener('click', (event) => {
       event.preventDefault();
       console.log('Clickkkkkkk')
       window.location.href = `/nuevaTemplate`;
     });
   }
-  
+
+  //Metodos
+  const mostrarError = (mensaje) => {
+    Swal.fire({
+      title: 'Error',
+      text: mensaje,
+      icon: 'error',
+      confirmButtonText: 'Aceptar'
+    });
+  }
+  const error = () => {
+
+    // Verificar campos principales
+    if (!quill.getText().trim()) {
+      mostrarError('Campo Evolución es obligatorio');
+      return true;
+    }
+
+    if (!txtDiagnostico.value || !estadoDiagnosticoSelect.value) {
+      mostrarError('Campos diagnóstico son obligatorio');
+      return true;
+    }
+
+    // Verificar alergias si está marcada
+    if (checkAlergia.checked && (!alergiaTextarea.value || !estadoAlergiaSelect.value || !inicioAlergia.value)) {
+      mostrarError('Si existe alergia, debe completar los campos');
+      return true;
+    }
+
+    // Verificar antecedentes si está marcado
+    if (checkAntecedente.checked && (!inicioAntecedentes.value || !antecedentes.value)) {
+      mostrarError('Si existe antecedente, debe completar los campos');
+      return true;
+    }
+
+    // Verificar hábitos si está marcado
+    if (checkHabito.checked && (!inicioHabitos.value || !habitos.value)) {
+      mostrarError('Si existe hábito, debe completar los campos');
+      return true;
+    }
+
+    // Verificar medicamento si está marcado
+    if (checkMedicamento.checked && !medicamentoSelect.value) {
+      mostrarError('Si existe medicamento, debe completar la selección');
+      return true;
+    }
+    return false;
+  }
+
+
   //Agregar mas de un diagnostico
   // console.log('ejecutando front.....')
   const addDiagnostico = () => {
@@ -258,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Diagnostico -> Escucha el cambio en el desplegable y lo guarda=========================
   estadoDiagnosticoSelect.addEventListener('change', (event) => {
-    estadoDiagnosticoSelect = event.target.value;
+    estadoDiagnosticoSelect.value = event.target.value;
   });
 
   // Alergias ===============================================
@@ -330,7 +384,10 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // console.log('Datos del formulario:', datosFormulario);
-
+    // Llama a error() y solo continúa si no hay errores
+    if (error()) {
+      return; // Detiene la ejecución si hay errores
+    }
     // Primero, pide confirmación antes de guardar
     Swal.fire({
       title: 'Confirmar Consulta',
@@ -376,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Aquí puedes manejar errores, por ejemplo, mostrar un mensaje de error
             Swal.fire({
               title: 'Error',
-              text: 'Debe completar los campos obligatorios',
+              text: 'Hubo un error al procesar su solicitud',
               icon: 'error',
               confirmButtonText: 'Aceptar'
             });
@@ -412,7 +469,10 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // console.log('Datos del formulario:', datosFormulario);
-
+    // Llama a error() y solo continúa si no hay errores
+    if (error()) {
+      return; // Detiene la ejecución si hay errores
+    }
     // Primero, pide confirmación antes de guardar
     Swal.fire({
       title: 'Confirmar Consulta',
@@ -458,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Aquí puedes manejar errores, por ejemplo, mostrar un mensaje de error
             Swal.fire({
               title: 'Error',
-              text: 'Debe completar los campos obligatorios',
+              text: 'Hubo un error en la base de datos al procesar su solicitud',
               icon: 'error',
               confirmButtonText: 'Aceptar'
             });
@@ -466,4 +526,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+
 });
