@@ -111,16 +111,23 @@ button.btn {
 }
 
 button.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #7c09d0;
+  border-color: #7c09d0;
 }
+
+button.btn-primary:hover {
+  background-color: #7c09d0;  /* Mantiene el color violeta */
+  border-color: #7c09d0;      /* Mantiene el borde violeta */
+  opacity: 0.8;               /* Aplica la opacidad */
+}
+
 
 button.btn-secondary {
   background-color: #6c757d;
   border-color: #6c757d;
 }
 
-button.btn-primary:hover,
+
 button.btn-secondary:hover {
   opacity: 0.8;
 }

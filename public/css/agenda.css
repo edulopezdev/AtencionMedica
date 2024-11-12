@@ -122,6 +122,18 @@ body {
     margin-left: 10px;
 }
 
+/* Estilo para el botón con id "buscarTurnos" */
+#buscarTurnos.btn-primary {
+  background-color: #7c09d0;  /* Violeta */
+  border-color: #7c09d0;      /* Borde violeta */
+}
+
+#buscarTurnos.btn-primary:hover {
+  background-color: #7c09d0;  /* Violeta (se mantiene igual) */
+  border-color: #7c09d0;      /* Borde violeta (se mantiene igual) */
+  opacity: 0.8;               /* Opacidad reducida */
+}
+
 .btn-hce i {
     font-size: 1.5rem;
 }

@@ -175,3 +175,15 @@ h3 {
 .clickable-row:hover {
     background-color: #715fd8;
 }
+
+/* Estilo normal para el botón #buscarHCE */
+#buscarHCE.btn-primary {
+  background-color: #7c09f0;  /* Violeta normal */
+  border-color: #7c09f0;      /* Borde violeta */
+}
+
+/* Estilo al hacer hover en el botón #buscarHCE */
+#buscarHCE.btn-primary:hover {
+  background-color: #5c07c1;  /* Violeta más oscuro para hover */
+  border-color: #5c07c1;      /* Borde violeta más oscuro */
+}
