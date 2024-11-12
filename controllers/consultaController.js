@@ -10,7 +10,7 @@ const getMain = (req, res) => {
 
             //Se organizan los turnos por hora
             turnos.forEach(turno => {
-                //console.log(turno); // Log para depurar
+                // console.log(turno); // Log para depurar
                 turnosPorHora[turno.hora] = {
                     nombre: turno.nombre,
                     apellido: turno.apellido,
@@ -66,7 +66,8 @@ const iniciarConsultaPorNumeroTurno = (req, res) => {
             }
 
             //console.log(resultado[0] + 'en back controller') // Log para depurar
-            const turno = resultado[0];
+            console.log(resultado);
+            const turno = resultado;
             const dni_paciente = turno.dni_paciente;
 
             //Llamamos a `ultimaConsultaPorNumeroDni` usando el DNI obtenido

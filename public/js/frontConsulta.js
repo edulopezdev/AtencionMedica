@@ -58,6 +58,125 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  const addDiagnosticoParametro = (diagnostico, index) => {
+    const diagnosticosContainer = document.getElementById('diagnosticosContainer');
+
+    // Crear el contenedor para el nuevo diagnóstico
+    const nuevoDiagnostico = document.createElement('div');
+    nuevoDiagnostico.classList.add('diagnostico-item', 'mb-3');
+    nuevoDiagnostico.setAttribute('data-index', index); // Agregar un índice único para identificar cada bloque
+
+    // Crear el contenido HTML del nuevo diagnóstico
+    nuevoDiagnostico.innerHTML = `
+        <label for="diagnostico${index}" class="form-label">Diagnóstico:</label>
+        <textarea class="form-control" name="diagnostico" id="diagnostico${index}" placeholder="Ingresar diagnóstico" rows="3"></textarea>
+
+        <label for="estadoDiagnostico${index}" class="form-label">Estado del Diagnóstico:</label>
+        <select class="form-select" name="estadoDiagnostico" id="estadoDiagnostico${index}">
+            <option value="">Seleccionar</option>
+            <option value="Preliminar">Preliminar</option>
+            <option value="Confirmado">Confirmado</option>
+        </select>
+
+        <input type="hidden" name="id_diagnostico" id="id_diagnostico${index}" value="${diagnostico.id_diagnostico}">
+    `;
+
+    // Agregar el nuevo diagnóstico al contenedor
+    diagnosticosContainer.appendChild(nuevoDiagnostico);
+
+    // Cargar los valores del diagnóstico en los campos correspondientes
+    const textareaDiagnostico = nuevoDiagnostico.querySelector(`#diagnostico${index}`);
+    const selectEstadoDiagnostico = nuevoDiagnostico.querySelector(`#estadoDiagnostico${index}`);
+    const hiddenIdDiagnostico = nuevoDiagnostico.querySelector(`#id_diagnostico${index}`);
+
+    // Asignar los valores a los campos, si existen
+    if (diagnostico.resumen_diagnostico) {
+      textareaDiagnostico.value = diagnostico.resumen_diagnostico;
+    }
+
+    if (diagnostico.estado) {
+      selectEstadoDiagnostico.value = diagnostico.estado;
+    }
+
+    if (diagnostico.id_diagnostico) {
+      hiddenIdDiagnostico.value = diagnostico.id_diagnostico; // Establecer el valor del id_diagnostico
+    }
+  };
+  const addDiagnosticoParametroBloqueados = (diagnostico, index) => {
+    const diagnosticosContainer = document.getElementById('diagnosticosContainer');
+
+    // Crear el contenedor para el nuevo diagnóstico
+    const nuevoDiagnostico = document.createElement('div');
+    nuevoDiagnostico.classList.add('diagnostico-item', 'mb-3');
+    nuevoDiagnostico.setAttribute('data-index', index); // Agregar un índice único para identificar cada bloque
+
+    // Crear el contenido HTML del nuevo diagnóstico
+    nuevoDiagnostico.innerHTML = `
+        <label for="diagnostico${index}" class="form-label">Diagnóstico:</label>
+        <textarea class="form-control" name="diagnostico" id="diagnostico${index}" placeholder="Ingresar diagnóstico" rows="3"></textarea>
+
+        <label for="estadoDiagnostico${index}" class="form-label">Estado del Diagnóstico:</label>
+        <select class="form-select" name="estadoDiagnostico" id="estadoDiagnostico${index}">
+            <option value="">Seleccionar</option>
+            <option value="Preliminar">Preliminar</option>
+            <option value="Confirmado">Confirmado</option>
+        </select>
+
+        <input type="hidden" name="id_diagnostico" id="id_diagnostico${index}" value="${diagnostico.id_diagnostico}">
+    `;
+
+    // Agregar el nuevo diagnóstico al contenedor
+    diagnosticosContainer.appendChild(nuevoDiagnostico);
+
+    // Cargar los valores del diagnóstico en los campos correspondientes
+    const textareaDiagnostico = nuevoDiagnostico.querySelector(`#diagnostico${index}`);
+    const selectEstadoDiagnostico = nuevoDiagnostico.querySelector(`#estadoDiagnostico${index}`);
+    const hiddenIdDiagnostico = nuevoDiagnostico.querySelector(`#id_diagnostico${index}`);
+
+    // Asignar los valores a los campos, si existen
+    if (diagnostico.resumen_diagnostico) {
+      textareaDiagnostico.value = diagnostico.resumen_diagnostico;
+    }
+
+    if (diagnostico.estado) {
+      selectEstadoDiagnostico.value = diagnostico.estado;
+    }
+
+    if (diagnostico.id_diagnostico) {
+      hiddenIdDiagnostico.value = diagnostico.id_diagnostico; // Establecer el valor del id_diagnostico
+    }
+
+    textareaDiagnostico.disabled = true;
+    selectEstadoDiagnostico.disabled = true;
+    hiddenIdDiagnostico.disabled = true;
+
+  };
+
+
+  // Función para obtener los diagnósticos en un array
+  const getDiagnosticosArrayParametro = () => {
+    const diagnosticos = [];
+
+    // Selecciona todos los elementos de diagnóstico
+    const diagnosticoItems = document.querySelectorAll('.diagnostico-item');
+
+    diagnosticoItems.forEach(item => {
+      const textareaDiagnostico = item.querySelector('textarea[name="diagnostico"]').value;
+      const selectEstadoDiagnostico = item.querySelector('select[name="estadoDiagnostico"]').value;
+      const hiddenIdDiagnostico = item.querySelector('input[name="id_diagnostico"]').value; // Obtener el id_diagnostico
+
+      // Agregar el diagnóstico y estado como un objeto al array, junto con el id_diagnostico
+      diagnosticos.push({
+        id_diagnostico: hiddenIdDiagnostico,  // Incluir el id_diagnostico
+        diagnostico: textareaDiagnostico,
+        estado: selectEstadoDiagnostico
+      });
+    });
+
+    return diagnosticos;
+  };
+
+
   //==============================================================================================
   // Método para llenar los campos cuando el estado es "atendido"
   const llenarCamposAtendido = (turno) => {
@@ -83,11 +202,19 @@ document.addEventListener('DOMContentLoaded', function () {
     quill.enable(false);
     quill.root.dataset.placeholder = '';
 
-    estadoDiagnosticoSelect.value = turno.diag_estado || '';
+    estadoDiagnosticoSelect.value = turno.diagnosticos[0].estado || '';
     estadoDiagnosticoSelect.disabled = true;
 
-    txtDiagnostico.value = turno.resumen_diagnostico || '';
+    txtDiagnostico.value = turno.diagnosticos[0].resumen_diagnostico || '';
     txtDiagnostico.readOnly = true;
+
+    // Si hay más de un diagnóstico, agregar los campos adicionales
+    if (turno.diagnosticos && turno.diagnosticos.length > 1) {
+      for (let i = 1; i < turno.diagnosticos.length; i++) {
+        const diagnostico = turno.diagnosticos[i];
+        addDiagnosticoParametroBloqueados(diagnostico); // Llamada a la función para agregar el diagnóstico
+      }
+    }
 
     inicioAlergia.value = turno.aler_desde ? turno.aler_desde.substring(0, 10) : '';
     inicioAlergia.readOnly = true;
@@ -131,24 +258,30 @@ document.addEventListener('DOMContentLoaded', function () {
     addDiagnosticoButton.style.display = 'none';
 
 
-    //Desplegar checks
-    // checkAlergia.checked = true;
-    // toggleFields('alergiasContainer', document.getElementById('checkboxAlergias'));
-    // checkAntecedente.checked = true;
-    // toggleFields('antecedentesContainer', document.getElementById('checkboxAntecedentes'));
-    // checkHabito.checked = true;
-    // toggleFields('habitosContainer', document.getElementById('checkboxHabitos'));
-    // checkMedicamento.checked = true;
-    // toggleFields('medicamentoContainer', document.getElementById('checkboxMedicamentos'));
-
-
-
     // txtEvolucion.value = turno.resumen_evolucion || '';
     quill.root.innerHTML = turno.resumen_evolucion || '';
 
-    txtDiagnostico.value = turno.resumen_diagnostico || '';
+    txtDiagnostico.value = turno.diagnosticos[0].resumen_diagnostico || '';
 
-    estadoDiagnosticoSelect.value = turno.diag_estado || '';
+    estadoDiagnosticoSelect.value = turno.diagnosticos[0].estado || '';
+
+    // Crear un campo oculto para el id_diagnostico en el primer diagnóstico
+    const hiddenIdDiagnostico = document.createElement('input');
+    hiddenIdDiagnostico.type = 'hidden';
+    hiddenIdDiagnostico.name = 'id_diagnostico';
+    hiddenIdDiagnostico.id = 'id_diagnostico0';  // Asegúrate de que el id sea único
+    hiddenIdDiagnostico.value = turno.diagnosticos[0].id_diagnostico;  // Asignar el id_diagnostico
+
+    // Asumir que tienes un contenedor donde insertar estos campos estáticos
+    document.getElementById('diagnosticosContainer').appendChild(hiddenIdDiagnostico);
+
+    // Si hay más de un diagnóstico, agregar los campos adicionales
+    if (turno.diagnosticos && turno.diagnosticos.length > 1) {
+      for (let i = 1; i < turno.diagnosticos.length; i++) {
+        const diagnostico = turno.diagnosticos[i];
+        addDiagnosticoParametro(diagnostico); // Llamada a la función para agregar el diagnóstico
+      }
+    }
 
     alergiaTextarea.value = turno.nombre_alergia || '';
 
@@ -357,35 +490,35 @@ document.addEventListener('DOMContentLoaded', function () {
   medicamentoSelect.addEventListener('change', llenarDetallesMedicamento);
 
   // Escuchar el clic en el botón "Guardar"
-botonGuardar.addEventListener('click', (event) => {
-  event.preventDefault(); // Evita el envío del formulario
+  botonGuardar.addEventListener('click', (event) => {
+    event.preventDefault(); // Evita el envío del formulario
 
-  // Desestructuramos los valores de antecedentes y hábitos ===========================
-  const { antecedentes } = obtenerDatosAntecedentes();
-  const { habitos } = obtenerDatosHabitos();
-  const diagnosticosArray = getDiagnosticosArray();
+    // Desestructuramos los valores de antecedentes y hábitos ===========================
+    const { antecedentes } = obtenerDatosAntecedentes();
+    const { habitos } = obtenerDatosHabitos();
+    const diagnosticosArray = getDiagnosticosArray();
 
-  // Obtener los valores de Evolución, Diagnóstico y Estado de Diagnóstico
-  const evolucion = quill.root.innerHTML || '';  // Si quill.root.innerHTML es undefined, asignamos un string vacío
-  const estadoDiagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].estado ? diagnosticosArray[0].estado : ''; // Verificamos si existe un estado
-  const diagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].diagnostico ? diagnosticosArray[0].diagnostico : ''; // Cambié 'descripcion' por 'diagnostico'
+    // Obtener los valores de Evolución, Diagnóstico y Estado de Diagnóstico
+    const evolucion = quill.root.innerHTML || '';  // Si quill.root.innerHTML es undefined, asignamos un string vacío
+    const estadoDiagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].estado ? diagnosticosArray[0].estado : ''; // Verificamos si existe un estado
+    const diagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].diagnostico ? diagnosticosArray[0].diagnostico : ''; // Cambié 'descripcion' por 'diagnostico'
 
 
-  // Crear objeto con todos los datos
-  const datosFormulario = {
-    evolucion: evolucion,
-    diagnosticosArray,
-    alergia: {
-      texto: alergiaTextarea.value,
-      nivel: estadoAlergiaSelect.value,
-      fechaDesde: document.querySelector('#inicioAlergia').value,
-      fechaHasta: document.querySelector('#finAlergia').value,
-    },
-    antecedentes,
-    habitos,
-    medicamento: medicamentoSelect.value,
-    numero_turno,
-  };
+    // Crear objeto con todos los datos
+    const datosFormulario = {
+      evolucion: evolucion,
+      diagnosticosArray,
+      alergia: {
+        texto: alergiaTextarea.value,
+        nivel: estadoAlergiaSelect.value,
+        fechaDesde: document.querySelector('#inicioAlergia').value,
+        fechaHasta: document.querySelector('#finAlergia').value,
+      },
+      antecedentes,
+      habitos,
+      medicamento: medicamentoSelect.value,
+      numero_turno,
+    };
 
     // console.log('Datos del formulario:', datosFormulario);
     // Llama a error() y solo continúa si no hay errores
@@ -449,73 +582,24 @@ botonGuardar.addEventListener('click', (event) => {
   // Escuchar el clic en el botón "Guardar"
   botonModificar.addEventListener('click', (event) => {
     event.preventDefault(); // Evita el envío del formulario
-  
+
     // Desestructuramos los valores de antecedentes y hábitos ===========================
     const { antecedentes } = obtenerDatosAntecedentes();
     const { habitos } = obtenerDatosHabitos();
-    const diagnosticosArray = getDiagnosticosArray();
+    const diagnosticosArray = getDiagnosticosArrayParametro();
     const id_receta = turno.id_receta;
-  
+
     // Obtener los valores de Evolución, Diagnóstico y Estado de Diagnóstico
     const evolucion = quill.root.innerHTML || '';  // Si quill.root.innerHTML es undefined, asignamos un string vacío
     const estadoDiagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].estado ? diagnosticosArray[0].estado : ''; // Verificamos si existe un estado
     const diagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].diagnostico ? diagnosticosArray[0].diagnostico : ''; // Cambié 'descripcion' por 'diagnostico'
-  
+
     // Imprimir valores para depuración
     console.log('Diagnóstico Array:', diagnosticosArray);  // Veremos cómo se ve el array
-    console.log('Diagnóstico:', diagnostico);  // Verificamos si el diagnóstico tiene valor
-    console.log('Estado Diagnóstico:', estadoDiagnostico);  // Verificamos si el estado tiene valor
-  
-    // Comprobamos si el evento de clic fue capturado
-    console.log("Botón de Modificar presionado");
-  
+
+
     // Validar que todos los campos necesarios estén completos
-  
-    // Comprobamos si el campo Evolución está vacío (usamos innerHTML y eliminamos los espacios)
-    const evolucionSinHtml = evolucion.replace(/<[^>]+>/g, '').trim(); // Elimina las etiquetas HTML y recorta los espacios
-  
-    if (!evolucionSinHtml) {
-      console.log("Evolución está vacío");
-      Swal.fire({
-        title: '¡Error!',
-        text: 'El campo Evolución es obligatorio.',
-        icon: 'error',
-        showConfirmButton: true,
-        confirmButtonText: 'Aceptar'
-      });
-      return; // Detenemos el flujo si la evolución está vacía
-    }
-  
-    // Comprobamos si el campo Diagnóstico está vacío
-    // Si el diagnóstico está vacío y el estado no está vacío, mostramos un error
-    if (!diagnostico.trim() && estadoDiagnostico.trim()) {
-      console.log("Diagnóstico está vacío pero Estado está definido");
-      Swal.fire({
-        title: '¡Error!',
-        text: 'El campo Diagnóstico es obligatorio.',
-        icon: 'error',
-        showConfirmButton: true,
-        confirmButtonText: 'Aceptar'
-      });
-      return; // Detenemos el flujo si el diagnóstico está vacío
-    }
-  
-    // Comprobamos si el Estado de Diagnóstico está vacío
-    if (!estadoDiagnostico.trim()) {
-      console.log("Estado del diagnóstico no seleccionado");
-      Swal.fire({
-        title: '¡Error!',
-        text: 'Debe seleccionar el estado del diagnóstico.',
-        icon: 'error',
-        showConfirmButton: true,
-        confirmButtonText: 'Aceptar'
-      });
-      return; // Detenemos el flujo si el estado no está seleccionado
-    }
-  
-    // Si todo está bien, mostramos la confirmación de modificación
-    console.log("Todos los campos validados correctamente");
-  
+
     // Crear objeto con todos los datos
     const datosFormulario = {
       evolucion: evolucion,
@@ -533,7 +617,7 @@ botonGuardar.addEventListener('click', (event) => {
       numero_turno,
     };
 
-    // console.log('Datos del formulario:', datosFormulario);
+    console.log('Datos del formulario:', datosFormulario);
     // Llama a error() y solo continúa si no hay errores
     if (error()) {
       return; // Detiene la ejecución si hay errores
@@ -567,7 +651,7 @@ botonGuardar.addEventListener('click', (event) => {
           })
           .then(data => {
             console.log('Respuesta del servidor:', data);
-  
+
             // Mostrar mensaje de éxito
             Swal.fire({
               title: 'Éxito',

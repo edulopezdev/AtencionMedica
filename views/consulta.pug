@@ -106,17 +106,18 @@ html
                     .card-body
                       h3.text-center Diagnóstico
                       div#diagnosticosContainer(class="diagnostico-item", style="display: block;")
+
+                        .mb-3.separacion-campos
+                          label(for="diagnostico", class="form-label") Diagnóstico:
+                          textarea#diagnostico.form-control(name="diagnostico" placeholder="* Ingrese un diagnóstico" rows="6" required)
+
                         .mb-3.separacion-campos
                           label(for="estadoDiagnostico", class="form-label") Estado del Diagnóstico:
                           select#estadoDiagnostico.form-select(name="estadoDiagnostico", style="width: 150px;" required)
                             option(value="") Seleccionar
                             option(value="Preliminar") Preliminar
                             option(value="Confirmado") Confirmado
-
-                        .mb-3.separacion-campos
-                          label(for="diagnostico", class="form-label") Diagnóstico:
-                          textarea#diagnostico.form-control(name="diagnostico" placeholder="* Ingrese un diagnóstico" rows="6" required)
-
+                            
                       // Botón para agregar otro diagnóstico
                       div(class="text-center mt-3 mb-4")  
                         button.btn.btn-secondary(type="button", id="addDiagnosticoButton") + Agregar otro diagnóstico
