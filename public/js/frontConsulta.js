@@ -132,14 +132,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     //Desplegar checks
-    checkAlergia.checked = true;
-    toggleFields('alergiasContainer', document.getElementById('checkboxAlergias'));
-    checkAntecedente.checked = true;
-    toggleFields('antecedentesContainer', document.getElementById('checkboxAntecedentes'));
-    checkHabito.checked = true;
-    toggleFields('habitosContainer', document.getElementById('checkboxHabitos'));
-    checkMedicamento.checked = true;
-    toggleFields('medicamentoContainer', document.getElementById('checkboxMedicamentos'));
+    // checkAlergia.checked = true;
+    // toggleFields('alergiasContainer', document.getElementById('checkboxAlergias'));
+    // checkAntecedente.checked = true;
+    // toggleFields('antecedentesContainer', document.getElementById('checkboxAntecedentes'));
+    // checkHabito.checked = true;
+    // toggleFields('habitosContainer', document.getElementById('checkboxHabitos'));
+    // checkMedicamento.checked = true;
+    // toggleFields('medicamentoContainer', document.getElementById('checkboxMedicamentos'));
 
 
 
@@ -299,7 +299,6 @@ document.addEventListener('DOMContentLoaded', function () {
   addDiagnosticoButton.addEventListener('click', addDiagnostico);
 
 
-
   // Evolucion ================================================
   const llenarEvolucion = () => {
     const selectedOption = templateSelect.options[templateSelect.selectedIndex];
@@ -371,60 +370,6 @@ botonGuardar.addEventListener('click', (event) => {
   const estadoDiagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].estado ? diagnosticosArray[0].estado : ''; // Verificamos si existe un estado
   const diagnostico = diagnosticosArray.length > 0 && diagnosticosArray[0].diagnostico ? diagnosticosArray[0].diagnostico : ''; // Cambié 'descripcion' por 'diagnostico'
 
-  // Imprimir valores para depuración
-  console.log('Diagnóstico Array:', diagnosticosArray);  // Veremos cómo se ve el array
-  console.log('Diagnóstico:', diagnostico);  // Verificamos si el diagnóstico tiene valor
-  console.log('Estado Diagnóstico:', estadoDiagnostico);  // Verificamos si el estado tiene valor
-
-  // Comprobamos si el evento de clic fue capturado
-  console.log("Botón de Guardar presionado");
-
-  // Validar que todos los campos necesarios estén completos
-
-  // Comprobamos si el campo Evolución está vacío (usamos innerHTML y eliminamos los espacios)
-  const evolucionSinHtml = evolucion.replace(/<[^>]+>/g, '').trim(); // Elimina las etiquetas HTML y recorta los espacios
-
-  if (!evolucionSinHtml) {
-    console.log("Evolución está vacío");
-    Swal.fire({
-      title: '¡Error!',
-      text: 'El campo Evolución es obligatorio.',
-      icon: 'error',
-      showConfirmButton: true,
-      confirmButtonText: 'Aceptar'
-    });
-    return; // Detenemos el flujo si la evolución está vacía
-  }
-
-  // Comprobamos si el campo Diagnóstico está vacío
-  // Si el diagnóstico está vacío y el estado no está vacío, mostramos un error
-  if (!diagnostico.trim() && estadoDiagnostico.trim()) {
-    console.log("Diagnóstico está vacío pero Estado está definido");
-    Swal.fire({
-      title: '¡Error!',
-      text: 'El campo Diagnóstico es obligatorio.',
-      icon: 'error',
-      showConfirmButton: true,
-      confirmButtonText: 'Aceptar'
-    });
-    return; // Detenemos el flujo si el diagnóstico está vacío
-  }
-
-  // Comprobamos si el Estado de Diagnóstico está vacío
-  if (!estadoDiagnostico.trim()) {
-    console.log("Estado del diagnóstico no seleccionado");
-    Swal.fire({
-      title: '¡Error!',
-      text: 'Debe seleccionar el estado del diagnóstico.',
-      icon: 'error',
-      showConfirmButton: true,
-      confirmButtonText: 'Aceptar'
-    });
-    return; // Detenemos el flujo si el estado no está seleccionado
-  }
-
-  // Si todo está bien, mostramos la confirmación de guardado
-  console.log("Todos los campos validados correctamente");
 
   // Crear objeto con todos los datos
   const datosFormulario = {
