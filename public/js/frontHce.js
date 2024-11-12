@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         //Mostrar los turnos en la tabla
         turnosHistoria.forEach(turno => {
             const tr = document.createElement('tr');
+            tr.style.height = '50px';
 
             //Verificar si el médico logueado atendió este turno (si la matrícula coincide)
             const esMismoMedico = turno.matricula_medico == matricula;
@@ -167,7 +168,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 mostrarTurnosHce(turnos);
             } else {
                 console.error('Error en la respuesta:', response.statusText);
-                resultadosContainer.innerHTML = '<tr><td colspan="7" class="text-center alert alert-danger">No se pudo obtener la información del paciente.</td></tr>';
+                resultadosContainer.innerHTML = '<tr><td colspan="7" class="text-center alert alert-danger">No se encontraron datos del paciente.</td></tr>';
             }
         } catch (error) {
             console.error('Error en la búsqueda:', error);
